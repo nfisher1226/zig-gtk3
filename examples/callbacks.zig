@@ -54,11 +54,13 @@ fn activate(app: *gtk.GtkApplication, data: gtk.gpointer) void {
     widgets = Widgets.init(app);
     widgets.connect_signals();
     const window_ptr = @ptrCast(*gtk.GtkWindow, widgets.window);
-    const box = gtk.gtk_box_new(gtk.orientation_vertical, 5);
-    const box_ptr = @ptrCast(*gtk.GtkBox, box);
-    gtk.gtk_box_pack_start(box_ptr, widgets.label, 0, 1, 1);
-    gtk.gtk_box_pack_start(box_ptr, widgets.button, 0, 1, 1);
-    gtk.gtk_container_add(@ptrCast(*gtk.GtkContainer, widgets.window), box);
+    const box = gtk.Box.new(gtk.Orientation.vertical, 5);
+    box.pack_start(widgets.label, false, true, 1);
+    box.pack_start(widgets.button, false, true, 1);
+    gtk.gtk_container_add(
+        @ptrCast(*gtk.GtkContainer, widgets.window),
+        @ptrCast(*gtk.GtkWidget, box.ptr),
+    );
     gtk.gtk_window_set_title(window_ptr, "Callbacks Example");
     gtk.gtk_window_set_default_size(window_ptr, 400, -1);
     gtk.gtk_widget_show_all(widgets.window);

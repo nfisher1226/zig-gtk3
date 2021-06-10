@@ -6,7 +6,31 @@ pub usingnamespace @cImport({
 pub const connect_after = @intToEnum(GConnectFlags, G_CONNECT_AFTER);
 pub const connect_swapped = @intToEnum(GConnectFlags, G_CONNECT_SWAPPED);
 
-/// enum GtkIconSize
+/// enum IconSize
+pub const IconSize = enum {
+    icon_size_invalid,
+    icon_size_menu,
+    icon_size_small_toolbar,
+    icon_size_large_toolbar,
+    icon_size_button,
+    icon_size_dnd,
+    icon_size_dialog,
+
+    /// Parses an IconSize into a GtkIconSize
+    fn parse(self: IconSize) GtkIconSize {
+        switch (self) {
+            .icon_size_invalid => return @intToEnum(GtkIconSize, GTK_ICON_SIZE_INVALID),
+            .icon_size_menu => return @intToEnum(GtkIconSize, GTK_ICON_SIZE_MENU),
+            .icon_size_small_toolbar => return @intToEnum(GtkIconSize, GTK_ICON_SIZE_SMALL_TOOLBAR),
+            .icon_size_large_toolbar => return @intToEnum(GtkIconSize, GTK_ICON_SIZE_LARGE_TOOLBAR),
+            .icon_size_button => return @intToEnum(GtkIconSize, GTK_ICON_SIZE_BUTTON),
+            .icon_size_dnd => return @intToEnum(GtkIconSize, GTK_ICON_SIZE_DND),
+            .icon_size_dialog => return @intToEnum(GtkIconSize, GTK_ICON_SIZE_DIALOG),
+        }
+    }
+};
+
+/// Gtk enum GtkIconSize
 pub const icon_size_invalid = @intToEnum(GtkIconSize, GTK_ICON_SIZE_INVALID);
 pub const icon_size_menu = @intToEnum(GtkIconSize, GTK_ICON_SIZE_MENU);
 pub const icon_size_small_toolbar = @intToEnum(GtkIconSize, GTK_ICON_SIZE_SMALL_TOOLBAR);
@@ -41,6 +65,19 @@ pub const dir_right = @intToEnum(GtkDirectionType, GTK_DIR_RIGHT);
 /// enum GtkOrientation
 pub const orientation_horizontal = @intToEnum(GtkOrientation, GTK_ORIENTATION_HORIZONTAL);
 pub const orientation_vertical = @intToEnum(GtkOrientation, GTK_ORIENTATION_VERTICAL);
+
+pub const Orientation = enum {
+    horizontal,
+    vertical,
+
+    fn parse(self: Orientation) GtkOrientation {
+        switch (self) {
+            .horizontal => return  @intToEnum(GtkOrientation, GTK_ORIENTATION_HORIZONTAL),
+            .vertical => return @intToEnum(GtkOrientation, GTK_ORIENTATION_VERTICAL),
+        }
+    }
+
+};
 
 /// Enum GtkPackType
 pub const pack_end = @intToEnum(GtkPackType, GTK_PACK_END);
@@ -118,3 +155,26 @@ pub fn widget_set_visible(widget: *GtkWidget, state: bool) void {
         gtk_widget_set_visible(widget, 0);
     }
 }
+
+pub const Box = struct {
+    ptr: *GtkBox,
+
+    pub fn new(orientation: Orientation, spacing: u8) Box {
+        const gtk_orientation = orientation.parse();
+        return Box {
+            .ptr = @ptrCast(*GtkBox, gtk_box_new(gtk_orientation, @as(c_int, spacing))),
+        };
+    }
+
+    pub fn pack_start(self: Box, widget: *GtkWidget, expand: bool, fill: bool, padding: u8) void {
+        const ex: c_int = if (expand) 1 else 0;
+        const fl: c_int = if (fill) 1 else 0;
+        gtk_box_pack_start(self.ptr, widget, ex, fl, @as(c_uint, padding));
+    }
+
+    pub fn pack_end(self: Box, widget: *GtkWidget, expand: bool, fill: bool, padding: u8) void {
+        const ex: c_int = if (expand) 1 else 0;
+        const fl: c_int = if (fill) 1 else 0;
+        gtk_box_pack_end(self.ptr, widget, ex, fl, @as(c_uint, padding));
+    }
+};

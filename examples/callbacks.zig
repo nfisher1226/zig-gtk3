@@ -1,37 +1,38 @@
 const std = @import("std");
 const gtk = @import("gtk");
+const allocator = std.heap.page_allocator;
+const fmt = std.fmt;
 const mem = std.mem;
 
 var widgets: Widgets = undefined;
-var toggled = false;
 
 const Widgets = struct {
-    window: *gtk.GtkWidget,
-    label: *gtk.GtkWidget,
-    button: *gtk.GtkWidget,
+    window: gtk.ApplicationWindow,
+    label: gtk.Label,
+    button: gtk.Button,
 
     fn init(app: *gtk.GtkApplication) Widgets {
         return Widgets {
-            .window = gtk.gtk_application_window_new(app),
-            .label = gtk.gtk_label_new("Off"),
-            .button = gtk.gtk_button_new_with_label("Click Me"),
+            .window = gtk.ApplicationWindow.new(app),
+            .label = gtk.Label.new("Off"),
+            .button = gtk.Button.new_with_label("Click Me"),
         };
     }
 
     fn toggle_label(self: Widgets) void {
-        const label_ptr = @ptrCast(*gtk.GtkLabel, self.label);
-        if (toggled) {
-            gtk.gtk_label_set_text(label_ptr, "Off");
-            toggled = false;
-        } else {
-            gtk.gtk_label_set_text(label_ptr, "On");
-            toggled = true;
+        const text = self.label.get_text(allocator);
+        if (text) |t| {
+            defer allocator.free(t);
+            if (mem.eql(u8, t, "On")) {
+                self.label.set_text("Off");
+            } else {
+                self.label.set_text("On");
+            }
         }
     }
 
     fn connect_signals(self: Widgets) void {
-        _ = gtk.signal_connect(
-            self.button, "clicked", @ptrCast(gtk.GCallback, button_callback), null);
+        self.button.connect_clicked(@ptrCast(gtk.GCallback, button_callback), null);
     }
 };
 
@@ -53,20 +54,16 @@ pub fn main() !void {
 fn activate(app: *gtk.GtkApplication, data: gtk.gpointer) void {
     widgets = Widgets.init(app);
     widgets.connect_signals();
-    const window_ptr = @ptrCast(*gtk.GtkWindow, widgets.window);
     const box = gtk.Box.new(gtk.Orientation.vertical, 5);
-    box.pack_start(widgets.label, false, true, 1);
-    box.pack_start(widgets.button, false, true, 1);
-    gtk.gtk_container_add(
-        @ptrCast(*gtk.GtkContainer, widgets.window),
-        @ptrCast(*gtk.GtkWidget, box.ptr),
-    );
-    gtk.gtk_window_set_title(window_ptr, "Callbacks Example");
-    gtk.gtk_window_set_default_size(window_ptr, 400, -1);
-    gtk.gtk_widget_show_all(widgets.window);
+    const window = widgets.window.as_window();
+    box.pack_start(widgets.label.as_widget(), false, true, 1);
+    box.pack_start(widgets.button.as_widget(), false, true, 1);
+    widgets.window.as_container().add(box.as_widget());
+    window.set_title("Callbacks Example");
+    window.set_default_size(400, -1);
+    widgets.window.as_widget().show_all();
 }
 
 fn button_callback(button: *gtk.GtkButton, data: gtk.gpointer) void {
-    const label = @ptrCast(*gtk.GtkLabel, widgets.label);
     widgets.toggle_label();
 }

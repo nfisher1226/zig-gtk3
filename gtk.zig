@@ -1,6 +1,9 @@
 pub usingnamespace @cImport({
     @cInclude("gtk/gtk.h");
 });
+const std = @import("std");
+const fmt = std.fmt;
+const mem = std.mem;
 
 /// enum GConnectFlags
 pub const connect_after = @intToEnum(GConnectFlags, G_CONNECT_AFTER);
@@ -72,11 +75,27 @@ pub const Orientation = enum {
 
     fn parse(self: Orientation) GtkOrientation {
         switch (self) {
-            .horizontal => return  @intToEnum(GtkOrientation, GTK_ORIENTATION_HORIZONTAL),
-            .vertical => return @intToEnum(GtkOrientation, GTK_ORIENTATION_VERTICAL),
+            .horizontal => return orientation_horizontal,
+            .vertical => return orientation_vertical,
         }
     }
 
+};
+
+///enum GtkWindowType
+pub const window_toplevel = @intToEnum(GtkWindowType, GTK_WINDOW_TOPLEVEL);
+pub const window_popup = @intToEnum(GtkWindowType, GTK_WINDOW_POPUP);
+
+pub const WindowType = enum {
+    toplevel,
+    popup,
+
+    fn parse(self: WindowType) GtkWindowType {
+        switch (self) {
+            .toplevel => return window_toplevel,
+            .popup => return window_popup,
+        }
+    }
 };
 
 /// Enum GtkPackType
@@ -156,6 +175,64 @@ pub fn widget_set_visible(widget: *GtkWidget, state: bool) void {
     }
 }
 
+pub const ApplicationWindow = struct {
+    ptr: *GtkApplicationWindow,
+
+    pub fn new(app: *GtkApplication) ApplicationWindow {
+        return ApplicationWindow {
+            .ptr = @ptrCast(*GtkApplicationWindow, gtk_application_window_new(app)),
+        };
+    }
+
+    pub fn as_window(self: ApplicationWindow) Window {
+        return Window {
+            .ptr = @ptrCast(*GtkWindow, self.ptr),
+        };
+    }
+
+    pub fn as_container(self: ApplicationWindow) Container {
+        return Container {
+            .ptr = @ptrCast(*GtkContainer, self.ptr),
+        };
+    }
+
+    pub fn as_widget(self: ApplicationWindow) Widget {
+        return Widget {
+            .ptr = @ptrCast(*GtkWidget, self.ptr),
+        };
+    }
+};
+
+pub const Window = struct {
+    ptr: *GtkWindow,
+
+    pub fn new(window_type: WindowType) Window {
+        return Window {
+            .ptr = @ptrCast(*GtkWindow, gtk_window_new(window_type.parse())),
+        };
+    }
+
+    pub fn set_title(self: Window, title: [:0]const u8) void {
+        gtk_window_set_title(self.ptr, title);
+    }
+
+    pub fn set_default_size(self: Window, hsize: c_int, vsize: c_int) void {
+        gtk_window_set_default_size(self.ptr, hsize, vsize);
+    }
+
+    pub fn as_container(self: Window) Container {
+        return Container {
+            .ptr = @ptrCast(*GtkContainer, self.ptr),
+        };
+    }
+
+    pub fn as_widget(self: ApplicationWindow) Widget {
+        return Widget {
+            .ptr = @ptrCast(*GtkWidget, self.ptr),
+        };
+    }
+};
+
 pub const Box = struct {
     ptr: *GtkBox,
 
@@ -166,15 +243,126 @@ pub const Box = struct {
         };
     }
 
-    pub fn pack_start(self: Box, widget: *GtkWidget, expand: bool, fill: bool, padding: u8) void {
+    pub fn pack_start(self: Box, widget: Widget, expand: bool, fill: bool, padding: u8) void {
         const ex: c_int = if (expand) 1 else 0;
         const fl: c_int = if (fill) 1 else 0;
-        gtk_box_pack_start(self.ptr, widget, ex, fl, @as(c_uint, padding));
+        gtk_box_pack_start(self.ptr, widget.ptr, ex, fl, @as(c_uint, padding));
     }
 
     pub fn pack_end(self: Box, widget: *GtkWidget, expand: bool, fill: bool, padding: u8) void {
         const ex: c_int = if (expand) 1 else 0;
         const fl: c_int = if (fill) 1 else 0;
         gtk_box_pack_end(self.ptr, widget, ex, fl, @as(c_uint, padding));
+    }
+
+    pub fn as_orientable(self: Box) Orientable {
+        return Orientable {
+            .ptr = @ptrCast(*GtkOrientable, self.ptr),
+        };
+    }
+
+    pub fn as_container(self: Box) Container {
+        return Container {
+            .ptr = @ptrCast(*GtkContainer, self.ptr),
+        };
+    }
+
+    pub fn as_widget(self: Box) Widget {
+        return Widget {
+            .ptr = @ptrCast(*GtkWidget, self.ptr),
+        };
+    }
+};
+
+pub const Orientable = struct {
+    ptr: *GtkOrientable,
+
+    pub fn as_widget(self: Box) Widget {
+        return Widget {
+            .ptr = @ptrCast(*GtkWidget, self.ptr),
+        };
+    }
+};
+
+pub const Container = struct {
+    ptr: *GtkContainer,
+
+    pub fn add(self: Container, widget: Widget) void {
+        gtk_container_add(self.ptr, widget.ptr);
+    }
+
+    pub fn as_widget(self: Box) Widget {
+        return Widget {
+            .ptr = @ptrCast(*GtkWidget, self.ptr),
+        };
+    }
+};
+
+pub const Label = struct {
+    ptr: *GtkLabel,
+
+    pub fn new(text: ?[:0]const u8) Label {
+        return Label {
+            .ptr = if (text) |t| @ptrCast(*GtkLabel, gtk_label_new(t)) else @ptrCast(*GtkLabel, gtk_label_new(null)),
+        };
+    }
+
+    pub fn get_text(self: Label, allocator: *mem.Allocator) ?[:0]const u8 {
+        const val = gtk_label_get_text(self.ptr);
+        const len = mem.len(val);
+        const text = fmt.allocPrintZ(allocator, "{s}", .{val[0..len]}) catch {
+            return null;
+        };
+        return text;
+    }
+
+    pub fn set_text(self: Label, text: [:0]const u8) void {
+        gtk_label_set_text(self.ptr, text);
+    }
+
+    pub fn as_widget(self: Label) Widget {
+        return Widget {
+            .ptr = @ptrCast(*GtkWidget, self.ptr),
+        };
+    }
+};
+
+pub const Button = struct {
+    ptr: *GtkButton,
+
+    pub fn new_with_label(text: [:0]const u8) Button {
+        return Button {
+            .ptr = @ptrCast(*GtkButton, gtk_button_new_with_label(text)),
+        };
+    }
+
+    pub fn as_widget(self: Button) Widget {
+        return Widget {
+            .ptr = @ptrCast(*GtkWidget, self.ptr),
+        };
+    }
+
+    pub fn connect_clicked(self: Button, callback: GCallback, data: ?gpointer) void {
+        if (data) |d| {
+            self.as_widget().connect("clicked", callback, d);
+        } else {
+            self.as_widget().connect("clicked", callback, null);
+        }
+    }
+};
+
+pub const Widget = struct {
+    ptr: *GtkWidget,
+
+    pub fn show_all(self: Widget) void {
+        gtk_widget_show_all(self.ptr);
+    }
+
+    pub fn connect(self: Widget, sig: [:0]const u8, callback: GCallback, data: ?gpointer) void {
+        if (data) |d| {
+            _ = signal_connect(self.ptr, sig, callback, d);
+        } else {
+            _ = signal_connect(self.ptr, sig, callback, null);
+        }
     }
 };

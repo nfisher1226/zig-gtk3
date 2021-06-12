@@ -1,119 +1,7 @@
-pub usingnamespace @cImport({
-    @cInclude("gtk/gtk.h");
-});
+pub usingnamespace @import("src/enums.zig");
 const std = @import("std");
 const fmt = std.fmt;
 const mem = std.mem;
-
-/// enum GConnectFlags
-pub const connect_after = @intToEnum(GConnectFlags, G_CONNECT_AFTER);
-pub const connect_swapped = @intToEnum(GConnectFlags, G_CONNECT_SWAPPED);
-
-/// enum IconSize
-pub const IconSize = enum {
-    icon_size_invalid,
-    icon_size_menu,
-    icon_size_small_toolbar,
-    icon_size_large_toolbar,
-    icon_size_button,
-    icon_size_dnd,
-    icon_size_dialog,
-
-    /// Parses an IconSize into a GtkIconSize
-    fn parse(self: IconSize) GtkIconSize {
-        switch (self) {
-            .icon_size_invalid => return @intToEnum(GtkIconSize, GTK_ICON_SIZE_INVALID),
-            .icon_size_menu => return @intToEnum(GtkIconSize, GTK_ICON_SIZE_MENU),
-            .icon_size_small_toolbar => return @intToEnum(GtkIconSize, GTK_ICON_SIZE_SMALL_TOOLBAR),
-            .icon_size_large_toolbar => return @intToEnum(GtkIconSize, GTK_ICON_SIZE_LARGE_TOOLBAR),
-            .icon_size_button => return @intToEnum(GtkIconSize, GTK_ICON_SIZE_BUTTON),
-            .icon_size_dnd => return @intToEnum(GtkIconSize, GTK_ICON_SIZE_DND),
-            .icon_size_dialog => return @intToEnum(GtkIconSize, GTK_ICON_SIZE_DIALOG),
-        }
-    }
-};
-
-/// Gtk enum GtkIconSize
-pub const icon_size_invalid = @intToEnum(GtkIconSize, GTK_ICON_SIZE_INVALID);
-pub const icon_size_menu = @intToEnum(GtkIconSize, GTK_ICON_SIZE_MENU);
-pub const icon_size_small_toolbar = @intToEnum(GtkIconSize, GTK_ICON_SIZE_SMALL_TOOLBAR);
-pub const icon_size_large_toolbar = @intToEnum(GtkIconSize, GTK_ICON_SIZE_LARGE_TOOLBAR);
-pub const icon_size_button = @intToEnum(GtkIconSize, GTK_ICON_SIZE_BUTTON);
-pub const icon_size_dnd = @intToEnum(GtkIconSize, GTK_ICON_SIZE_DND);
-pub const icon_size_dialog = @intToEnum(GtkIconSize, GTK_ICON_SIZE_DIALOG);
-
-/// enum GtkBaselinePosition
-pub const baseline_position_top = @intToEnum(GtkBaselinePosition, GTK_BASELINE_POSITION_TOP);
-pub const baseline_position_center = @intToEnum(GtkBaselinePosition, GTK_BASELINE_POSITION_CENTER);
-pub const baseline_position_bottom = @intToEnum(GtkBaselinePosition, GTK_BASELINE_POSITION_BOTTOM);
-
-/// enum GtkDeleteType
-pub const gtk_delete_chars = @intToEnum(GtkDeleteType, GTK_DELETE_CHARS);
-pub const gtk_delete_word_ends = @intToEnum(GtkDeleteType, GTK_DELETE_WORD_ENDS);
-pub const gtk_delete_words = @intToEnum(GtkDeleteType, GTK_DELETE_WORDS);
-pub const gtk_delete_line_ends = @intToEnum(GtkDeleteType, GTK_DELETE_LINE_ENDS);
-pub const gtk_delete_lines = @intToEnum(GtkDeleteType, GTK_DELETE_LINES);
-pub const gtk_delete_paragraph_ends = @intToEnum(GtkDeleteType, GTK_DELETE_PARAGRAPH_ENDS);
-pub const gtk_delete_paragraphs = @intToEnum(GtkDeleteType, GTK_DELETE_PARAGRAPHS);
-pub const gtk_delete_whitespace = @intToEnum(GtkDeleteType, GTK_DELETE_WHITESPACE);
-
-/// enum GtkDirectionType
-pub const dir_tab_forward = @intToEnum(GtkDirectionType, GTK_DIR_TAB_FORWARD);
-pub const dir_tab_backward = @intToEnum(GtkDirectionType, GTK_DIR_TAB_BACKWARD);
-pub const dir_up = @intToEnum(GtkDirectionType, GTK_DIR_UP);
-pub const dir_down = @intToEnum(GtkDirectionType, GTK_DIR_DOWN);
-pub const dir_left = @intToEnum(GtkDirectionType, GTK_DIR_LEFT);
-pub const dir_right = @intToEnum(GtkDirectionType, GTK_DIR_RIGHT);
-
-/// enum GtkOrientation
-pub const orientation_horizontal = @intToEnum(GtkOrientation, GTK_ORIENTATION_HORIZONTAL);
-pub const orientation_vertical = @intToEnum(GtkOrientation, GTK_ORIENTATION_VERTICAL);
-
-pub const Orientation = enum {
-    horizontal,
-    vertical,
-
-    fn parse(self: Orientation) GtkOrientation {
-        switch (self) {
-            .horizontal => return orientation_horizontal,
-            .vertical => return orientation_vertical,
-        }
-    }
-
-};
-
-///enum GtkWindowType
-pub const window_toplevel = @intToEnum(GtkWindowType, GTK_WINDOW_TOPLEVEL);
-pub const window_popup = @intToEnum(GtkWindowType, GTK_WINDOW_POPUP);
-
-pub const WindowType = enum {
-    toplevel,
-    popup,
-
-    fn parse(self: WindowType) GtkWindowType {
-        switch (self) {
-            .toplevel => return window_toplevel,
-            .popup => return window_popup,
-        }
-    }
-};
-
-/// Enum GtkPackType
-pub const pack_end = @intToEnum(GtkPackType, GTK_PACK_END);
-pub const pack_start = @intToEnum(GtkPackType, GTK_PACK_START);
-
-/// Enum GtkReliefStyle
-pub const relief_normal = @intToEnum(GtkReliefStyle, GTK_RELIEF_NORMAL);
-pub const relief_none = @intToEnum(GtkReliefStyle, GTK_RELIEF_NONE);
-
-/// Enum GdkModifierType
-pub const shift_mask = @intToEnum(GdkModifierType, GDK_SHIFT_MASK);
-/// Mod1 generally maps to Alt key
-pub const mod1_mask = @intToEnum(GdkModifierType, GDK_MOD1_MASK);
-pub const ctrl_mask = @intToEnum(GdkModifierType, GDK_CONTROL_MASK);
-
-/// Enum GtkAccelFlags
-pub const accel_locked = @intToEnum(GtkAccelFlags, GTK_ACCEL_LOCKED);
 
 /// The Gtk function g_signal_connect is defined in a macro which is unfortunately
 /// broken for translate-c, so we redefine the function doing what the orignal
@@ -220,13 +108,18 @@ pub const Window = struct {
         gtk_window_set_default_size(self.ptr, hsize, vsize);
     }
 
+    pub fn set_decorated(self: Window, decorated: bool) void {
+        const val = bool_to_c_int(decorated);
+        gtk_window_set_decorated(self.ptr, val);
+    }
+
     pub fn as_container(self: Window) Container {
         return Container {
             .ptr = @ptrCast(*GtkContainer, self.ptr),
         };
     }
 
-    pub fn as_widget(self: ApplicationWindow) Widget {
+    pub fn as_widget(self: Window) Widget {
         return Widget {
             .ptr = @ptrCast(*GtkWidget, self.ptr),
         };
@@ -365,4 +258,63 @@ pub const Widget = struct {
             _ = signal_connect(self.ptr, sig, callback, null);
         }
     }
+
+    pub fn to_window(self: Widget) ?Window {
+        return Window {
+            .ptr = @ptrCast(*GtkWindow, self.ptr),
+        };
+    }
 };
+
+const BuilderError = error {
+    ParseStringError,
+    ParseFileError,
+};
+
+pub const Builder = struct {
+    ptr: *GtkBuilder,
+
+    pub fn new() Builder {
+        return Builder {
+            .ptr = gtk_builder_new(),
+        };
+    }
+
+    pub fn add_from_string(self: Builder, string: []const u8) BuilderError!void {
+        const len = mem.len(string);
+        var ret = gtk_builder_add_from_string(self.ptr, string.ptr, len, @intToPtr([*c][*c]_GError, 0));
+        if (ret == 0) {
+            return BuilderError.ParseStringError;
+        }
+    }
+
+    pub fn get_widget(self: Builder, string: [:0]const u8) ?Widget {
+        if (builder_get_widget(self.ptr, string.ptr)) |w| {
+            return Widget {
+                .ptr = w,
+            };
+        } else return null;
+    }
+
+    pub fn get_adjustment(self: Builder, string: [:0]const u8) ?Adjustment {
+        if (builder_get_adjustment(self.ptr, string.ptr)) |a| {
+            return Adjustment {
+                .ptr = a,
+            };
+        } else return null;
+    }
+
+    pub fn set_application(self: Builder, app: *GtkApplication) void {
+        gtk_builder_set_application(self.ptr, app);
+    }
+};
+
+pub const Adjustment = struct {
+    ptr: *GtkAdjustment,
+};
+
+///Support functions
+fn bool_to_c_int(boolean: bool) c_int {
+    const val: c_int = if (boolean) 1 else 0;
+    return val;
+}

@@ -1,4 +1,4 @@
-pub usingnamespace @import("import.zig");
+usingnamespace @import("cimport.zig");
 
 /// enum GConnectFlags
 pub const connect_after = @intToEnum(GConnectFlags, G_CONNECT_AFTER);

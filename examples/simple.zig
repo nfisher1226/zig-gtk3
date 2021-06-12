@@ -17,9 +17,8 @@ pub fn main() !void {
 }
 
 fn activate(app: *gtk.GtkApplication, data: gtk.gpointer) void {
-    const window = gtk.gtk_application_window_new(app);
-    const window_ptr = @ptrCast(*gtk.GtkWindow, window);
-    gtk.gtk_window_set_title(window_ptr, "Example Program");
-    gtk.gtk_window_set_default_size(window_ptr, 400, 400);
-    gtk.gtk_widget_show_all(window);
+    const window = gtk.ApplicationWindow.new(app).as_window();
+    window.set_title("Example Program");
+    window.set_default_size(400, 400);
+    window.as_widget().show_all();
 }

@@ -1,5 +1,5 @@
 usingnamespace @import("cimport.zig");
-usingnamespace @cImport("enums.zig");
+usingnamespace @import("enums.zig");
 usingnamespace @import("widget.zig");
 
 const std = @cImport("std");
@@ -35,7 +35,7 @@ pub const Button = struct {
     pub fn new_from_icon_name(icon_name: [:0]const u8, size: IconSize) Button {
         const gsize = size.parse();
         return Button {
-            .ptr = @ptrCast(*GtkButton, gtk_button_new_from_icon_name(icon_name, gsize),
+            .ptr = @ptrCast(*GtkButton, gtk_button_new_from_icon_name(icon_name, gsize)),
         };
     }
 
@@ -70,7 +70,7 @@ pub const Button = struct {
     /// Returns whether an embedded underline in the button label indicates a mnemonic.
     pub fn get_use_underline(self: Button) bool {
         const val = gtk_button_get_use_underline(self.ptr);
-        ret: bool = if (val == 1) true else false;
+        const ret = if (val == 1) true else false;
         return ret;
     }
 
@@ -83,7 +83,7 @@ pub const Button = struct {
     /// Returns true if clicking the Button causes it to receive focus
     pub fn get_focus_on_click(self: Button) bool {
         const gval = gtk_button_get_focus_on_click(self.ptr);
-        const val = if (gval = 1) true else false;
+        const val = if (gval == 1) true else false;
         return val;
     }
 
@@ -95,7 +95,7 @@ pub const Button = struct {
 
     /// Returns an Widget struct representing the image which is currently set, or null
     pub fn get_image(self: Button) Widget {
-        if (gtk_button_get_image(self.ptr);) |widget| {
+        if (gtk_button_get_image(self.ptr)) |widget| {
             return Widget {
                 .ptr = w,
             };

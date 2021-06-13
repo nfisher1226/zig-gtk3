@@ -101,6 +101,18 @@ pub const pack_start = @intToEnum(GtkPackType, GTK_PACK_START);
 pub const relief_normal = @intToEnum(GtkReliefStyle, GTK_RELIEF_NORMAL);
 pub const relief_none = @intToEnum(GtkReliefStyle, GTK_RELIEF_NONE);
 
+pub const ReliefStyle = enum {
+    normal,
+    none,
+
+    pub fn parse(self: ReliefStyle) GtkReliefStyle {
+        switch (self) {
+            .normal => return relief_normal,
+            .none => return relief_none,
+        }
+    }
+};
+
 /// Enum GdkModifierType
 pub const shift_mask = @intToEnum(GdkModifierType, GDK_SHIFT_MASK);
 /// Mod1 generally maps to Alt key

@@ -111,6 +111,29 @@ pub const Button = struct {
         }
     }
 
+    /// Gets the position of the image relative to the text inside the button.
+    pub fn get_image_position(self: Button) PositionType {
+        const pos = gtk_button_get_image_position(self.ptr);
+        return pos.parse();
+    }
+
+    /// Sets the position of the image relative to the text inside the button.
+    pub fn set_image_position(self: Button, pos: PositionType) void {
+        gtk_button_set_image_position(self.ptr, pos.parse());
+    }
+
+    /// Returns whether the button will always show the image, if available.
+    pub fn get_always_show_image(self: Button) bool {
+        const show = gtk_button_get_always_show_image(self.ptr);
+        const ret = if (show == 1) true else false;
+        return ret;
+    }
+
+    /// Set whether the button will always show the image, if available.
+    pub fn set_always_show_image(self: Button, show: bool) void {
+        gtk_button_set_always_show_image(self.ptr, bool_to_c_int(show));
+    }
+
     /// Casts the internal pointer to a GtkWidget and returns a Widget struct
     pub fn as_widget(self: Button) Widget {
         return Widget {
@@ -118,7 +141,7 @@ pub const Button = struct {
         };
     }
 
-    /// C
+    /// Connects a callback function to the "clicked" signal
     pub fn connect_clicked(self: Button, callback: GCallback, data: ?gpointer) void {
         if (data) |d| {
             self.as_widget().connect("clicked", callback, d);
@@ -191,6 +214,12 @@ pub const ToggleButton = struct {
         };
     }
 
+    pub fn to_check_button(self: ToggleButton) ?CheckButton {
+        return CheckButton {
+            .ptr = @ptrCast(*GtkCheckButton, self.ptr),
+        };
+    }
+
     /// Connects a callback function when the "toggled" signal is emitted
     pub fn connect_toggled(self: ToggleButton, callback: GCallback, data: ?gpointer) void {
         if (data) |d| {
@@ -198,5 +227,49 @@ pub const ToggleButton = struct {
         } else {
             self.as_widget().connect("toggled", callback, null);
         }
+    }
+};
+
+pub const CheckButton = struct {
+    ptr = *GtkCheckButton,
+
+    // Creates a new CheckButton
+    pub fn new() CheckButton {
+        return CheckButton {
+            .ptr = gtk_check_button_new(),
+        };
+    }
+
+    // Creates a new CheckButton with a GtkLabel to the right of it.
+    pub fn new_with_label(text: [:0]const u8) CheckButton {
+        return CheckButton {
+            .ptr = gtk_check_button_new_with_label(text),
+        };
+    }
+
+    // Creates a new CheckButton with a GtkLabel to the right of it.
+    // Underscores in label indicate the mnemonic for the check button.
+    pub fn new_with_mnemonic(text: [:0]const u8) CheckButton {
+        return CheckButton {
+            .ptr = gtk_check_button_new_with_mnemonic(text),
+        };
+    }
+
+    pub fn as_toggle_button(self: CheckButton) ToggleButton {
+        return ToggleButton {
+            .ptr = @ptrCast(*GtkToggleButton, self.ptr),
+        };
+    }
+
+    pub fn as_button(self: CheckButton) Button {
+        return Button {
+            .ptr = @ptrCast(*GtkButton, self.ptr),
+        };
+    }
+
+    pub fn as_widget(self:CheckButton) Widget {
+        return Widget {
+            .ptr = @ptrCast(*GtkWidget, self.ptr),
+        };
     }
 };

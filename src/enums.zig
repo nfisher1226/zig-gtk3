@@ -97,6 +97,28 @@ pub const WindowType = enum {
 pub const pack_end = @intToEnum(GtkPackType, GTK_PACK_END);
 pub const pack_start = @intToEnum(GtkPackType, GTK_PACK_START);
 
+/// Enum GtkPositionType
+pub const pos_left = @intToEnum(GtkPositionType, GTK_POS_LEFT);
+pub const pos_right = @intToEnum(GtkPositionType, GTK_POS_RIGHT);
+pub const pos_top = @intToEnum(GtkPositionType, GTK_POS_TOP);
+pub const pos_bottom = @intToEnum(GtkPositionType, GTK_POS_BOTTOM);
+
+pub const PositionType = enum {
+    pos_left,
+    pos_right,
+    pos_top,
+    pos_bottom,
+
+    pub fn parse(self: PositionType) GtkPositionType {
+        switch (self) {
+            .pos_left => return pos_left,
+            .pos_right => return pos_right,
+            .pos_top => return pos_top,
+            .pos_bottom => return pos_bottom,
+        }
+    }
+};
+
 /// Enum GtkReliefStyle
 pub const relief_normal = @intToEnum(GtkReliefStyle, GTK_RELIEF_NORMAL);
 pub const relief_none = @intToEnum(GtkReliefStyle, GTK_RELIEF_NONE);

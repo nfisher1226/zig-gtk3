@@ -8,5 +8,6 @@ pub usingnamespace @import("src/convenience.zig");
 pub usingnamespace @import("src/enums.zig");
 pub usingnamespace @import("src/label.zig");
 pub usingnamespace @import("src/orientable.zig");
+pub usingnamespace @import("src/range.zig");
 pub usingnamespace @import("src/widget.zig");
 pub usingnamespace @import("src/window.zig");

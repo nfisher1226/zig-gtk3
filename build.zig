@@ -14,7 +14,7 @@ pub fn build(b: *Builder) void {
         "callbacks",
     }) |name| {
         const example = b.addExecutable(name, "examples/" ++ name ++ ".zig");
-        example.addPackagePath("gtk", "gtk.zig");
+        example.addPackagePath("gtk", "lib.zig");
         example.setBuildMode(mode);
         example.setTarget(target);
         example.linkLibC();

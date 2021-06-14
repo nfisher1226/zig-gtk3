@@ -157,4 +157,3 @@ pub const ModifierType = enum {
 
 /// Enum GtkAccelFlags
 pub const accel_locked = @intToEnum(GtkAccelFlags, GTK_ACCEL_LOCKED);
-

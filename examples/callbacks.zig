@@ -1,5 +1,5 @@
 const std = @import("std");
-const gtk = @import("gtk");
+usingnamespace @import("gtk");
 const allocator = std.heap.page_allocator;
 const fmt = std.fmt;
 const mem = std.mem;
@@ -11,7 +11,7 @@ const Widgets = struct {
     label: gtk.Label,
     button: gtk.Button,
 
-    fn init(app: *gtk.GtkApplication) Widgets {
+    fn init(app: *c.GtkApplication) Widgets {
         return Widgets {
             .window = gtk.ApplicationWindow.new(app),
             .label = gtk.Label.new("Off"),
@@ -32,26 +32,26 @@ const Widgets = struct {
     }
 
     fn connect_signals(self: Widgets) void {
-        self.button.connect_clicked(@ptrCast(gtk.GCallback, button_callback), null);
+        self.button.connect_clicked(@ptrCast(c.GCallback, button_callback), null);
     }
 };
 
 pub fn main() !void {
-    const app = gtk.gtk_application_new("org.gtk.example", .G_APPLICATION_FLAGS_NONE) orelse @panic("null app :(");
-    defer gtk.g_object_unref(app);
+    const app = c.gtk_application_new("org.gtk.example", .G_APPLICATION_FLAGS_NONE) orelse @panic("null app :(");
+    defer c.g_object_unref(app);
 
-    _ = gtk.g_signal_connect_data(
+    _ = c.g_signal_connect_data(
         app,
         "activate",
-        @ptrCast(gtk.GCallback, activate),
+        @ptrCast(c.GCallback, activate),
         null,
         null,
         gtk.connect_after,
     );
-    _ = gtk.g_application_run(@ptrCast(*gtk.GApplication, app), 0, null);
+    _ = c.g_application_run(@ptrCast(*c.GApplication, app), 0, null);
 }
 
-fn activate(app: *gtk.GtkApplication, data: gtk.gpointer) void {
+fn activate(app: *c.GtkApplication, data: c.gpointer) void {
     widgets = Widgets.init(app);
     widgets.connect_signals();
     const box = gtk.Box.new(gtk.Orientation.vertical, 5);
@@ -64,6 +64,6 @@ fn activate(app: *gtk.GtkApplication, data: gtk.gpointer) void {
     widgets.window.as_widget().show_all();
 }
 
-fn button_callback(button: *gtk.GtkButton, data: gtk.gpointer) void {
+fn button_callback(button: *c.GtkButton, data: c.gpointer) void {
     widgets.toggle_label();
 }

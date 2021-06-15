@@ -30,6 +30,10 @@ pub const ApplicationWindow = struct {
             .ptr = @ptrCast(*GtkWidget, self.ptr),
         };
     }
+
+    pub fn is_instance(gtype: u64) bool {
+        return (gtype == gtk_application_window_get_type());
+    }
 };
 
 pub const Window = struct {
@@ -65,5 +69,11 @@ pub const Window = struct {
             .ptr = @ptrCast(*GtkWidget, self.ptr),
         };
     }
-};
 
+    pub fn is_instance(gtype: u64) bool {
+        return (
+            gtype == gtk_window_get_type()
+            or ApplicationWindow.is_instance(gtype)
+        );
+    }
+};

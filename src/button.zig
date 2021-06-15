@@ -149,6 +149,14 @@ pub const Button = struct {
             self.as_widget().connect("clicked", callback, null);
         }
     }
+
+    pub fn is_instance(gtype: u64) bool {
+        return (
+            gtype == gtk_button_get_type()
+            or ToggleButton.is_instance(gtype)
+            or CheckButton.is_instance(gtype)
+        );
+    }
 };
 
 pub const ToggleButton = struct {
@@ -228,10 +236,14 @@ pub const ToggleButton = struct {
             self.as_widget().connect("toggled", callback, null);
         }
     }
+
+    pub fn is_instance(gtype: u64) bool {
+        return (gtype == gtk_toggle_button_get_type());
+    }
 };
 
 pub const CheckButton = struct {
-    ptr = *GtkCheckButton,
+    ptr: *GtkCheckButton,
 
     // Creates a new CheckButton
     pub fn new() CheckButton {
@@ -271,5 +283,9 @@ pub const CheckButton = struct {
         return Widget {
             .ptr = @ptrCast(*GtkWidget, self.ptr),
         };
+    }
+
+    pub fn is_instance(gtype: u64) bool {
+        return (gtype == gtk_check_button_get_type());
     }
 };

@@ -43,5 +43,9 @@ pub const Box = struct {
             .ptr = @ptrCast(*GtkWidget, self.ptr),
         };
     }
+
+    pub fn is_instance(gtype: u64) bool {
+        return (gtype == gtk_box_get_type());
+    }
 };
 

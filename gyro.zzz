@@ -1,0 +1,13 @@
+pkgs:
+  gtk3:
+    version: 0.1.0
+    description: "Convenience functions and wrappers for using Gtk+ in Zig"
+    source_url: "https://github.com/nfisher1226/zig-gtk3"
+
+    root: lib.zig
+    files:
+      README.md
+      LICENSE
+      src/*.zig
+      examples/*.zig
+      examples/*.glade

@@ -6,13 +6,10 @@ const Mode = builtin.Mode;
 pub fn build(b: *Builder) void {
     const target = b.standardTargetOptions(.{});
     const mode = b.standardReleaseOptions();
+    const examples = .{"simple", "glade", "callbacks", "range"};
 
     const example_step = b.step("examples", "Build examples");
-    inline for (.{
-        "simple",
-        "glade",
-        "callbacks",
-    }) |name| {
+    inline for (examples) |name| {
         const example = b.addExecutable(name, "examples/" ++ name ++ ".zig");
         example.addPackagePath("gtk", "lib.zig");
         example.setBuildMode(mode);
@@ -27,5 +24,4 @@ pub fn build(b: *Builder) void {
     const all_step = b.step("all", "Build everything");
     all_step.dependOn(example_step);
     b.default_step.dependOn(all_step);
-
 }

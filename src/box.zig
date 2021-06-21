@@ -20,10 +20,10 @@ pub const Box = struct {
         gtk_box_pack_start(self.ptr, widget.ptr, ex, fl, @as(c_uint, padding));
     }
 
-    pub fn pack_end(self: Box, widget: *GtkWidget, expand: bool, fill: bool, padding: u8) void {
+    pub fn pack_end(self: Box, widget: Widget, expand: bool, fill: bool, padding: u8) void {
         const ex: c_int = if (expand) 1 else 0;
         const fl: c_int = if (fill) 1 else 0;
-        gtk_box_pack_end(self.ptr, widget, ex, fl, @as(c_uint, padding));
+        gtk_box_pack_end(self.ptr, widget.ptr, ex, fl, @as(c_uint, padding));
     }
 
     pub fn as_orientable(self: Box) Orientable {

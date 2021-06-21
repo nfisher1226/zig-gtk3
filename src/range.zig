@@ -2,10 +2,19 @@ usingnamespace @import("cimport.zig");
 usingnamespace @import("adjustment.zig");
 usingnamespace @import("convenience.zig");
 usingnamespace @import("enums.zig");
+usingnamespace @import("orientable.zig");
 usingnamespace @import("widget.zig");
 
 pub const Range = struct {
     ptr: *GtkRange,
+
+    pub fn get_value(self: Range) f64 {
+        return gtk_range_get_value(self.ptr);
+    }
+
+    pub fn set_value(self: Range, val: f64) void {
+        gtk_range_set_value(self.ptr, val);
+    }
 
     pub fn as_widget(self: Range) Widget {
         return Widget {
@@ -19,13 +28,13 @@ pub const Scale = struct {
 
     pub fn new(orientation: Orientation, adjustment: Adjustment) Scale {
         return Scale {
-            .ptr = @ptrCast(*GtkScale, gtk_scale_new(orientation.parse, adjustment.ptr)),
+            .ptr = @ptrCast(*GtkScale, gtk_scale_new(orientation.parse(), adjustment.ptr)),
         };
     }
 
     pub fn new_with_range(orientation: Orientation, min: f64, max: f64, step: f64) Scale {
         return Scale {
-            .ptr = @ptrCast(*GtkScale, gtk_scale_new_with_range(orientation.parse, min, max, step)),
+            .ptr = @ptrCast(*GtkScale, gtk_scale_new_with_range(orientation.parse(), min, max, step)),
         };
     }
 
@@ -55,22 +64,70 @@ pub const Scale = struct {
         gtk_scale_set_has_origin(self.ptr, bool_to_c_int(origin));
     }
 
-    pub fn get_value_position(self: Scale) PositionType {
-        const val = gtk_scale_get_position_type(self.scale);
+    pub fn get_value_pos(self: Scale) PositionType {
+        const val = gtk_scale_get_value_pos(self.scale);
         switch (val) {
-            pos_left => return PositionType.pos_left,
-            pos_right => return PositionType.pos_right,
-            pos_top => return PositionType.pos_top,
-            pos_bottom => return PositionType.pos_bottom,
+            pos_left => return .left,
+            pos_right => return .right,
+            pos_top => return .top,
+            pos_bottom => return .bottom,
             else => unreachable,
         }
     }
 
-    pub fn set_value_position(self: Scale, pos: PositionType) void {
-        gtk_scale_set_value_position(self.ptr, pos.parse());
+    pub fn set_value_pos(self: Scale, pos: PositionType) void {
+        gtk_scale_set_value_pos(self.ptr, pos.parse());
+    }
+
+    pub fn add_mark(self: Scale, value: f64, pos: PositionType, markup: ?[:0]const u8) void {
+        if (markup) |t| {
+            gtk_scale_add_mark(self.ptr, value, pos.parse(), t);
+        } else {
+            gtk_scale_add_mark(self.ptr, value, pos.parse(), null);
+        }
+    }
+
+    pub fn clear_marks(self: Scale) void {
+        gtk_scale_clear_marks(self.ptr);
+    }
+
+    pub fn as_orientable(self: Scale) Orientable {
+        return Orientable {
+            .ptr = @ptrCast(*GtkOrientable, self.ptr),
+        };
+    }
+
+    pub fn as_range(self: Scale) Range {
+        return Range {
+            .ptr = @ptrCast(*GtkRange, self.ptr),
+        };
+    }
+
+    pub fn as_widget(self: Scale) Widget {
+        return Widget {
+            .ptr = @ptrCast(*GtkWidget, self.ptr),
+        };
     }
 };
 
 pub const SpinButton = struct {
     ptr: *GtkSpinButton,
+
+    pub fn new(adjustment: Adjustment, climb_rate: f64, digits: u32) SpinButton {
+        return SpinButton {
+            .ptr = @ptrCast(*GtkSpinButton, gtk_spin_button_new(adjustment.ptr, climb_rate, @as(c_uint, digits))),
+        };
+    }
+
+    pub fn as_range(self: SpinButton) Range {
+        return Range {
+            .ptr = @ptrCast(*GtkRange, self.ptr),
+        };
+    }
+
+    pub fn as_widget(self: SpinButton) Widget {
+        return Widget {
+            .ptr = @ptrCast(*GtkWidget, self.ptr),
+        };
+    }
 };

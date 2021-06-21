@@ -1,6 +1,6 @@
 pkgs:
   gtk3:
-    version: 0.1.0
+    version: 0.1.3
     description: "Convenience functions and wrappers for using Gtk+ in Zig"
     source_url: "https://github.com/nfisher1226/zig-gtk3"
 

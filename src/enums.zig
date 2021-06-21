@@ -77,7 +77,7 @@ pub const Orientation = enum {
 
 };
 
-///enum GtkWindowType
+/// enum GtkWindowType
 pub const window_toplevel = @intToEnum(GtkWindowType, GTK_WINDOW_TOPLEVEL);
 pub const window_popup = @intToEnum(GtkWindowType, GTK_WINDOW_POPUP);
 
@@ -104,17 +104,17 @@ pub const pos_top = @intToEnum(GtkPositionType, GTK_POS_TOP);
 pub const pos_bottom = @intToEnum(GtkPositionType, GTK_POS_BOTTOM);
 
 pub const PositionType = enum {
-    pos_left,
-    pos_right,
-    pos_top,
-    pos_bottom,
+    left,
+    right,
+    top,
+    bottom,
 
     pub fn parse(self: PositionType) GtkPositionType {
         switch (self) {
-            .pos_left => return pos_left,
-            .pos_right => return pos_right,
-            .pos_top => return pos_top,
-            .pos_bottom => return pos_bottom,
+            .left => return pos_left,
+            .right => return pos_right,
+            .top => return pos_top,
+            .bottom => return pos_bottom,
         }
     }
 };
@@ -157,3 +157,15 @@ pub const ModifierType = enum {
 
 /// Enum GtkAccelFlags
 pub const accel_locked = @intToEnum(GtkAccelFlags, GTK_ACCEL_LOCKED);
+
+/// enum GSpawnFlags
+pub const g_spawn_default = @intToEnum(GSpawnFlags, G_SPAWN_DEFAULT);
+pub const g_spawn_leave_descriptors_open = @intToEnum(GSpawnFlags, G_SPAWN_LEAVE_DESCRIPTORS_OPEN);
+pub const g_spawn_do_no_reap_child = @intToEnum(GSpawnFlags, G_SPAWN_DO_NO_REAP_CHILD);
+pub const g_spawn_search_path = @intToEnum(GSpawnFlags, G_SPAWN_SEARCH_PATH);
+pub const g_spawn_stdout_to_dev_null = @intToEnum(GSpawnFlags, G_SPAWN_STDOUT_TO_DEV_NULL);
+pub const g_spawn_stderr_to_dev_null = @intToEnum(GSpawnFlags, G_SPAWN_STDERR_TO_DEV_NULL);
+pub const g_spawn_child_inherits_stdin = @intToEnum(GSpawnFlags, G_SPAWN_CHILD_INHERITS_STDIN);
+pub const g_spawn_file_and_argv_zero = @intToEnum(GSpawnFlags, G_SPAWN_FILE_AND_ARGV_ZERO);
+pub const g_spawn_search_path_from_envp = @intToEnum(GSpawnFlags, G_SPAWN_SEARCH_PATH_FROM_ENVP);
+pub const g_spawn_cloexec_pipes = @intToEnum(GSpawnFlags, G_SPAWN_CLOEXEC_PIPES);

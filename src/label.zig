@@ -27,6 +27,15 @@ pub const Label = struct {
         gtk_label_set_text(self.ptr, text);
     }
 
+    pub fn set_markup(self: Label, text: [:0]const u8) void {
+        gtk_label_set_markup(self.ptr, text);
+    }
+
+    pub fn set_line_wrap(self: Label, wrap: bool) void {
+        const dowrap: c_int = if (wrap) 1 else 0;
+        gtk_label_set_line_wrap(self.ptr, dowrap);
+    }
+
     pub fn as_widget(self: Label) Widget {
         return Widget {
             .ptr = @ptrCast(*GtkWidget, self.ptr),

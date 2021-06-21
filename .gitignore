@@ -4,3 +4,4 @@ docs/
 *.glade~
 *.a
 gyro.lock
+deps.zig

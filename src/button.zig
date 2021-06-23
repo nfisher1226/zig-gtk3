@@ -11,14 +11,14 @@ pub const Button = struct {
 
     /// Creates a new Button
     pub fn new() Button {
-        return Button {
+        return Button{
             .ptr = @ptrCast(*GtkButton, gtk_button_new()),
         };
     }
 
     /// Creates a Button with a GtkLabel containing the given text
     pub fn new_with_label(text: [:0]const u8) Button {
-        return Button {
+        return Button{
             .ptr = @ptrCast(*GtkButton, gtk_button_new_with_label(text)),
         };
     }
@@ -26,7 +26,7 @@ pub const Button = struct {
     /// Creates a new Button containing a label. Underscores in label indicate the
     /// mnemonic for the button.
     pub fn new_with_mnemonic(text: [:0]const u8) Button {
-        return Button {
+        return Button{
             .ptr = @ptrCast(*GtkButton, gtk_button_new_with_mnemonic(text)),
         };
     }
@@ -34,7 +34,7 @@ pub const Button = struct {
     /// Creates a new Button containing an icon from the current icon theme.
     pub fn new_from_icon_name(icon_name: [:0]const u8, size: IconSize) Button {
         const gsize = size.parse();
-        return Button {
+        return Button{
             .ptr = @ptrCast(*GtkButton, gtk_button_new_from_icon_name(icon_name, gsize)),
         };
     }
@@ -96,7 +96,7 @@ pub const Button = struct {
     /// Returns an Widget struct representing the image which is currently set, or null
     pub fn get_image(self: Button) Widget {
         if (gtk_button_get_image(self.ptr)) |widget| {
-            return Widget {
+            return Widget{
                 .ptr = w,
             };
         } else return null;
@@ -136,26 +136,18 @@ pub const Button = struct {
 
     /// Casts the internal pointer to a GtkWidget and returns a Widget struct
     pub fn as_widget(self: Button) Widget {
-        return Widget {
+        return Widget{
             .ptr = @ptrCast(*GtkWidget, self.ptr),
         };
     }
 
     /// Connects a callback function to the "clicked" signal
     pub fn connect_clicked(self: Button, callback: GCallback, data: ?gpointer) void {
-        if (data) |d| {
-            self.as_widget().connect("clicked", callback, d);
-        } else {
-            self.as_widget().connect("clicked", callback, null);
-        }
+        self.as_widget().connect("clicked", callback, if (data) |d| d else null);
     }
 
     pub fn is_instance(gtype: u64) bool {
-        return (
-            gtype == gtk_button_get_type()
-            or ToggleButton.is_instance(gtype)
-            or CheckButton.is_instance(gtype)
-        );
+        return (gtype == gtk_button_get_type() or ToggleButton.is_instance(gtype) or CheckButton.is_instance(gtype));
     }
 };
 
@@ -164,14 +156,14 @@ pub const ToggleButton = struct {
 
     /// Creates a new ToggleButton. A widget should be packed into the button, as in button_new().
     pub fn new() ToggleButton {
-        return ToggleButton {
+        return ToggleButton{
             .ptr = @ptrCast(*GtkToggleButton, gtk_check_button_new()),
         };
     }
 
     /// Creates a new ToggleButton with a text label.
     pub fn new_with_label(text: [:0]const u8) ToggleButton {
-        return ToggleButton {
+        return ToggleButton{
             .ptr = @ptrCast(*GtkToggleButton, gtk_toggle_button_new_with_label(text)),
         };
     }
@@ -179,7 +171,7 @@ pub const ToggleButton = struct {
     /// Creates a new ToggleButton containing a label. Underscores in label indicate the
     /// mnemonic for the button.
     pub fn new_with_mnemonic(text: [:0]const u8) ToggleButton {
-        return ToggleButton {
+        return ToggleButton{
             .ptr = @ptrCast(*GtkToggleButton, gtk_toggle_button_new_with_mnemonic(text)),
         };
     }
@@ -197,7 +189,7 @@ pub const ToggleButton = struct {
 
     /// Casts the internal pointer to a GtkButton and returns a Button struct
     pub fn as_button(self: ToggleButton) Button {
-        return Button {
+        return Button{
             .ptr = @ptrCast(*GtkButton, self.ptr),
         };
     }
@@ -217,13 +209,13 @@ pub const ToggleButton = struct {
 
     /// Casts the internal pointer to a GtkWidget and returns a Widget struct
     pub fn as_widget(self: ToggleButton) Widget {
-        return Widget {
+        return Widget{
             .ptr = @ptrCast(*GtkWidget, self.ptr),
         };
     }
 
     pub fn to_check_button(self: ToggleButton) ?CheckButton {
-        return CheckButton {
+        return CheckButton{
             .ptr = @ptrCast(*GtkCheckButton, self.ptr),
         };
     }
@@ -247,14 +239,14 @@ pub const CheckButton = struct {
 
     // Creates a new CheckButton
     pub fn new() CheckButton {
-        return CheckButton {
+        return CheckButton{
             .ptr = gtk_check_button_new(),
         };
     }
 
     // Creates a new CheckButton with a GtkLabel to the right of it.
     pub fn new_with_label(text: [:0]const u8) CheckButton {
-        return CheckButton {
+        return CheckButton{
             .ptr = gtk_check_button_new_with_label(text),
         };
     }
@@ -262,25 +254,25 @@ pub const CheckButton = struct {
     // Creates a new CheckButton with a GtkLabel to the right of it.
     // Underscores in label indicate the mnemonic for the check button.
     pub fn new_with_mnemonic(text: [:0]const u8) CheckButton {
-        return CheckButton {
+        return CheckButton{
             .ptr = gtk_check_button_new_with_mnemonic(text),
         };
     }
 
     pub fn as_toggle_button(self: CheckButton) ToggleButton {
-        return ToggleButton {
+        return ToggleButton{
             .ptr = @ptrCast(*GtkToggleButton, self.ptr),
         };
     }
 
     pub fn as_button(self: CheckButton) Button {
-        return Button {
+        return Button{
             .ptr = @ptrCast(*GtkButton, self.ptr),
         };
     }
 
-    pub fn as_widget(self:CheckButton) Widget {
-        return Widget {
+    pub fn as_widget(self: CheckButton) Widget {
+        return Widget{
             .ptr = @ptrCast(*GtkWidget, self.ptr),
         };
     }

@@ -97,6 +97,18 @@ pub const WindowType = enum {
 pub const pack_end = @intToEnum(GtkPackType, GTK_PACK_END);
 pub const pack_start = @intToEnum(GtkPackType, GTK_PACK_START);
 
+pub const PackType = enum {
+    start,
+    end,
+
+    pub fn parse(self: PackType) GtkPackType {
+        switch (self) {
+            .start => return pack_start,
+            .end => return pack_end,
+        }
+    }
+};
+
 /// Enum GtkPositionType
 pub const pos_left = @intToEnum(GtkPositionType, GTK_POS_LEFT);
 pub const pos_right = @intToEnum(GtkPositionType, GTK_POS_RIGHT);

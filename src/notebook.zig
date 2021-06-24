@@ -232,4 +232,8 @@ pub const Notebook = struct {
             .ptr = @ptrCast(*GtkWidget, self.ptr),
         };
     }
+
+    pub fn is_instance(gtype: f64) bool {
+        return (gtype == gtk_notebook_get_type());
+    }
 };

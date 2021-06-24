@@ -1,4 +1,5 @@
 usingnamespace @import("cimport.zig");
+usingnamespace @import("convenience.zig");
 usingnamespace @import("enums.zig");
 usingnamespace @import("widget.zig");
 
@@ -33,22 +34,24 @@ pub const Button = struct {
 
     /// Creates a new Button containing an icon from the current icon theme.
     pub fn new_from_icon_name(icon_name: [:0]const u8, size: IconSize) Button {
-        const gsize = size.parse();
         return Button{
-            .ptr = @ptrCast(*GtkButton, gtk_button_new_from_icon_name(icon_name, gsize)),
+            .ptr = @ptrCast(*GtkButton, gtk_button_new_from_icon_name(icon_name, size.parse())),
         };
     }
 
     /// Get the ReliefStyle of the Button
     pub fn get_relief(self: Button) ReliefStyle {
         const rel = gtk_button_get_relief(self.ptr);
-        return rel.parse();
+        return switch (rel) {
+            GTK_RELIEF_NORMAL => .normal,
+            GTK_RELIEF_NONE => .none,
+            else => unreachable,
+        };
     }
 
     /// Set the ReliefStyle of the Button
     pub fn set_relief(self: Button, style: ReliefStyle) void {
-        const gstyle = style.parse();
-        gtk_button_set_relief(self.ptr, gstyle);
+        gtk_button_set_relief(self.ptr, style.parse());
     }
 
     /// Get the text from the label of the Button, or null if unset
@@ -69,9 +72,7 @@ pub const Button = struct {
 
     /// Returns whether an embedded underline in the button label indicates a mnemonic.
     pub fn get_use_underline(self: Button) bool {
-        const val = gtk_button_get_use_underline(self.ptr);
-        const ret = if (val == 1) true else false;
-        return ret;
+        return (gtk_button_get_use_underline(self.ptr) == 1);
     }
 
     /// If true, an underline in the text of the button label indicates the next
@@ -82,19 +83,16 @@ pub const Button = struct {
 
     /// Returns true if clicking the Button causes it to receive focus
     pub fn get_focus_on_click(self: Button) bool {
-        const gval = gtk_button_get_focus_on_click(self.ptr);
-        const val = if (gval == 1) true else false;
-        return val;
+        return (gtk_button_get_focus_on_click(self.ptr) == 1);
     }
 
     /// Set whether clicking a button causes it to receive focus
     pub fn set_focus_on_click(self: Button, foc: bool) void {
-        const gfoc: c_int = if (foc) 1 else 0;
-        gtk_button_set_focus_on_click(self.ptr, gfoc);
+        gtk_button_set_focus_on_click(self.ptr, bool_to_c_int(foc));
     }
 
     /// Returns an Widget struct representing the image which is currently set, or null
-    pub fn get_image(self: Button) Widget {
+    pub fn get_image(self: Button) ?Widget {
         if (gtk_button_get_image(self.ptr)) |widget| {
             return Widget{
                 .ptr = w,
@@ -104,17 +102,12 @@ pub const Button = struct {
 
     /// Set the image of the button to the given widget. If image is null, unset the image.
     pub fn set_image(self: Button, image: ?Widget) void {
-        if (image) |img| {
-            gtk_button_set_image(self.ptr, img.ptr);
-        } else {
-            gtk_button_set_image(self.ptr, null);
-        }
+        gtk_button_set_image(self.ptr, if (image) |i| i.ptr else null);
     }
 
     /// Gets the position of the image relative to the text inside the button.
     pub fn get_image_position(self: Button) PositionType {
-        const pos = gtk_button_get_image_position(self.ptr);
-        return pos.parse();
+        return gtk_button_get_image_position(self.ptr).parse();
     }
 
     /// Sets the position of the image relative to the text inside the button.
@@ -124,9 +117,7 @@ pub const Button = struct {
 
     /// Returns whether the button will always show the image, if available.
     pub fn get_always_show_image(self: Button) bool {
-        const show = gtk_button_get_always_show_image(self.ptr);
-        const ret = if (show == 1) true else false;
-        return ret;
+        return (gtk_button_get_always_show_image(self.ptr) == 1);
     }
 
     /// Set whether the button will always show the image, if available.
@@ -178,8 +169,7 @@ pub const ToggleButton = struct {
 
     /// Retrieves whether the button is displayed as a separate indicator and label.
     pub fn get_mode(self: ToggleButton) bool {
-        const val = if (gtk_toggle_button_get_mode(self.ptr) == 1) true else false;
-        return val;
+        return (gtk_toggle_button_get_mode(self.ptr) == 1);
     }
 
     /// Sets whether the button is displayed as a separate indicator and label.
@@ -197,8 +187,7 @@ pub const ToggleButton = struct {
     /// Queries a GtkToggleButton and returns its current state.
     /// Returns true if the toggle button is pressed in and false if it is raised.
     pub fn get_active(self: ToggleButton) bool {
-        const val = if (gtk_toggle_button_get_active(self.ptr) == 1) true else false;
-        return val;
+        return (gtk_toggle_button_get_active(self.ptr) == 1);
     }
 
     /// Sets the status of the toggle button.
@@ -222,11 +211,7 @@ pub const ToggleButton = struct {
 
     /// Connects a callback function when the "toggled" signal is emitted
     pub fn connect_toggled(self: ToggleButton, callback: GCallback, data: ?gpointer) void {
-        if (data) |d| {
-            self.as_widget().connect("toggled", callback, d);
-        } else {
-            self.as_widget().connect("toggled", callback, null);
-        }
+        self.as_widget().connect("toggled", callback, if (data) |d| d else null);
     }
 
     pub fn is_instance(gtype: u64) bool {

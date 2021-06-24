@@ -93,15 +93,13 @@ pub const Notebook = struct {
     }
 
     pub fn get_menu_label(self: Notebook, child: Widget) ?Widget {
-        const child_ptr = gtk_notebook_get_menu_label(self.ptr, child.ptr);
-        return if (child_ptr) |p| Widget{
+        return if (gtk_notebook_get_menu_label(self.ptr, child.ptr)) |p| Widget{
             .ptr = p,
         } else null;
     }
 
     pub fn get_nth_page(self: Notebook, num: c_int) ?Widget {
-        const val = gtk_notebook_get_nth_page(self.ptr, num);
-        return if (val) |p| Widget{
+        return if (gtk_notebook_get_nth_page(self.ptr, num)) |p| Widget{
             .ptr = p,
         } else null;
     }
@@ -111,8 +109,7 @@ pub const Notebook = struct {
     }
 
     pub fn get_tab_label(self: Notebook, child: Widget) ?Widget {
-        const val = gtk_notebook_get_tab_label(self.ptr, child.ptr);
-        return if (val) |p| Widget{
+        return if (gtk_notebook_get_tab_label(self.ptr, child.ptr)) |p| Widget{
             .ptr = p,
         } else null;
     }
@@ -142,8 +139,7 @@ pub const Notebook = struct {
     }
 
     pub fn get_menu_label_text(self: Notebook, allocator: *mem.Allocator, child: Widget) ?[:0]const u8 {
-        const val = gtk_notebook_get_menu_label_text(self.ptr, child.ptr);
-        if (val) |v| {
+        if (gtk_notebook_get_menu_label_text(self.ptr, child.ptr)) |v| {
             const len = mem.len(v);
             const text = fmt.allocPrintZ(allocator, "{s}", .{v[0..len]}) catch {
                 return null;
@@ -153,20 +149,19 @@ pub const Notebook = struct {
     }
 
     pub fn get_scrollable(self: Notebook) bool {
-        return if (gtk_notebook_get_scrollable(self.ptr) == 1) true else false;
+        return (gtk_notebook_get_scrollable(self.ptr) == 1);
     }
 
     pub fn get_show_border(self: Notebook) bool {
-        return if (gtk_notebook_get_show_border(self.ptr) == 1) true else false;
+        return (gtk_notebook_get_show_border(self.ptr) == 1);
     }
 
     pub fn get_show_tabs(self: Notebook) bool {
-        return if (gtk_notebook_get_show_tabs(self.ptr) == 1) true else false;
+        return (gtk_notebook_get_show_tabs(self.ptr) == 1);
     }
 
     pub fn get_tab_label_text(self, Notebook, allocator: *mem.Allocator, child: Widget) ?[:0]const u8 {
-        const val = gtk_notebook_get_tab_label_text(self.ptr, child.ptr);
-        if (val) |v| {
+        if (gtk_notebook_get_tab_label_text(self.ptr, child.ptr)) |v| {
             const len = mem.len(v);
             const text = fmt.allocPrintZ(allocator, "{s}", .{v[0..len]}) catch {
                 return null;
@@ -176,21 +171,21 @@ pub const Notebook = struct {
     }
 
     pub fn get_tab_pos(self: Notebook) PositionType {
-        const pos = gtk_notebook_get_tab_pos(self.ptr);
-        switch (pos) {
-            pos_left => return .left,
-            pos_right => return .right,
-            pos_top => return .top,
-            pos_bottom => return .bottom,
+        switch (gtk_notebook_get_tab_pos(self.ptr)) {
+            GTK_POS_LEFT => return .left,
+            GTK_POS_RIGHT => return .right,
+            GTK_POS_TOP => return .top,
+            GTK_POS_BOTTOM => return .bottom,
+            else => unreachable,
         }
     }
 
     pub fn get_tab_reorderable(self: Notebook, child: Widget) bool {
-        return if (gtk_notebook_get_tab_reorderable(self.ptr, child.ptr) == 1) true else false;
+        return (gtk_notebook_get_tab_reorderable(self.ptr, child.ptr) == 1);
     }
 
     pub fn get_tab_detachable(self: Notebook, child: Widget) bool {
-        return if (gtk_notebook_get_tab_detachable(self.ptr, child.ptr) == 1) true else false;
+        return (gtk_notebook_get_tab_detachable(self.ptr, child.ptr) == 1);
     }
 
     pub fn set_current_page(self: Notebook, num: c_int) void {
@@ -202,13 +197,11 @@ pub const Notebook = struct {
     }
 
     pub fn get_group_name(self: Notebook, allocator: *mem.Allocator) ?[:0]const u8 {
-        const val = gtk_notebook_get_group_name(self.ptr);
-        if (val) |v| {
+        if (gtk_notebook_get_group_name(self.ptr)) |v| {
             const len = mem.len(v);
-            const text = fmt.allocPrintZ(allocator, "{s}", .{v[0..len]}) catch {
+            return fmt.allocPrintZ(allocator, "{s}", .{v[0..len]}) catch {
                 return null;
             };
-            return text;
         } else return null;
     }
 
@@ -217,8 +210,7 @@ pub const Notebook = struct {
     }
 
     pub fn get_action_widget(self: Notebook, packtype: PackType) ?Widget {
-        const val = gtk_notebook_get_action_widget(self.ptr, widget.ptr, packtype.parse());
-        return if (val) |v| Widget{ .ptr = v } else null;
+        return if (gtk_notebook_get_action_widget(self.ptr, widget.ptr, packtype.parse())) |v| Widget{ .ptr = v } else null;
     }
 
     pub fn as_container(self: Notebook) Container {

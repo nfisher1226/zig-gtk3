@@ -1,120 +1,144 @@
 usingnamespace @import("cimport.zig");
 
-/// enum GConnectFlags
-pub const connect_after = @intToEnum(GConnectFlags, G_CONNECT_AFTER);
-pub const connect_swapped = @intToEnum(GConnectFlags, G_CONNECT_SWAPPED);
+/// enum ConnectFlags
+pub const ConnectFlags = enum {
+    after,
+    swapped,
 
-/// enum IconSize
-pub const IconSize = enum {
-    icon_size_invalid,
-    icon_size_menu,
-    icon_size_small_toolbar,
-    icon_size_large_toolbar,
-    icon_size_button,
-    icon_size_dnd,
-    icon_size_dialog,
-
-    /// Parses an IconSize into a GtkIconSize
-    pub fn parse(self: IconSize) GtkIconSize {
-        switch (self) {
-            .icon_size_invalid => return @intToEnum(GtkIconSize, GTK_ICON_SIZE_INVALID),
-            .icon_size_menu => return @intToEnum(GtkIconSize, GTK_ICON_SIZE_MENU),
-            .icon_size_small_toolbar => return @intToEnum(GtkIconSize, GTK_ICON_SIZE_SMALL_TOOLBAR),
-            .icon_size_large_toolbar => return @intToEnum(GtkIconSize, GTK_ICON_SIZE_LARGE_TOOLBAR),
-            .icon_size_button => return @intToEnum(GtkIconSize, GTK_ICON_SIZE_BUTTON),
-            .icon_size_dnd => return @intToEnum(GtkIconSize, GTK_ICON_SIZE_DND),
-            .icon_size_dialog => return @intToEnum(GtkIconSize, GTK_ICON_SIZE_DIALOG),
-        }
+    pub fn parse(self: ConnectFlags) GConnectFlags {
+        return switch (self) {
+            .after => G_CONNECT_AFTER,
+            .swapped => G_CONNECT_SWAPPED,
+        };
     }
 };
 
-/// Gtk enum GtkIconSize
-pub const icon_size_invalid = @intToEnum(GtkIconSize, GTK_ICON_SIZE_INVALID);
-pub const icon_size_menu = @intToEnum(GtkIconSize, GTK_ICON_SIZE_MENU);
-pub const icon_size_small_toolbar = @intToEnum(GtkIconSize, GTK_ICON_SIZE_SMALL_TOOLBAR);
-pub const icon_size_large_toolbar = @intToEnum(GtkIconSize, GTK_ICON_SIZE_LARGE_TOOLBAR);
-pub const icon_size_button = @intToEnum(GtkIconSize, GTK_ICON_SIZE_BUTTON);
-pub const icon_size_dnd = @intToEnum(GtkIconSize, GTK_ICON_SIZE_DND);
-pub const icon_size_dialog = @intToEnum(GtkIconSize, GTK_ICON_SIZE_DIALOG);
+/// enum IconSize
+pub const IconSize = enum {
+    invalid,
+    menu,
+    small_toolbar,
+    large_toolbar,
+    button,
+    dnd,
+    dialog,
 
-/// enum GtkBaselinePosition
-pub const baseline_position_top = @intToEnum(GtkBaselinePosition, GTK_BASELINE_POSITION_TOP);
-pub const baseline_position_center = @intToEnum(GtkBaselinePosition, GTK_BASELINE_POSITION_CENTER);
-pub const baseline_position_bottom = @intToEnum(GtkBaselinePosition, GTK_BASELINE_POSITION_BOTTOM);
+    /// Parses an IconSize into a GtkIconSize
+    pub fn parse(self: IconSize) GtkIconSize {
+        return switch (self) {
+            .invalid => GTK_ICON_SIZE_INVALID,
+            .menu => GTK_ICON_SIZE_MENU,
+            .small_toolbar => GTK_ICON_SIZE_SMALL_TOOLBAR,
+            .large_toolbar => GTK_ICON_SIZE_LARGE_TOOLBAR,
+            .button => GTK_ICON_SIZE_BUTTON,
+            .dnd => GTK_ICON_SIZE_DND,
+            .dialog => GTK_ICON_SIZE_DIALOG,
+        };
+    }
+};
 
-/// enum GtkDeleteType
-pub const gtk_delete_chars = @intToEnum(GtkDeleteType, GTK_DELETE_CHARS);
-pub const gtk_delete_word_ends = @intToEnum(GtkDeleteType, GTK_DELETE_WORD_ENDS);
-pub const gtk_delete_words = @intToEnum(GtkDeleteType, GTK_DELETE_WORDS);
-pub const gtk_delete_line_ends = @intToEnum(GtkDeleteType, GTK_DELETE_LINE_ENDS);
-pub const gtk_delete_lines = @intToEnum(GtkDeleteType, GTK_DELETE_LINES);
-pub const gtk_delete_paragraph_ends = @intToEnum(GtkDeleteType, GTK_DELETE_PARAGRAPH_ENDS);
-pub const gtk_delete_paragraphs = @intToEnum(GtkDeleteType, GTK_DELETE_PARAGRAPHS);
-pub const gtk_delete_whitespace = @intToEnum(GtkDeleteType, GTK_DELETE_WHITESPACE);
+/// enum BaselinePosition
+pub const BaselinePosition = enum {
+    top,
+    center,
+    bottom,
 
-/// enum GtkDirectionType
-pub const dir_tab_forward = @intToEnum(GtkDirectionType, GTK_DIR_TAB_FORWARD);
-pub const dir_tab_backward = @intToEnum(GtkDirectionType, GTK_DIR_TAB_BACKWARD);
-pub const dir_up = @intToEnum(GtkDirectionType, GTK_DIR_UP);
-pub const dir_down = @intToEnum(GtkDirectionType, GTK_DIR_DOWN);
-pub const dir_left = @intToEnum(GtkDirectionType, GTK_DIR_LEFT);
-pub const dir_right = @intToEnum(GtkDirectionType, GTK_DIR_RIGHT);
+    pub fn parse(self: BaselinePosition) GtkBaselinePosition {
+        return switch (self) {
+            .top => GTK_BASELINE_POSITION_TOP,
+            .center => GTK_BASELINE_POSITION_CENTER,
+            .bottom => GTK_BASELINE_POSITION_BOTTOM,
+        };
+    }
+};
 
-/// enum GtkOrientation
-pub const orientation_horizontal = @intToEnum(GtkOrientation, GTK_ORIENTATION_HORIZONTAL);
-pub const orientation_vertical = @intToEnum(GtkOrientation, GTK_ORIENTATION_VERTICAL);
+/// enum DeleteType
+pub const DeleteType = enum {
+    chars,
+    word_ends,
+    words,
+    line_ends,
+    lines,
+    paragraph_ends,
+    paragraphs,
+    whitespace,
 
+    pub fn parse(self: DeleteType) GtkDeleteType {
+        return switch (self) {
+            .chars => GTK_DELETE_CHARS,
+            .word_ends => GTK_DELETE_WORD_ENDS,
+            .words => GTK_DELETE_WORDS,
+            .line_ends => GTK_DELETE_LINE_ENDS,
+            .lines => GTK_DELETE_LINES,
+            .paragraph_ends => GTK_DELETE_PARAGRAPH_ENDS,
+            .paragraphs => GTK_DELETE_PARAGRAPHS,
+            .whitespace => GTK_DELETE_WHITESPACE,
+        };
+    }
+};
+
+/// enum DirectionType
+pub const DirectionType = enum {
+    tab_forward,
+    tab_backward,
+    up,
+    down,
+    left,
+    right,
+
+    pub fn parse(self: DirectionType) GtkDirectionType {
+        return switch (self) {
+            .forward => GTK_DIR_TAB_FORWARD,
+            .backward => GTK_DIR_TAB_BACKWARD,
+            .up => GTK_DIR_UP,
+            .down => GTK_DIR_DOWN,
+            .left => GTK_DIR_LEFT,
+            .right => GTK_DIR_RIGHT,
+        };
+    }
+};
+
+/// enum Orientation
 pub const Orientation = enum {
     horizontal,
     vertical,
 
     pub fn parse(self: Orientation) GtkOrientation {
-        switch (self) {
-            .horizontal => return orientation_horizontal,
-            .vertical => return orientation_vertical,
-        }
+        return switch (self) {
+            .horizontal => GTK_ORIENTATION_HORIZONTAL,
+            .vertical => GTK_ORIENTATION_VERTICAL,
+        };
     }
 
 };
 
-/// enum GtkWindowType
-pub const window_toplevel = @intToEnum(GtkWindowType, GTK_WINDOW_TOPLEVEL);
-pub const window_popup = @intToEnum(GtkWindowType, GTK_WINDOW_POPUP);
-
+/// enum WindowType
 pub const WindowType = enum {
     toplevel,
     popup,
 
     pub fn parse(self: WindowType) GtkWindowType {
-        switch (self) {
-            .toplevel => return window_toplevel,
-            .popup => return window_popup,
-        }
+        return switch (self) {
+            .toplevel => GTK_WINDOW_TOPLEVEL,
+            .popup => GTK_WINDOW_POPUP,
+        };
     }
 };
 
-/// Enum GtkPackType
-pub const pack_end = @intToEnum(GtkPackType, GTK_PACK_END);
-pub const pack_start = @intToEnum(GtkPackType, GTK_PACK_START);
-
+/// Enum PackType
 pub const PackType = enum {
     start,
     end,
 
     pub fn parse(self: PackType) GtkPackType {
-        switch (self) {
-            .start => return pack_start,
-            .end => return pack_end,
-        }
+        return switch (self) {
+            .end => GTK_PACK_END,
+            .start => GTK_PACK_START,
+        };
     }
 };
 
-/// Enum GtkPositionType
-pub const pos_left = @intToEnum(GtkPositionType, GTK_POS_LEFT);
-pub const pos_right = @intToEnum(GtkPositionType, GTK_POS_RIGHT);
-pub const pos_top = @intToEnum(GtkPositionType, GTK_POS_TOP);
-pub const pos_bottom = @intToEnum(GtkPositionType, GTK_POS_BOTTOM);
-
+/// Enum PositionType
 pub const PositionType = enum {
     left,
     right,
@@ -122,62 +146,83 @@ pub const PositionType = enum {
     bottom,
 
     pub fn parse(self: PositionType) GtkPositionType {
-        switch (self) {
-            .left => return pos_left,
-            .right => return pos_right,
-            .top => return pos_top,
-            .bottom => return pos_bottom,
-        }
+        return switch (self) {
+            .left => GTK_POS_LEFT,
+            .right => GTK_POS_RIGHT,
+            .top => GTK_POS_TOP,
+            .bottom => GTK_POS_BOTTOM,
+        };
     }
 };
 
-/// Enum GtkReliefStyle
-pub const relief_normal = @intToEnum(GtkReliefStyle, GTK_RELIEF_NORMAL);
-pub const relief_none = @intToEnum(GtkReliefStyle, GTK_RELIEF_NONE);
-
+/// Enum ReliefStyle
 pub const ReliefStyle = enum {
     normal,
     none,
 
     pub fn parse(self: ReliefStyle) GtkReliefStyle {
-        switch (self) {
-            .normal => return relief_normal,
-            .none => return relief_none,
-        }
+        return switch (self) {
+            .normal => GTK_RELIEF_NORMAL,
+            .none => GTK_RELIEF_NONE,
+        };
     }
 };
 
-/// Enum GdkModifierType
-pub const shift_mask = @intToEnum(GdkModifierType, GDK_SHIFT_MASK);
-/// Mod1 generally maps to Alt key
-pub const mod1_mask = @intToEnum(GdkModifierType, GDK_MOD1_MASK);
-pub const ctrl_mask = @intToEnum(GdkModifierType, GDK_CONTROL_MASK);
-
+/// Enum ModifierType
 pub const ModifierType = enum {
     shift_mask,
     mod1_mask,
-    ctrl_mask,
+    control_mask,
 
     pub fn parse(self: ModifierType) GdkModifierType {
-        switch (self) {
-            .shift_mask => return shift_mask,
-            .mod1_mask => return mod1_mask,
-            .ctrl_mask => return ctrl_mask,
-        }
+        return switch (self) {
+            .shift_mask => GDK_SHIFT_MASK,
+            .mod1_mask => GDK_MOD1_MASK,
+            .control_mask => GDK_CONTROL_MASK,
+        };
     }
 };
 
-/// Enum GtkAccelFlags
-pub const accel_locked = @intToEnum(GtkAccelFlags, GTK_ACCEL_LOCKED);
+/// Enum AccelFlags
+pub const AccelFlags = enum {
+    visible,
+    locked,
+    mask,
 
-/// enum GSpawnFlags
-pub const g_spawn_default = @intToEnum(GSpawnFlags, G_SPAWN_DEFAULT);
-pub const g_spawn_leave_descriptors_open = @intToEnum(GSpawnFlags, G_SPAWN_LEAVE_DESCRIPTORS_OPEN);
-pub const g_spawn_do_no_reap_child = @intToEnum(GSpawnFlags, G_SPAWN_DO_NO_REAP_CHILD);
-pub const g_spawn_search_path = @intToEnum(GSpawnFlags, G_SPAWN_SEARCH_PATH);
-pub const g_spawn_stdout_to_dev_null = @intToEnum(GSpawnFlags, G_SPAWN_STDOUT_TO_DEV_NULL);
-pub const g_spawn_stderr_to_dev_null = @intToEnum(GSpawnFlags, G_SPAWN_STDERR_TO_DEV_NULL);
-pub const g_spawn_child_inherits_stdin = @intToEnum(GSpawnFlags, G_SPAWN_CHILD_INHERITS_STDIN);
-pub const g_spawn_file_and_argv_zero = @intToEnum(GSpawnFlags, G_SPAWN_FILE_AND_ARGV_ZERO);
-pub const g_spawn_search_path_from_envp = @intToEnum(GSpawnFlags, G_SPAWN_SEARCH_PATH_FROM_ENVP);
-pub const g_spawn_cloexec_pipes = @intToEnum(GSpawnFlags, G_SPAWN_CLOEXEC_PIPES);
+    pub fn parse(self: AccelFlags) GtkAccelFlags {
+        return switch (self) {
+            .visible => GTK_ACCEL_VISIBLE,
+            .locked => GTK_ACCEL_LOCKED,
+            .mask => GTK_ACCEL_MASK,
+        };
+    }
+};
+
+/// enum SpawnFlags
+pub const SpawnFlags = enum {
+    default,
+    leave_descriptors_open,
+    do_not_reap_child,
+    search_path,
+    stdout_to_dev_null,
+    stderr_to_dev_null,
+    child_inherits_stdin,
+    file_and_argv_zero,
+    search_path_from_envp,
+    cloexec_pipes,
+
+    pub fn parse(self: SpawnFlags) GSpawnFlags {
+        return switch (self) {
+            .default => G_SPAWN_DEFAULT,
+            .leave_descriptors_open => G_SPAWN_LEAVE_DESCRIPTORS_OPEN,
+            .do_not_reap_child => G_SPAWN_DO_NOT_REAP_CHILD,
+            .search_path => G_SPAWN_SEARCH_PATH,
+            .stdout_to_dev_null => G_SPAWN_STDOUT_TO_DEV_NULL,
+            .stderr_to_dev_null => G_SPAWN_STDERR_TO_DEV_NULL,
+            .child_inherits_stdin => G_SPAWN_CHILD_INHERITS_STDIN,
+            .file_and_argv_zero => G_SPAWN_FILE_AND_ARGV_ZERO,
+            .search_path_from_envp => G_SPAWN_SEARCH_PATH_FROM_ENVP,
+            .cloexec_pipes => G_SPAWN_CLOEXEC_PIPES,
+        };
+    }
+};

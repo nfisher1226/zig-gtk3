@@ -30,8 +30,7 @@ pub const MenuItem = struct {
     }
 
     pub fn get_label(self: MenuItem, allocator: *mem.Allocator) ?[:0]const u8 {
-        const val = gtk_menu_item_get_label(self.ptr);
-        if (val) |v| {
+        if (gtk_menu_item_get_label(self.ptr)) |v| {
             const len = mem.len(v);
             return fmt.allocPrintZ(allocator, "{s}", .{v[0..len]}) catch {
                 return null;
@@ -44,7 +43,7 @@ pub const MenuItem = struct {
     }
 
     pub fn get_use_underline(self: MenuItem) bool {
-        return if (gtk_menu_item_get_use_underline(self.ptr) == 1) true else false;
+        return (gtk_menu_item_get_use_underline(self.ptr) == 1);
     }
 
     pub fn set_use_underline(self: MenuItem, use: bool) void {
@@ -68,8 +67,7 @@ pub const MenuItem = struct {
     }
 
     pub fn get_accel_path(self: MenuItem, allocator: *mem.Allocator) ?[:0]const u8 {
-        const val = gtk_menu_item_get_accel_path(self.ptr);
-        if (val) |v| {
+        if (gtk_menu_item_get_accel_path(self.ptr)) |v| {
             const len = mem.len(v);
             return fmt.allocPrintZ(allocator, "{s}", .{v[0..len]}) catch {
                 return null;
@@ -78,7 +76,7 @@ pub const MenuItem = struct {
     }
 
     pub fn get_reserve_indicator(self: MenuItem) bool {
-        return if (gtk_menu_item_get_reserve_indicator(self.ptr) == 1) true else false;
+        return (gtk_menu_item_get_reserve_indicator(self.ptr) == 1);
     }
 
     pub fn as_container(self: MenuItem) Container {

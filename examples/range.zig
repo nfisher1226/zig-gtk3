@@ -7,7 +7,7 @@ var scale0: gtk.Scale = undefined;
 var scale1: gtk.Scale = undefined;
 
 pub fn main() !void {
-    const app = c.gtk_application_new("org.gtk.range-example", .G_APPLICATION_FLAGS_NONE) orelse @panic("null app :(");
+    const app = c.gtk_application_new("org.gtk.range-example", c.G_APPLICATION_FLAGS_NONE) orelse @panic("null app :(");
     defer c.g_object_unref(app);
 
     // Call the C function directly to connect our "activate" signal
@@ -17,7 +17,7 @@ pub fn main() !void {
         @ptrCast(c.GCallback, activate),
         null,
         null,
-        gtk.connect_after,
+        c.G_CONNECT_AFTER,
     );
     _ = c.g_application_run(@ptrCast(*c.GApplication, app), 0, null);
 }

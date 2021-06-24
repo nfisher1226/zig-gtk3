@@ -38,17 +38,16 @@ pub const Scale = struct {
         };
     }
 
-    pub fn get_digits(self: Scale) i64 {
-        return @as(i64, gtk_scale_get_digits(self.ptr));
+    pub fn get_digits(self: Scale) c_int {
+        return gtk_scale_get_digits(self.ptr);
     }
 
-    pub fn set_digits(self: Scale, digits: i64) void {
-        gtk_scale_set_digits(self.ptr, @as(c_int, digits));
+    pub fn set_digits(self: Scale, digits: c_int) void {
+        gtk_scale_set_digits(self.ptr, digits);
     }
 
     pub fn get_draw_value(self: Scale) bool {
-        const ret = if (gtk_scale_get_draw_value(self.ptr) == 1) true else false;
-        return ret;
+        return if (gtk_scale_get_draw_value(self.ptr) == 1) true else false;
     }
 
     pub fn set_draw_value(self: Scale, draw: bool) void {
@@ -56,8 +55,7 @@ pub const Scale = struct {
     }
 
     pub fn get_has_origin(self: Scale) bool {
-        const ret = if (gtk_scale_get_has_origin(self.ptr) == 1) true else false;
-        return ret;
+        return if (gtk_scale_get_has_origin(self.ptr) == 1) true else false;
     }
 
     pub fn set_has_origin(self: Scale, origin: bool) void {
@@ -67,10 +65,10 @@ pub const Scale = struct {
     pub fn get_value_pos(self: Scale) PositionType {
         const val = gtk_scale_get_value_pos(self.scale);
         switch (val) {
-            pos_left => return .left,
-            pos_right => return .right,
-            pos_top => return .top,
-            pos_bottom => return .bottom,
+            GTK_POS_LEFT => return .left,
+            GTK_POS_RIGHT => return .right,
+            GTK_POS_TOP => return .top,
+            GTK_POS_BOTTOM => return .bottom,
             else => unreachable,
         }
     }
@@ -80,11 +78,7 @@ pub const Scale = struct {
     }
 
     pub fn add_mark(self: Scale, value: f64, pos: PositionType, markup: ?[:0]const u8) void {
-        if (markup) |t| {
-            gtk_scale_add_mark(self.ptr, value, pos.parse(), t);
-        } else {
-            gtk_scale_add_mark(self.ptr, value, pos.parse(), null);
-        }
+        gtk_scale_add_mark(self.ptr, value, pos.parse(), if (markup) |t| t else null);
     }
 
     pub fn clear_marks(self: Scale) void {
@@ -108,14 +102,18 @@ pub const Scale = struct {
             .ptr = @ptrCast(*GtkWidget, self.ptr),
         };
     }
+
+    pub fn is_instance(gtype: u64) bool {
+        return (gtype == gtk_scale_get_type());
+    }
 };
 
 pub const SpinButton = struct {
     ptr: *GtkSpinButton,
 
-    pub fn new(adjustment: Adjustment, climb_rate: f64, digits: u32) SpinButton {
+    pub fn new(adjustment: Adjustment, climb_rate: f64, digits: c_uint) SpinButton {
         return SpinButton {
-            .ptr = @ptrCast(*GtkSpinButton, gtk_spin_button_new(adjustment.ptr, climb_rate, @as(c_uint, digits))),
+            .ptr = @ptrCast(*GtkSpinButton, gtk_spin_button_new(adjustment.ptr, climb_rate, digits)),
         };
     }
 
@@ -129,5 +127,9 @@ pub const SpinButton = struct {
         return Widget {
             .ptr = @ptrCast(*GtkWidget, self.ptr),
         };
+    }
+
+    pub fn is_instance(gtype: u64) bool {
+        return (gtype == gtk_spin_button_get_type());
     }
 };

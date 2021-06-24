@@ -37,7 +37,7 @@ const Widgets = struct {
 };
 
 pub fn main() !void {
-    const app = c.gtk_application_new("org.gtk.example", .G_APPLICATION_FLAGS_NONE) orelse @panic("null app :(");
+    const app = c.gtk_application_new("org.gtk.example", c.G_APPLICATION_FLAGS_NONE) orelse @panic("null app :(");
     defer c.g_object_unref(app);
 
     _ = c.g_signal_connect_data(
@@ -46,7 +46,7 @@ pub fn main() !void {
         @ptrCast(c.GCallback, activate),
         null,
         null,
-        gtk.connect_after,
+        c.G_CONNECT_AFTER,
     );
     _ = c.g_application_run(@ptrCast(*c.GApplication, app), 0, null);
 }

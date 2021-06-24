@@ -14,8 +14,8 @@ pub const Orientable = struct {
     pub fn get_orientation(self: Orientable) Orientation {
         const orientation = gtk_orientable_get_orientation(self.ptr);
         switch (orientation) {
-            orientation_horizontal => return .horizontal,
-            orientation_vertical => return .vertical,
+            GTK_ORIENTATION_HORIZONTAL => return .horizontal,
+            GTK_ORIENTATION_VERTICAL => return .vertical,
             else => unreachable,
         }
     }

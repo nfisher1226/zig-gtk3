@@ -40,33 +40,20 @@ pub fn builder_get_adjustment(builder: *GtkBuilder, name: [*]const u8) ?*GtkAdju
 
 /// Convenience function which returns a proper bool instead of 0 or 1
 pub fn toggle_button_get_active(but: *GtkToggleButton) bool {
-    if (gtk_toggle_button_get_active(but) == 0) {
-        return false;
-    } else {
-        return true;
-    }
+    return (gtk_toggle_button_get_active(but) == 1);
 }
 
 /// Convenience function which takes a proper bool instead of 0 or 1
 pub fn widget_set_sensitive(widget: *GtkWidget, state: bool) void {
-    if (state) {
-        gtk_widget_set_sensitive(widget, 1);
-    } else {
-        gtk_widget_set_sensitive(widget, 0);
-    }
+    gtk_widget_set_sensitive(widget, bool_to_c_int(state));
 }
 
 /// Convenience function which takes a prope bool instead of 0 or 1
 pub fn widget_set_visible(widget: *GtkWidget, state: bool) void {
-    if (state) {
-        gtk_widget_set_visible(widget, 1);
-    } else {
-        gtk_widget_set_visible(widget, 0);
-    }
+    gtk_widget_set_visible(widget, bool_to_c_int(state));
 }
 
 /// Convenience function which takes a bool and returns a c_int
 pub fn bool_to_c_int(boolean: bool) c_int {
-    const val: c_int = if (boolean) 1 else 0;
-    return val;
+    return if (boolean) 1 else 0;
 }

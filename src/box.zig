@@ -8,10 +8,9 @@ usingnamespace @import("widget.zig");
 pub const Box = struct {
     ptr: *GtkBox,
 
-    pub fn new(orientation: Orientation, spacing: u8) Box {
-        const gtk_orientation = orientation.parse();
+    pub fn new(orientation: Orientation, spacing: c_int) Box {
         return Box{
-            .ptr = @ptrCast(*GtkBox, gtk_box_new(gtk_orientation, @as(c_int, spacing))),
+            .ptr = @ptrCast(*GtkBox, gtk_box_new(orientation.parse(), spacing)),
         };
     }
 

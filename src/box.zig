@@ -22,6 +22,14 @@ pub const Box = struct {
         gtk_box_pack_end(self.ptr, widget.ptr, bool_to_c_int(expand), bool_to_c_int(fill), padding);
     }
 
+    pub fn get_homogeneous(self: Box) bool {
+        return (gtk_box_get_homogeneous(self.ptr) == 1);
+    }
+
+    pub fn set_homogeneous(self: Box, hom: bool) void {
+        gtk_box_set_homeogeneous(self.ptr, bool_to_c_int(hom));
+    }
+
     pub fn as_orientable(self: Box) Orientable {
         return Orientable{
             .ptr = @ptrCast(*GtkOrientable, self.ptr),

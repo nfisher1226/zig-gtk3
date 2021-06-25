@@ -17,9 +17,13 @@ pub const Range = struct {
     }
 
     pub fn as_widget(self: Range) Widget {
-        return Widget {
+        return Widget{
             .ptr = @ptrCast(*GtkWidget, self.ptr),
         };
+    }
+
+    pub fn is_instance(gtype: u64) bool {
+        return (gtype == gtk_range_get_type() or Scale.is_instance(gtype) or SpinButton.is_instance(gtype));
     }
 };
 
@@ -27,13 +31,13 @@ pub const Scale = struct {
     ptr: *GtkScale,
 
     pub fn new(orientation: Orientation, adjustment: Adjustment) Scale {
-        return Scale {
+        return Scale{
             .ptr = @ptrCast(*GtkScale, gtk_scale_new(orientation.parse(), adjustment.ptr)),
         };
     }
 
     pub fn new_with_range(orientation: Orientation, min: f64, max: f64, step: f64) Scale {
-        return Scale {
+        return Scale{
             .ptr = @ptrCast(*GtkScale, gtk_scale_new_with_range(orientation.parse(), min, max, step)),
         };
     }
@@ -86,19 +90,19 @@ pub const Scale = struct {
     }
 
     pub fn as_orientable(self: Scale) Orientable {
-        return Orientable {
+        return Orientable{
             .ptr = @ptrCast(*GtkOrientable, self.ptr),
         };
     }
 
     pub fn as_range(self: Scale) Range {
-        return Range {
+        return Range{
             .ptr = @ptrCast(*GtkRange, self.ptr),
         };
     }
 
     pub fn as_widget(self: Scale) Widget {
-        return Widget {
+        return Widget{
             .ptr = @ptrCast(*GtkWidget, self.ptr),
         };
     }
@@ -112,19 +116,19 @@ pub const SpinButton = struct {
     ptr: *GtkSpinButton,
 
     pub fn new(adjustment: Adjustment, climb_rate: f64, digits: c_uint) SpinButton {
-        return SpinButton {
+        return SpinButton{
             .ptr = @ptrCast(*GtkSpinButton, gtk_spin_button_new(adjustment.ptr, climb_rate, digits)),
         };
     }
 
     pub fn as_range(self: SpinButton) Range {
-        return Range {
+        return Range{
             .ptr = @ptrCast(*GtkRange, self.ptr),
         };
     }
 
     pub fn as_widget(self: SpinButton) Widget {
-        return Widget {
+        return Widget{
             .ptr = @ptrCast(*GtkWidget, self.ptr),
         };
     }

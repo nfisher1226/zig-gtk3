@@ -8,25 +8,25 @@ pub const ApplicationWindow = struct {
     ptr: *GtkApplicationWindow,
 
     pub fn new(app: *GtkApplication) ApplicationWindow {
-        return ApplicationWindow {
+        return ApplicationWindow{
             .ptr = @ptrCast(*GtkApplicationWindow, gtk_application_window_new(app)),
         };
     }
 
     pub fn as_window(self: ApplicationWindow) Window {
-        return Window {
+        return Window{
             .ptr = @ptrCast(*GtkWindow, self.ptr),
         };
     }
 
     pub fn as_container(self: ApplicationWindow) Container {
-        return Container {
+        return Container{
             .ptr = @ptrCast(*GtkContainer, self.ptr),
         };
     }
 
     pub fn as_widget(self: ApplicationWindow) Widget {
-        return Widget {
+        return Widget{
             .ptr = @ptrCast(*GtkWidget, self.ptr),
         };
     }
@@ -40,7 +40,7 @@ pub const Window = struct {
     ptr: *GtkWindow,
 
     pub fn new(window_type: WindowType) Window {
-        return Window {
+        return Window{
             .ptr = @ptrCast(*GtkWindow, gtk_window_new(window_type.parse())),
         };
     }
@@ -59,21 +59,18 @@ pub const Window = struct {
     }
 
     pub fn as_container(self: Window) Container {
-        return Container {
+        return Container{
             .ptr = @ptrCast(*GtkContainer, self.ptr),
         };
     }
 
     pub fn as_widget(self: Window) Widget {
-        return Widget {
+        return Widget{
             .ptr = @ptrCast(*GtkWidget, self.ptr),
         };
     }
 
     pub fn is_instance(gtype: u64) bool {
-        return (
-            gtype == gtk_window_get_type()
-            or ApplicationWindow.is_instance(gtype)
-        );
+        return (gtype == gtk_window_get_type() or ApplicationWindow.is_instance(gtype));
     }
 };

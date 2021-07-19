@@ -3,11 +3,11 @@ usingnamespace @import("convenience.zig");
 usingnamespace @import("widget.zig");
 
 pub const Switch = struct {
-    ptr = *GtkSwitch,
+    ptr: *GtkSwitch,
 
     // Creates a new Switch
     pub fn new() Switch {
-        return Switch {
+        return Switch{
             .ptr = gtk_switch_new(),
         };
     }
@@ -27,7 +27,7 @@ pub const Switch = struct {
     }
 
     pub fn as_widget(self: Switch) Widget {
-        return Widget {
+        return Widget{
             .ptr = @ptrCast(*GtkWidget, self.ptr),
         };
     }

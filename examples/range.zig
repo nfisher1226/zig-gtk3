@@ -23,7 +23,7 @@ pub fn main() !void {
 }
 
 // Whatever we connect to the "activate" signal in main() actually builds and runs our application window
-fn activate(app: *c.GtkApplication, data: c.gpointer) void {
+fn activate(app: *c.GtkApplication) void {
     // Create an ApplicationWindow using our *GtkApplication pointer, which we then use as a window
     // in order to inherit the Window methods
     const window = gtk.ApplicationWindow.new(app).as_window();
@@ -88,7 +88,7 @@ fn activate(app: *c.GtkApplication, data: c.gpointer) void {
     window.as_widget().show_all();
 }
 
-fn change_orientation(button: *c.GtkButton, data: c.gpointer) void {
+fn change_orientation() void {
     const orientable = scale1.as_orientable();
     const orientation = orientable.get_orientation();
     switch (orientation) {
@@ -103,13 +103,13 @@ fn change_orientation(button: *c.GtkButton, data: c.gpointer) void {
     }
 }
 
-fn add_mark(button: *c.GtkButton, data: c.gpointer) void {
+fn add_mark() void {
     const val = scale1.as_range().get_value();
     const text = fmt.allocPrintZ(allocator, "{d}", .{val}) catch return;
     defer allocator.free(text);
     scale1.add_mark(val, .top, text);
 }
 
-fn clear_marks(but: *c.GtkButton, data: c.gpointer) void {
+fn clear_marks() void {
     scale1.clear_marks();
 }

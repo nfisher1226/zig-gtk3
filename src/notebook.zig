@@ -1,3 +1,4 @@
+usingnamespace @import("cimport.zig");
 usingnamespace @import("convenience.zig");
 usingnamespace @import("enums.zig");
 usingnamespace @import("widget.zig");
@@ -16,35 +17,35 @@ pub const Notebook = struct {
     }
 
     pub fn append_page(self: Notebook, child: Widget, label: Widget) void {
-        gtk_notebook_append_page(self.ptr, child.ptr, label.ptr);
+        _ = gtk_notebook_append_page(self.ptr, child.ptr, label.ptr);
     }
 
     pub fn append_page_menu(self: Notebook, child: Widget, tab_label: Widget, menu_label: Widget) void {
-        gtk_notebook_append_page_menu(self.ptr, child.ptr, tab_label.ptr, menu_label.ptr);
+        _ = gtk_notebook_append_page_menu(self.ptr, child.ptr, tab_label.ptr, menu_label.ptr);
     }
 
     pub fn prepend_page(self: Notebook, child: Widget, label: Widget) void {
-        gtk_notebook_prepend_page(self.ptr, child.ptr, label.ptr);
+        _ = gtk_notebook_prepend_page(self.ptr, child.ptr, label.ptr);
     }
 
     pub fn prepend_page_menu(self: Notebook, child: Widget, tab_label: Widget, menu_label: Widget) void {
-        gtk_notebook_prepend_page_menu(self.ptr, child.ptr, tab_label.ptr, menu_label.ptr);
+        _ = gtk_notebook_prepend_page_menu(self.ptr, child.ptr, tab_label.ptr, menu_label.ptr);
     }
 
     pub fn insert_page(self: Notebook, child: Widget, label: Widget, pos: c_int) void {
-        gtk_notebook_insert_page(self.ptr, child.ptr, label.ptr, pos);
+        _ = gtk_notebook_insert_page(self.ptr, child.ptr, label.ptr, pos);
     }
 
     pub fn inset_page_menu(self: Notebook, child: Widget, tab_label: Widget, menu_label: Widget) void {
-        gtk_notebook_insert_page_menu(self.ptr, child.ptr, tab_label.ptr, menu_label.ptr);
+        _ = gtk_notebook_insert_page_menu(self.ptr, child.ptr, tab_label.ptr, menu_label.ptr);
     }
 
     pub fn remove_page(self: Notebook, pnum: c_int) void {
-        gtk_notebook_remove_page(self.ptr, pnum);
+        _ = gtk_notebook_remove_page(self.ptr, pnum);
     }
 
     pub fn detach_tab(self: Notebook, child: Widget) void {
-        gtk_notebook_detach_tab(self.ptr, child.ptr);
+        _ = gtk_notebook_detach_tab(self.ptr, child.ptr);
     }
 
     pub fn page_num(self: Notebook, child: Widget) ?c_int {
@@ -60,7 +61,7 @@ pub const Notebook = struct {
         gtk_notebook_prev_page(self.ptr);
     }
 
-    pub fn reorder_child(self.notebook, child: Widget, pos: c_int) void {
+    pub fn reorder_child(self: Notebook, child: Widget, pos: c_int) void {
         gtk_notebook_reorder_child(self.ptr, child.ptr, pos);
     }
 
@@ -160,7 +161,7 @@ pub const Notebook = struct {
         return (gtk_notebook_get_show_tabs(self.ptr) == 1);
     }
 
-    pub fn get_tab_label_text(self, Notebook, allocator: *mem.Allocator, child: Widget) ?[:0]const u8 {
+    pub fn get_tab_label_text(self: Notebook, allocator: *mem.Allocator, child: Widget) ?[:0]const u8 {
         if (gtk_notebook_get_tab_label_text(self.ptr, child.ptr)) |v| {
             const len = mem.len(v);
             const text = fmt.allocPrintZ(allocator, "{s}", .{v[0..len]}) catch {
@@ -213,6 +214,18 @@ pub const Notebook = struct {
         return if (gtk_notebook_get_action_widget(self.ptr, widget.ptr, packtype.parse())) |v| Widget{ .ptr = v } else null;
     }
 
+    pub fn connect_page_added(self: Notebook, callback: GCallback, data: ?gpointer) void {
+        self.as_widget().connect("page-added", callback, if (data) |d| d else null);
+    }
+
+    pub fn connect_page_removed(self: Notebook, callback: GCallback, data: ?gpointer) void {
+        self.as_widget().connect("page-removed", callback, if (data) |d| d else null);
+    }
+
+    pub fn connect_select_page(self: Notebook, callback: GCallback, data: ?gpointer) void {
+        self.as_widget().connect("select-page", callback, if (data) |d| d else null);
+    }
+
     pub fn as_container(self: Notebook) Container {
         return Container{
             .ptr = @ptrCast(*GtkContainer, self.ptr),
@@ -225,7 +238,7 @@ pub const Notebook = struct {
         };
     }
 
-    pub fn is_instance(gtype: f64) bool {
+    pub fn is_instance(gtype: u64) bool {
         return (gtype == gtk_notebook_get_type());
     }
 };

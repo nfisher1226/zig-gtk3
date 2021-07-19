@@ -4,7 +4,7 @@ usingnamespace @import("convenience.zig");
 usingnamespace @import("enums.zig");
 usingnamespace @import("widget.zig");
 
-const std = @cImport("std");
+const std = @import("std");
 const fmt = std.fmt;
 const mem = std.mem;
 
@@ -50,10 +50,6 @@ pub const MenuItem = struct {
         gtk_menu_item_set_use_underline(self.ptr, bool_to_c_int(use));
     }
 
-    pub fn get_submenu(self: MenuItem) ?Widget {
-        return if (gtk_menu_item_get_submenu(self.ptr)) |w| Widget{ .ptr = w } else null;
-    }
-
     pub fn set_submenu(self: MenuItem, widget: Widget) void {
         gtk_menu_item_set_submenu(self.ptr, widget.ptr);
     }
@@ -77,6 +73,10 @@ pub const MenuItem = struct {
 
     pub fn get_reserve_indicator(self: MenuItem) bool {
         return (gtk_menu_item_get_reserve_indicator(self.ptr) == 1);
+    }
+
+    pub fn connect_activate(self: MenuItem, callback: GCallback, data: ?gpointer) void {
+        self.as_widget().connect("activate", callback, if (data) |d| d else null);
     }
 
     pub fn as_container(self: MenuItem) Container {

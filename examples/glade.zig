@@ -16,9 +16,8 @@ pub fn main() !void {
     _ = c.g_application_run(@ptrCast(*c.GApplication, app), 0, null);
 }
 
-fn activate(app: *c.GtkApplication, data: c.gpointer) void {
+fn activate(app: *c.GtkApplication) void {
     const builder = gtk.Builder.new();
-    const glade_str = @embedFile("example.glade");
     builder.add_from_string(@embedFile("example.glade")) catch |e| {
         std.debug.print("{s}\n", .{e});
         return;

@@ -4,6 +4,7 @@ pub usingnamespace @import("builder.zig");
 pub usingnamespace @import("button.zig");
 pub usingnamespace @import("container.zig");
 pub usingnamespace @import("convenience.zig");
+pub usingnamespace @import("entry.zig");
 pub usingnamespace @import("enums.zig");
 pub usingnamespace @import("label.zig");
 pub usingnamespace @import("notebook.zig");

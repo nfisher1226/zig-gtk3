@@ -27,7 +27,7 @@ pub const Box = struct {
     }
 
     pub fn set_homogeneous(self: Box, hom: bool) void {
-        gtk_box_set_homeogeneous(self.ptr, bool_to_c_int(hom));
+        gtk_box_set_homogeneous(self.ptr, bool_to_c_int(hom));
     }
 
     pub fn as_orientable(self: Box) Orientable {

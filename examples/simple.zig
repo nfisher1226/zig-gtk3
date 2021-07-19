@@ -18,7 +18,7 @@ pub fn main() !void {
 }
 
 // Whatever we connect to the "activate" signal in main() actually builds and runs our application window
-fn activate(app: *c.GtkApplication, data: c.gpointer) void {
+fn activate(app: *c.GtkApplication) void {
     // Create an ApplicationWindow using our *GtkApplication pointer, which we then use as a window
     // in order to inherit the Window methods
     const window = gtk.ApplicationWindow.new(app).as_window();

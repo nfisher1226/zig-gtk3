@@ -12,7 +12,7 @@ const Widgets = struct {
     button: gtk.Button,
 
     fn init(app: *c.GtkApplication) Widgets {
-        return Widgets {
+        return Widgets{
             .window = gtk.ApplicationWindow.new(app),
             .label = gtk.Label.new("Off"),
             .button = gtk.Button.new_with_label("Click Me"),
@@ -51,7 +51,7 @@ pub fn main() !void {
     _ = c.g_application_run(@ptrCast(*c.GApplication, app), 0, null);
 }
 
-fn activate(app: *c.GtkApplication, data: c.gpointer) void {
+fn activate(app: *c.GtkApplication) void {
     widgets = Widgets.init(app);
     widgets.connect_signals();
     const box = gtk.Box.new(gtk.Orientation.vertical, 5);
@@ -64,6 +64,6 @@ fn activate(app: *c.GtkApplication, data: c.gpointer) void {
     widgets.window.as_widget().show_all();
 }
 
-fn button_callback(button: *c.GtkButton, data: c.gpointer) void {
+fn button_callback() void {
     widgets.toggle_label();
 }

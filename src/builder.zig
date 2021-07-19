@@ -6,7 +6,7 @@ usingnamespace @import("widget.zig");
 const std = @import("std");
 const mem = std.mem;
 
-const BuilderError = error {
+const BuilderError = error{
     ParseStringError,
     ParseFileError,
 };
@@ -15,7 +15,7 @@ pub const Builder = struct {
     ptr: *GtkBuilder,
 
     pub fn new() Builder {
-        return Builder {
+        return Builder{
             .ptr = gtk_builder_new(),
         };
     }
@@ -24,13 +24,13 @@ pub const Builder = struct {
         const len = mem.len(string);
         var ret = gtk_builder_add_from_string(self.ptr, string.ptr, len, @intToPtr([*c][*c]_GError, 0));
         if (ret == 0) {
-            return BuilderError.ParseStringError;
+            //return .ParseStringError;
         }
     }
 
     pub fn get_widget(self: Builder, string: [:0]const u8) ?Widget {
         if (builder_get_widget(self.ptr, string.ptr)) |w| {
-            return Widget {
+            return Widget{
                 .ptr = w,
             };
         } else return null;
@@ -38,7 +38,7 @@ pub const Builder = struct {
 
     pub fn get_adjustment(self: Builder, string: [:0]const u8) ?Adjustment {
         if (builder_get_adjustment(self.ptr, string.ptr)) |a| {
-            return Adjustment {
+            return Adjustment{
                 .ptr = a,
             };
         } else return null;

@@ -1,6 +1,7 @@
 usingnamespace @import("cimport.zig");
 usingnamespace @import("convenience.zig");
 usingnamespace @import("container.zig");
+usingnamespace @import("dialog.zig");
 usingnamespace @import("enums.zig");
 usingnamespace @import("widget.zig");
 
@@ -58,6 +59,10 @@ pub const Window = struct {
         gtk_window_set_decorated(self.ptr, val);
     }
 
+    pub fn close(self: Window) void {
+        gtk_window_close(self.ptr);
+    }
+
     pub fn as_container(self: Window) Container {
         return Container{
             .ptr = @ptrCast(*GtkContainer, self.ptr),
@@ -71,6 +76,6 @@ pub const Window = struct {
     }
 
     pub fn is_instance(gtype: u64) bool {
-        return (gtype == gtk_window_get_type() or ApplicationWindow.is_instance(gtype));
+        return (gtype == gtk_window_get_type() or ApplicationWindow.is_instance(gtype) or Dialog.is_instance(gtype));
     }
 };

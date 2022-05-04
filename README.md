@@ -1,41 +1,38 @@
 # zig-gtk3
-Originally part of Zterm, this has been forked off and expanded to add more
-convenience in using Gtk+ from [Zig](https://ziglang.org).
+This package contains some convenience functions and wrappers around the C api
+of both the Gtk+ and Vte libraries for developing Gui applications using Zig.
 
-## Basic syntax
+## Usage
+We track zig-master, so you will need the current master compiler. In your
+```build.zig``` file, add the package path:
 ```Zig
-usingnamespace @import("path_to_package/lib.zig");
-
-pub fn init_gui() void {
-    const label = gtk.Label.new("Hello, World!");
-    const vbox = gtk.Box.new(.horizontal, 3);
-    vbox.pack_start(label.as_widget(), true true, 2); 
-    const window = gtk.Window.new();
-    window.as_container().add(vbox.as_widget());
-    window.as_widget().show_all();
-}
+    const exe = b.addExecutable("exe-name", "path-to-source.zig");
+    exe.addPackagePath("zig-gtk3", "path/to/zig-gtk3/lib.zig");
+    exe.linkLibC();
+    exe.linkSystemLibrary("gtk+-3.0");
 ```
-## Conventions
-For the parts of Gtk+ that are currently implemented, each widget type
-is mapped to a Zig struct which includes the widget pointer as it's sole
-item. Gtk functions which act upon the widget will be mapped to methods
-upon this struct. For instance, `gtk_box_new()` maps to `gtk.Box.new()`
-going from C to Zig.
+The Gtk wrappers are namespaced to gtk, and the C functions to c.
+```Zig
+const GTK @import("zig-gtk3");
+const c = GTK.c;
+const gtk = GTK.gtk;
+const std = @import("std");
 
-We try to map C boolean types to actual Zig booleans wherever possible
-in both function parameters and return types.
+const Gui = struct {
+    window: gtk.Window,
 
-Gtk+ often uses optional parameters, where a value can be given as null
-or a return value might be null. These are mapped to Zig's optional
-types, ie `?value`.
+    fn init(app: *c.GtkApplication) Gui {
+...
+```
+There are a number of examples in the "examples" subdirectory which can be built
+with by running `zig build` in this directory.
 
-For many Gtk enum types, we provide equivalent Zig enums which will be
-mapped to the original Gtk enums for you. In the example above, when we
-create the `vbox` widget, `.horizontal` is a member of the Zig enum
-`Orientation`, and will be converted to
-`GtkOrientation.GTK_ORIENTATION_HORIZONTAL`.
+## Rationale
+It is entirely possible to call C functions directly from Zig. However, Zig's
+translate-c function, which is used to import C code into Zig, is still somewhat
+immature and tends to fail with heavily macro dependent code. This happens for
+certain parts of Gtk+ that make working around it quite difficult.
 
-Each widget type that is implemented will have the following functions:
- * `as_widget()` - casts the pointer to a GtkWidget and returns a Widget struct
- * `is_instance()` - returns whether the given Widget is a valid instance of this type
- * `as_[some_other_type]` - intermediate classes between this type and the base Widget type
+Additionally, the C Api to Gtk (and Vte), due to limitations of the language, can
+be incredibly verbose as well as quite clumsy at times. A better Api is both
+possible and desireable in a language such as Zig.

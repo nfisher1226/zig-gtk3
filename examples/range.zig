@@ -1,13 +1,15 @@
 const std = @import("std");
 const allocator = std.heap.page_allocator;
 const fmt = std.fmt;
-usingnamespace @import("gtk");
+const GTK = @import("gtk");
+const gtk = GTK.gtk;
+const c = GTK.c;
 
 var scale0: gtk.Scale = undefined;
 var scale1: gtk.Scale = undefined;
 
 pub fn main() !void {
-    const app = c.gtk_application_new("org.gtk.range-example", .G_APPLICATION_FLAGS_NONE) orelse @panic("null app :(");
+    const app = c.gtk_application_new("org.gtk.range-example", c.G_APPLICATION_FLAGS_NONE) orelse @panic("null app :(");
     defer c.g_object_unref(app);
 
     // Call the C function directly to connect our "activate" signal
@@ -17,13 +19,13 @@ pub fn main() !void {
         @ptrCast(c.GCallback, activate),
         null,
         null,
-        gtk.connect_after,
+        c.G_CONNECT_AFTER,
     );
     _ = c.g_application_run(@ptrCast(*c.GApplication, app), 0, null);
 }
 
 // Whatever we connect to the "activate" signal in main() actually builds and runs our application window
-fn activate(app: *c.GtkApplication, data: c.gpointer) void {
+fn activate(app: *c.GtkApplication) void {
     // Create an ApplicationWindow using our *GtkApplication pointer, which we then use as a window
     // in order to inherit the Window methods
     const window = gtk.ApplicationWindow.new(app).as_window();
@@ -88,7 +90,7 @@ fn activate(app: *c.GtkApplication, data: c.gpointer) void {
     window.as_widget().show_all();
 }
 
-fn change_orientation(button: *c.GtkButton, data: c.gpointer) void {
+fn change_orientation() void {
     const orientable = scale1.as_orientable();
     const orientation = orientable.get_orientation();
     switch (orientation) {
@@ -103,13 +105,13 @@ fn change_orientation(button: *c.GtkButton, data: c.gpointer) void {
     }
 }
 
-fn add_mark(button: *c.GtkButton, data: c.gpointer) void {
+fn add_mark() void {
     const val = scale1.as_range().get_value();
     const text = fmt.allocPrintZ(allocator, "{d}", .{val}) catch return;
     defer allocator.free(text);
     scale1.add_mark(val, .top, text);
 }
 
-fn clear_marks(but: *c.GtkButton, data: c.gpointer) void {
+fn clear_marks() void {
     scale1.clear_marks();
 }

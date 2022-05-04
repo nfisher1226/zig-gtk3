@@ -1,5 +1,7 @@
 const std = @import("std");
-usingnamespace @import("gtk");
+const GTK = @import("gtk");
+const c = GTK.c;
+const gtk = GTK.gtk;
 const allocator = std.heap.page_allocator;
 const fmt = std.fmt;
 const mem = std.mem;
@@ -12,7 +14,7 @@ const Widgets = struct {
     button: gtk.Button,
 
     fn init(app: *c.GtkApplication) Widgets {
-        return Widgets {
+        return Widgets{
             .window = gtk.ApplicationWindow.new(app),
             .label = gtk.Label.new("Off"),
             .button = gtk.Button.new_with_label("Click Me"),
@@ -37,7 +39,7 @@ const Widgets = struct {
 };
 
 pub fn main() !void {
-    const app = c.gtk_application_new("org.gtk.example", .G_APPLICATION_FLAGS_NONE) orelse @panic("null app :(");
+    const app = c.gtk_application_new("org.gtk.example", c.G_APPLICATION_FLAGS_NONE) orelse @panic("null app :(");
     defer c.g_object_unref(app);
 
     _ = c.g_signal_connect_data(
@@ -46,12 +48,12 @@ pub fn main() !void {
         @ptrCast(c.GCallback, activate),
         null,
         null,
-        gtk.connect_after,
+        c.G_CONNECT_AFTER,
     );
     _ = c.g_application_run(@ptrCast(*c.GApplication, app), 0, null);
 }
 
-fn activate(app: *c.GtkApplication, data: c.gpointer) void {
+fn activate(app: *c.GtkApplication) void {
     widgets = Widgets.init(app);
     widgets.connect_signals();
     const box = gtk.Box.new(gtk.Orientation.vertical, 5);
@@ -64,6 +66,6 @@ fn activate(app: *c.GtkApplication, data: c.gpointer) void {
     widgets.window.as_widget().show_all();
 }
 
-fn button_callback(button: *c.GtkButton, data: c.gpointer) void {
+fn button_callback() void {
     widgets.toggle_label();
 }

@@ -1,7 +1,9 @@
 const c = @import("cimport.zig");
-const com = @import("common.zig");
 const enums = @import("enums.zig");
 const BaselinePosition = enums.BaselinePosition;
+const Buildable = @import("buildable.zig").Buildable;
+const Container = @import("container.zig").Container;
+const Orientable = @import("orientable.zig").Orientable;
 const PositionType = enums.PositionType;
 const Widget = @import("widget.zig").Widget;
 
@@ -56,7 +58,7 @@ pub const Grid = struct {
     }
 
     pub fn set_row_homogeneous(self: Self, hom: bool) void {
-        c.gtk_grid_set_row_homogeneous(self.ptr, com.bool_to_c_int(hom));
+        c.gtk_grid_set_row_homogeneous(self.ptr, if (hom) 1 else 0);
     }
 
     pub fn get_row_homogeneous(self: Self) bool {
@@ -72,7 +74,7 @@ pub const Grid = struct {
     }
 
     pub fn set_column_homogeneous(self: Self, hom: bool) void {
-        c.gtk_grid_set_column_homogeneous(self.ptr, com.bool_to_c_int(hom));
+        c.gtk_grid_set_column_homogeneous(self.ptr, if (hom) 1 else 0);
     }
 
     pub fn get_column_homogeneous(self: Self) bool {
@@ -103,6 +105,24 @@ pub const Grid = struct {
         c.gtk_grid_set_row_baseline_position(self.ptr, row, @enumToInt(pos));
     }
 
+    pub fn as_buildable(self: Self) Buildable {
+        return Buildable{
+            .ptr = @ptrCast(*c.GtkBuildable, self.ptr),
+        };
+    }
+
+    pub fn as_container(self: Self) Container {
+        return Container{
+            .ptr = @ptrCast(*c.GtkContainer, self.ptr),
+        };
+    }
+
+    pub fn as_orientable(self: Self) Orientable {
+        return Orientable{
+            .ptr = @ptrCast(*c.GtkOrientable, self.ptr),
+        };
+    }
+
     pub fn as_widget(self: Self) Widget {
         return Widget{
             .ptr = @ptrCast(*c.GtkWidget, self.ptr),
@@ -111,5 +131,11 @@ pub const Grid = struct {
 
     pub fn is_instance(gtype: u64) bool {
         return (gtype == c.gtk_grid_get_type());
+    }
+
+    pub fn to_grid(self: Self) ?Grid {
+        return if (self.isa(Grid)) Grid{
+            .ptr = @ptrCast(*c.GtkGrid, self.ptr),
+        } else null;
     }
 };

@@ -60,6 +60,12 @@ pub const Dialog = struct {
         } else null;
     }
 
+    pub fn to_fontchooser_dialog(self: Self) ?FontChooserDialog {
+        return if (self.isa(FontChooserDialog)) FontChooserDialog{
+            .ptr = @ptrCast(*c.GtkFontChooserDialog, self.ptr),
+        } else null;
+    }
+
     pub fn to_message_dialog(self: Self) ?MessageDialog {
         return if (self.isa(MessageDialog)) MessageDialog{
             .ptr = @ptrCast(*c.GtkMessageDialog, self.ptr),

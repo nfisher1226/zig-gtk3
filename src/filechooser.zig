@@ -300,6 +300,28 @@ pub const FileChooser = struct {
     pub fn is_instance(gtype: u64) bool {
         return (gtype == c.gtk_file_chooser_get_type() or FileChooserButton.is_instance(gtype) or FileChooserWidget.is_instance(gtype) or FileChooserDialog.is_instance(gtype));
     }
+
+    pub fn isa(self: Self, comptime T: type) bool {
+        return T.is_instance(self.get_g_type());
+    }
+
+    pub fn to_filechooser_button(self: Self) ?FileChooserButton {
+        return if (self.isa(FileChooserButton)) FileChooserButton{
+            .ptr = @ptrCast(*c.GtkFileChooserButton, self.ptr),
+        } else null;
+    }
+
+    pub fn to_filechooser_dialog(self: Self) ?FileChooserDialog {
+        return if (self.isa(FileChooserDialog)) FileChooserDialog{
+            .ptr = @ptrCast(*c.GtkFileChooserDialog, self.ptr),
+        } else null;
+    }
+
+    pub fn to_filechooser_widget(self: Self) ?FileChooserWidget {
+        return if (self.isa(FileChooserWidget)) FileChooserWidget{
+            .ptr = @ptrCast(*c.GtkFileChooserWidget, self.ptr),
+        } else null;
+    }
 };
 
 pub const FileChooserButton = struct {

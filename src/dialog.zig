@@ -1,6 +1,7 @@
 const c = @import("cimport.zig");
 const ColorChooserDialog = @import("colorchooser.zig").ColorChooserDialog;
 const Container = @import("container.zig").Container;
+const FileChooserDialog = @import("filechooser.zig").FileChooserDialog;
 const FontChooserDialog = @import("fontchooser.zig").FontChooserDialog;
 const License = @import("enums.zig").License;
 const Widget = @import("widget.zig").Widget;
@@ -35,6 +36,34 @@ pub const Dialog = struct {
 
     pub fn is_instance(gtype: u64) bool {
         return (gtype == c.gtk_dialog_get_type() or AboutDialog.is_instance(gtype) or ColorChooserDialog.is_instance(gtype) or FontChooserDialog.is_instance(gtype) or MessageDialog.is_instance(gtype));
+    }
+
+    pub fn isa(self: Self, comptime T: type) bool {
+        return T.is_instance(self.get_g_type());
+    }
+
+    pub fn to_about_dialog(self: Self) ?AboutDialog {
+        return if (self.isa(AboutDialog)) AboutDialog{
+            .ptr = @ptrCast(*c.GtkAboutDialog, self.ptr),
+        } else null;
+    }
+
+    pub fn to_colorchooser_dialog(self: Self) ?ColorChooserDialog {
+        return if (self.isa(ColorChooserDialog)) ColorChooserDialog{
+            .ptr = @ptrCast(*c.GtkColorChooserDialog, self.ptr),
+        } else null;
+    }
+
+    pub fn to_filechooser_dialog(self: Self) ?FileChooserDialog {
+        return if (self.isa(FileChooserDialog)) FileChooserDialog{
+            .ptr = @ptrCast(*c.GtkFileChooserDialog, self.ptr),
+        } else null;
+    }
+
+    pub fn to_message_dialog(self: Self) ?MessageDialog {
+        return if (self.isa(MessageDialog)) MessageDialog{
+            .ptr = @ptrCast(*c.GtkMessageDialog, self.ptr),
+        } else null;
     }
 };
 

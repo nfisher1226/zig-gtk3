@@ -25,12 +25,23 @@ const signal_connect = common.signal_connect;
 
 const Container = @import("container.zig").Container;
 
+const dialog = @import("dialog.zig");
+const Dialog = dialog.Dialog;
+const AboutDialog = dialog.AboutDialog;
+const MessageDialog = dialog.MessageDialog;
+
 const entry = @import("entry.zig");
 const Entry = entry.Entry;
 const EntryBuffer = entry.EntryBuffer;
 const EntryCompletion = entry.EntryCompletion;
 
 const Expander = @import("expander.zig").Expander;
+
+const filechooser = @import("filechooser.zig");
+const FileChooser = filechooser.FileChooser;
+const FileChooserButton = filechooser.FileChooserButton;
+const FileChooserDialog = filechooser.FileChooserDialog;
+const FileChooserWidget = filechooser.FileChooserWidget;
 
 const flowbox = @import("flowbox.zig");
 const FlowBox = flowbox.FlowBox;
@@ -194,92 +205,82 @@ pub const Widget = struct {
         return T.is_instance(self.get_g_type());
     }
 
+    pub fn to_about_dialog(self: Self) ?AboutDialog {
+        return if (self.isa(AboutDialog)) AboutDialog{
+            .ptr = @ptrCast(*c.GtkAboutDialog, self.ptr),
+        } else null;
+    }
+
     pub fn to_bin(self: Self) ?Bin {
-        if (self.isa(Bin)) {
-            return Bin{
+        return if (self.isa(Bin)) Bin{
                 .ptr = @ptrCast(*c.GtkBin, self.ptr),
-            };
-        } else return null;
+        } else null;
     }
 
     pub fn to_box(self: Self) ?Box {
-        if (self.isa(Box)) {
-            return Box{
+        return if (self.isa(Box)) Box{
                 .ptr = @ptrCast(*c.GtkBox, self.ptr),
-            };
-        } else return null;
+        } else null;
     }
 
     pub fn to_button(self: Self) ?Button {
-        if (self.isa(Button)) {
-            return Button{
+        return if (self.isa(Button)) Button{
                 .ptr = @ptrCast(*c.GtkButton, self.ptr),
-            };
-        } else return null;
+        } else null;
     }
 
     pub fn to_check_button(self: Self) ?CheckButton {
-        if (self.isa(CheckButton)) {
-            return CheckButton{
+        return if (self.isa(CheckButton)) CheckButton{
                 .ptr = @ptrCast(*c.GtkCheckButton, self.ptr),
-            };
-        } else return null;
+        } else null;
     }
 
     pub fn to_color_chooser(self: Self) ?ColorChooser {
-        if (self.isa(ColorChooser)) {
-            return ColorChooser{
-                .ptr = @ptrCast(*c.GtkColorChooser, self.ptr),
-            };
-        } else return null;
+        return if (self.isa(ColorChooser)) ColorChooser{
+            .ptr = @ptrCast(*c.GtkColorChooser, self.ptr),
+        } else null;
     }
 
     pub fn to_color_button(self: Self) ?ColorButton {
-        if (self.isa(ColorButton)) {
-            return ColorButton{
-                .ptr = @ptrCast(*c.GtkColorButton, self.ptr),
-            };
-        } else return null;
+        return if (self.isa(ColorButton)) ColorButton{
+            .ptr = @ptrCast(*c.GtkColorButton, self.ptr),
+        } else null;
     }
 
     pub fn to_color_chooser_widget(self: Self) ?ColorChooserWidget {
-        if (self.isa(ColorChooserWidget)) {
-            return ColorChooserWidget{
-                .ptr = @ptrCast(*c.GtkColorChooserdget, self.ptr),
-            };
-        } else return null;
+        return if (self.isa(ColorChooserWidget)) ColorChooserWidget{
+            .ptr = @ptrCast(*c.GtkColorChooserdget, self.ptr),
+        } else null;
     }
 
-    pub fn to_color_dialog(self: Self) ?ColorChooserDialog {
-        if (self.isa(ColorChooserDialog)) {
-            return ColorChooserDialog{
-                .ptr = @ptrCast(*c.GtkColorChooserDialog, self.ptr),
-            };
-        } else return null;
+    pub fn to_colorchooser_dialog(self: Self) ?ColorChooserDialog {
+        return if (self.isa(ColorChooserDialog)) ColorChooserDialog{
+            .ptr = @ptrCast(*c.GtkColorChooserDialog, self.ptr),
+        } else null;
     }
 
     pub fn to_combo_box(self: Self) ?ComboBox {
-        if (self.isa(ComboBox)) {
-            return ComboBox{
-                .ptr = @ptrCast(*c.GtkComboBox, self.ptr),
-            };
-        } else return null;
+        return if (self.isa(ComboBox)) ComboBox{
+            .ptr = @ptrCast(*c.GtkComboBox, self.ptr),
+        } else null;
     }
 
     pub fn to_combo_box_text(self: Self) ?ComboBoxText {
-        if (self.isa(ComboBoxText)) {
-            return ComboBoxText{
-                .ptr = @ptrCast(*c.GtkComboBoxText, self.ptr),
-            };
-        } else return null;
+        return if (self.isa(ComboBoxText)) ComboBoxText{
+            .ptr = @ptrCast(*c.GtkComboBoxText, self.ptr),
+        } else null;
     }
 
     pub fn to_container(self: Self) ?Container {
-        if (self.isa(Container)) {
-            return Container{
-                .ptr = @ptrCast(*c.GtkContainer, self.ptr),
-            };
-        } else return null;
+        return if (self.isa(Container)) Container{
+            .ptr = @ptrCast(*c.GtkContainer, self.ptr),
+        } else null;
+    }
+
+    pub fn to_dialog(self: Self) ?Dialog {
+        return if (self.isa(Dialog)) Dialog{
+            .ptr = @ptrCast(*c.GtkDialog, self.ptr),
+        } else null;
     }
 
     pub fn to_entry(self: Self) ?Entry {
@@ -291,6 +292,30 @@ pub const Widget = struct {
     pub fn to_expander(self: Self) ?Entry {
         return if (self.isa(Expander)) Entry{
             .ptr = @ptrCast(*c.GtkExpander, self.ptr),
+        } else null;
+    }
+
+    pub fn to_filechooser(self: Self) ?FileChooser {
+        return if (self.isa(FileChooser)) FileChooser{
+            .ptr = @ptrCast(*c.GtkFileChooser, self.ptr),
+        } else null;
+    }
+
+    pub fn to_filechooser_button(self: Self) ?FileChooserButton {
+        return if (self.isa(FileChooserButton)) FileChooserButton{
+            .ptr = @ptrCast(*c.GtkFileChooserButton, self.ptr),
+        } else null;
+    }
+
+    pub fn to_filechooser_dialog(self: Self) ?FileChooserDialog {
+        return if (self.isa(FileChooserDialog)) FileChooserDialog{
+            .ptr = @ptrCast(*c.GtkFileChooserDialog, self.ptr),
+        } else null;
+    }
+
+    pub fn to_filechooser_widget(self: Self) ?FileChooserWidget {
+        return if (self.isa(FileChooserWidget)) FileChooserWidget{
+            .ptr = @ptrCast(*c.GtkFileChooserWidget, self.ptr),
         } else null;
     }
 
@@ -357,6 +382,12 @@ pub const Widget = struct {
     pub fn to_menu_item(self: Self) ?MenuItem {
         return if (self.isa(MenuItem)) MenuItem{
             .ptr = @ptrCast(*c.GtkMenuItem, self.ptr),
+        } else null;
+    }
+
+    pub fn to_message_dialog(self: Self) ?MessageDialog {
+        return if (self.isa(MessageDialog)) MessageDialog{
+            .ptr = @ptrCast(*c.GtkMessageDialog, self.ptr),
         } else null;
     }
 

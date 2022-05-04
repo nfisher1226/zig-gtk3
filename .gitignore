@@ -6,3 +6,5 @@ docs/
 gyro.lock
 deps.zig
 .gyro
+.zigmod
+deps.zig

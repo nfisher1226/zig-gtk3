@@ -1,0 +1,6 @@
+id: y7bq9a3u4z6cczlzzzocxe6j59eohj1pgy0f25atirxz1659
+name: gtk3
+main: lib.zig
+license: MIT
+description: Gtk+ version 3 bindings for Zig
+dependencies:

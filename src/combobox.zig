@@ -57,6 +57,18 @@ pub const ComboBox = struct {
         };
     }
 
+    pub fn isa(self: Self, comptime T: type) bool {
+        return T.is_instance(self.get_g_type());
+    }
+
+    pub fn to_combo_box_text(self: Self) ?ComboBoxText {
+        if (self.isa(ComboBoxText)) {
+            return ComboBoxText{
+                .ptr = @ptrCast(*c.GtkComboBoxText, self.ptr),
+            };
+        } else return null;
+    }
+
     pub fn is_instance(gtype: u64) bool {
         return (gtype == c.gtk_combo_box_get_type() or ComboBoxText.is_instance(gtype));
     }

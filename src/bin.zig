@@ -1,5 +1,5 @@
 const c = @import("cimport.zig");
-const com = @import("common.zig");
+const Expander = @import("expander.zig").Expander;
 const Widget = @import("widget.zig").Widget;
 
 const std = @import("std");
@@ -23,5 +23,15 @@ pub const Bin = struct {
 
     pub fn is_instance(gtype: u64) bool {
         return (gtype == c.gtk_bin_get_type());
+    }
+
+    pub fn isa(self: Self, comptime T: type) bool {
+        return T.is_instance(self.get_g_type());
+    }
+
+    pub fn to_expander(self: Self) ?Expander {
+        return if (self.isa(Expander)) Expander{
+            .ptr = @ptrCast(*c.GtkExpander, self.ptr),
+        } else null;
     }
 };

@@ -4,6 +4,7 @@ const enums = @import("enums.zig");
 const BaselinePosition = enums.BaselinePosition;
 const Orientation = enums.Orientation;
 const PackType = enums.PackType;
+const StackSwitcher = @import("stack.zig").StackSwitcher;
 
 const Orientable = @import("orientable.zig").Orientable;
 const Widget = @import("widget.zig").Widget;
@@ -124,5 +125,13 @@ pub const Box = struct {
 
     pub fn is_instance(gtype: u64) bool {
         return (gtype == c.gtk_box_get_type());
+    }
+
+    pub fn isa(self: Self, comptime T: type) bool {
+        return T.is_instance(self.get_g_type());
+    }
+
+    pub fn to_stack_switcher(self: Self) ?StackSwitcher {
+        return if (self.isa(StackSwitcher)) StackSwitcher{ .ptr = @ptrCast(*c.GtkStackSwitcher, self.ptr) } else null;
     }
 };

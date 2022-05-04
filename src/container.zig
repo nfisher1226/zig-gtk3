@@ -1,8 +1,15 @@
 const c = @import("cimport.zig");
 const Box = @import("box.zig").Box;
+const Expander = @import("expander.zig").Expander;
+const FlowBox = @import("flowbox.zig").FlowBox;
 const Grid = @import("grid.zig").Grid;
+const HeaderBar = @import("headerbar.zig").HeaderBar;
 const Notebook = @import("notebook.zig").Notebook;
-const Stack = @import("stack.zig").Stack;
+const Paned = @import("paned.zig").Paned;
+const stack = @import("stack.zig");
+const Stack = stack.Stack;
+const StackSwitcher = stack.StackSwitcher;
+const StackSidebar = stack.StackSidebar;
 const Widget = @import("widget.zig").Widget;
 
 const std = @import("std");
@@ -88,5 +95,59 @@ pub const Container = struct {
 
     pub fn isa(self: Self, comptime T: type) bool {
         return T.is_instance(self.get_g_type());
+    }
+
+    pub fn to_box(self: Self) ?Box {
+        return if (self.isa(Box)) Box{
+                .ptr = @ptrCast(*c.GtkBox, self.ptr),
+        } else null;
+    }
+
+    pub fn to_expander(self: Self) ?Expander{
+        return if (self.isa(Expander)) Expander{
+            .ptr = @ptrCast(*c.GtkExpander, self.ptr),
+        } else null;
+    }
+
+    pub fn to_flow_box(self: Self) ?FlowBox {
+        return if (self.isa(FlowBox)) FlowBox{
+            .ptr = @ptrCast(*c.GtkFlowBox, self.ptr),
+        } else null;
+    }
+
+    pub fn to_grid(self: Self) ?Grid {
+        return if (self.isa(Grid)) Grid{
+            .ptr = @ptrCast(*c.GtkGrid, self.ptr),
+        } else null;
+    }
+
+    pub fn to_header_bar(self: Self) ?HeaderBar {
+        return if (self.isa(HeaderBar)) HeaderBar{
+            .ptr = @ptrCast(*c.GtkHeaderBar, self.ptr),
+        } else null;
+    }
+
+    pub fn to_notebook(self: Self) ?Notebook {
+        return if (self.isa(Notebook)) Notebook{
+            .ptr = @ptrCast(*c.GtkNotebook, self.ptr),
+        } else null;
+    }
+
+    pub fn to_paned(self: Self) ?Paned {
+        return if (self.isa(Paned)) Paned{
+            .ptr = @ptrCast(*c.GtkPaned, self.ptr),
+        } else null;
+    }
+
+    pub fn to_stack(self: Self) ?Stack {
+        return if (self.isa(Stack)) Stack{ .ptr = @ptrCast(*c.GtkStack, self.ptr) } else null;
+    }
+
+    pub fn to_stack_switcher(self: Self) ?StackSwitcher {
+        return if (self.isa(StackSwitcher)) StackSwitcher{ .ptr = @ptrCast(*c.GtkStackSwitcher, self.ptr) } else null;
+    }
+
+    pub fn to_stack_sidebar(self: Self) ?StackSidebar {
+        return if (self.isa(StackSidebar)) StackSidebar{ .ptr = @ptrCast(*c.GtkStackSidebar, self.ptr) } else null;
     }
 };

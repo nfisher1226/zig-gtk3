@@ -1,4 +1,5 @@
 const c = @import("cimport.zig");
+const Buildable = @import("buildable.zig").Buildable;
 const Container = @import("container.zig").Container;
 const Widget = @import("widget.zig").Widget;
 
@@ -80,6 +81,12 @@ pub const HeaderBar = struct {
         const val = c.gtk_header_bar_get_decoration_layout(self.ptr);
         const len = mem.len(val);
         return fmt.allocPrintZ(allocator, "{s}", .{val[0..len]}) catch return null;
+    }
+
+    pub fn as_buildable(self: Self) Buildable {
+        return Buildable{
+            .ptr = @ptrCast(*c.GtkBuildable, self.ptr),
+        };
     }
 
     pub fn as_container(self: Self) Container {

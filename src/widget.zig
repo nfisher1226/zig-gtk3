@@ -289,8 +289,8 @@ pub const Widget = struct {
         } else null;
     }
 
-    pub fn to_expander(self: Self) ?Entry {
-        return if (self.isa(Expander)) Entry{
+    pub fn to_expander(self: Self) ?Expander {
+        return if (self.isa(Expander)) Expander{
             .ptr = @ptrCast(*c.GtkExpander, self.ptr),
         } else null;
     }
@@ -361,7 +361,7 @@ pub const Widget = struct {
         } else null;
     }
 
-    pub fn to_header_bar(self: Self) ?Grid {
+    pub fn to_header_bar(self: Self) ?HeaderBar {
         return if (self.isa(HeaderBar)) HeaderBar{
             .ptr = @ptrCast(*c.GtkHeaderBar, self.ptr),
         } else null;
@@ -428,11 +428,11 @@ pub const Widget = struct {
     }
 
     pub fn to_stack_switcher(self: Self) ?StackSwitcher {
-        return if (self.isa(StackSwitcher)) Stack{ .ptr = @ptrCast(*c.GtkStackSwitcher, self.ptr) } else null;
+        return if (self.isa(StackSwitcher)) StackSwitcher{ .ptr = @ptrCast(*c.GtkStackSwitcher, self.ptr) } else null;
     }
 
     pub fn to_stack_sidebar(self: Self) ?StackSidebar {
-        return if (self.isa(StackSidebar)) Stack{ .ptr = @ptrCast(*c.GtkStackSidebar, self.ptr) } else null;
+        return if (self.isa(StackSidebar)) StackSidebar{ .ptr = @ptrCast(*c.GtkStackSidebar, self.ptr) } else null;
     }
 
     pub fn to_switch(self: Self) ?Switch {

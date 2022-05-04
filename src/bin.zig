@@ -29,6 +29,12 @@ pub const Bin = struct {
         return T.is_instance(self.get_g_type());
     }
 
+    pub fn to_button(self: Self) ?Button {
+        return if (self.isa(Button)) Button{
+                .ptr = @ptrCast(*c.GtkButton, self.ptr),
+        } else null;
+    }
+
     pub fn to_expander(self: Self) ?Expander {
         return if (self.isa(Expander)) Expander{
             .ptr = @ptrCast(*c.GtkExpander, self.ptr),

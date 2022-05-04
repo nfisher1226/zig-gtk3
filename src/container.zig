@@ -1,5 +1,7 @@
 const c = @import("cimport.zig");
 const Box = @import("box.zig").Box;
+const Bin = @import("bin.zig").Bin;
+const Button = @import("button.zig").Button;
 const Expander = @import("expander.zig").Expander;
 const FlowBox = @import("flowbox.zig").FlowBox;
 const Grid = @import("grid.zig").Grid;
@@ -97,9 +99,21 @@ pub const Container = struct {
         return T.is_instance(self.get_g_type());
     }
 
+    pub fn to_bin(self: Self) ?Bin {
+        return if (self.isa(Bin)) Bin{
+                .ptr = @ptrCast(*c.GtkBin, self.ptr),
+        } else null;
+    }
+
     pub fn to_box(self: Self) ?Box {
         return if (self.isa(Box)) Box{
                 .ptr = @ptrCast(*c.GtkBox, self.ptr),
+        } else null;
+    }
+
+    pub fn to_button(self: Self) ?Button {
+        return if (self.isa(Button)) Button{
+                .ptr = @ptrCast(*c.GtkButton, self.ptr),
         } else null;
     }
 

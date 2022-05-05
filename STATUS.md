@@ -32,14 +32,14 @@
 | GtkOrientable |   | x |   |
 | GtkAspectFrame | x |   |   |
 | GtkFixed | x |   |   |
-| GtkLabel |   | x |   |
+| GtkLabel |   |   | x |
 | GtkImage | x |   |   |
 | GtkSpinner |   |   | x |
 | GtkInfoBar | x |   |   |
 | GtkProgressBar | x |   |   |
 | GtkLevelBar | x |   |   |
 | GtkStatusBar | x |   |   |
-| GtkAccelLabel | x |   |   |
+| GtkAccelLabel |   |   | x |
 | GtkButton |   |   | x |
 | GtkCheckButton |   |   | x |
 | GtkRadioButton | x |   |   |

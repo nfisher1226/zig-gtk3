@@ -1,4 +1,5 @@
 const c = @import("cimport.zig");
+const Button = @import("button.zig").Button;
 const Expander = @import("expander.zig").Expander;
 const Widget = @import("widget.zig").Widget;
 

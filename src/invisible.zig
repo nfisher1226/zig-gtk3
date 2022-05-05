@@ -1,4 +1,5 @@
 const c = @import("cimport.zig");
+const Buildable = @import("buildable.zig").Buildable;
 const Widget = @import("widget.zig").Widget;
 
 const std = @import("std");
@@ -26,6 +27,10 @@ pub const Invisible = struct {
 
     pub fn get_screen(self: Self) *c.GdkScreen {
         return c.gtk_invisible_get_screen(self.ptr);
+    }
+
+    pub fn as_buildable(self: Self) Buildable {
+        return Buildable{ .ptr = @ptrCast(*c.GtkBuildable, self.ptr) };
     }
 
     pub fn as_widget(self: Self) Widget {

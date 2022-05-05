@@ -1,3 +1,4 @@
+/// The Gtk+ Adjustment class
 pub usingnamespace @import("adjustment.zig");
 pub usingnamespace @import("bin.zig");
 pub usingnamespace @import("box.zig");

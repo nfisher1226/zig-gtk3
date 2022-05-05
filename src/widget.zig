@@ -58,6 +58,8 @@ const Grid = grid.Grid;
 
 const HeaderBar = @import("headerbar.zig").HeaderBar;
 
+const Invisible = @import("invisible.zig").Invisible;
+
 const Label = @import("label.zig").Label;
 
 const menu = @import("menu.zig");
@@ -365,6 +367,12 @@ pub const Widget = struct {
         return if (self.isa(HeaderBar)) HeaderBar{
             .ptr = @ptrCast(*c.GtkHeaderBar, self.ptr),
         } else null;
+    }
+
+    pub fn to_invisible(self: Self) ?Invisible {
+        return if (self.isa(Invisible)) Invisible{
+            .ptr = @ptrCast(*c.GtkInvisible, self.ptr)
+        };
     }
 
     pub fn to_label(self: Self) ?Label {

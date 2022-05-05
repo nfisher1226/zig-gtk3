@@ -53,6 +53,14 @@ pub const IconSize = enum(c_uint) {
     dialog = c.GTK_ICON_SIZE_DIALOG,
 };
 
+/// enum Justification
+pub const Justification = enum(c_uint) {
+    left = c.GTK_JUSTIFY_LEFT,
+    right = c.GTK_JUSTIFY_RIGHT,
+    center = c.GTK_JUSTIFY_CENTER,
+    fill = c.GTK_JUSTIFY_FILL,
+};
+
 /// Enum License
 pub const License = enum(c_uint) {
     unknown = c.GTK_LICENSE_UNKNOWN,

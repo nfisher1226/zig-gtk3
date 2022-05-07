@@ -5,7 +5,7 @@ const Builder = std.build.Builder;
 pub fn build(b: *Builder) void {
     const target = b.standardTargetOptions(.{});
     const mode = b.standardReleaseOptions();
-    const examples = .{"simple", "glade", "callbacks", "range"};
+    const examples = .{ "simple", "glade", "callbacks", "range" };
 
     const lib = b.addStaticLibrary("zig-gtk3", "lib.zig");
     lib.setBuildMode(mode);

@@ -101,23 +101,23 @@ pub const Container = struct {
 
     pub fn to_bin(self: Self) ?Bin {
         return if (self.isa(Bin)) Bin{
-                .ptr = @ptrCast(*c.GtkBin, self.ptr),
+            .ptr = @ptrCast(*c.GtkBin, self.ptr),
         } else null;
     }
 
     pub fn to_box(self: Self) ?Box {
         return if (self.isa(Box)) Box{
-                .ptr = @ptrCast(*c.GtkBox, self.ptr),
+            .ptr = @ptrCast(*c.GtkBox, self.ptr),
         } else null;
     }
 
     pub fn to_button(self: Self) ?Button {
         return if (self.isa(Button)) Button{
-                .ptr = @ptrCast(*c.GtkButton, self.ptr),
+            .ptr = @ptrCast(*c.GtkButton, self.ptr),
         } else null;
     }
 
-    pub fn to_expander(self: Self) ?Expander{
+    pub fn to_expander(self: Self) ?Expander {
         return if (self.isa(Expander)) Expander{
             .ptr = @ptrCast(*c.GtkExpander, self.ptr),
         } else null;

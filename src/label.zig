@@ -30,11 +30,7 @@ pub const Label = struct {
     /// by the Unicode line breaking algorithm. For `WrapMode.char`, Pango allows
     /// breaking at grapheme boundaries that are determined by the Unicode text
     /// segmentation algorithm.
-    pub const WrapMode = enum(c_uint) {
-        word = c.PANGO_WRAP_WORD,
-        char = c.PANGO_WRAP_CHAR,
-        word_char = c.PANGO_WRAP_WORD_CHAR
-    };
+    pub const WrapMode = enum(c_uint) { word = c.PANGO_WRAP_WORD, char = c.PANGO_WRAP_CHAR, word_char = c.PANGO_WRAP_WORD_CHAR };
 
     pub const LayoutOffsets = struct {
         x: c_int,
@@ -180,7 +176,7 @@ pub const Label = struct {
     /// the text in the label; useful to convert mouse events into coordinates inside
     /// the PangoLayout, e.g. to take some action if some part of the label is clicked.
     /// Of course you will need to create a GtkEventBox to receive the events, and pack
-    /// the label inside it, since labels are windowless (they return `false` from 
+    /// the label inside it, since labels are windowless (they return `false` from
     /// Widget.get_has_window()). Remember when using the PangoLayout functions you need
     /// to convert to and from pixels using PANGO_PIXELS() or PANGO_SCALE.
     pub fn get_layout_offsets(self: Self) LayoutOffsets {
@@ -212,7 +208,7 @@ pub const Label = struct {
     }
 
     /// Creates a new GtkLabel, containing the text in str.
-    /// 
+    ///
     /// If characters in str are preceded by an underscore, they are underlined. If you need a
     /// literal underscore character in a label, use '__' (two underscores). The first underlined
     /// character represents a keyboard accelerator called a mnemonic. The mnemonic key can be
@@ -224,9 +220,7 @@ pub const Label = struct {
     /// or menu item, the button or menu item will automatically become the mnemonic widget and be
     /// activated by the mnemonic.
     pub fn new_with_mnemonic(str: [:0]const u8) Self {
-        return Self{
-            .ptr = @ptrCast(*c.GtkLabel, c.gtk_label_new_with_mnemonic(str))
-        };
+        return Self{ .ptr = @ptrCast(*c.GtkLabel, c.gtk_label_new_with_mnemonic(str)) };
     }
 
     /// Selects a range of characters in the label, if the label is selectable. See
@@ -303,7 +297,7 @@ pub const Label = struct {
 
     /// Fetches the text from a label widget including any embedded underlines indicating
     /// mnemonics and Pango markup. (See Label.get_text()).
-    pub fn get_label (self: Self, allocator: mem.Allocator) ?[:0]const u8 {
+    pub fn get_label(self: Self, allocator: mem.Allocator) ?[:0]const u8 {
         if (c.gtk_label_get_label(self.ptr)) |val| {
             const len = mem.len(val);
             return fmt.allocPrintZ(allocator, "{s}", .{val[0..len]}) catch return null;
@@ -519,9 +513,7 @@ pub const AccelLabel = struct {
 
     /// Fetches the widget monitored by this accelerator label. See AccelLabel.set_accel_widget().
     pub fn get_accel_widget(self: Self) ?Widget {
-        return if (c.gtk_accel_label_get_accel_widget(self.ptr)) |w| Widget{
-            .ptr = w
-        } else null;
+        return if (c.gtk_accel_label_get_accel_widget(self.ptr)) |w| Widget{ .ptr = w } else null;
     }
 
     /// Sets the widget to be monitored by this accelerator label. Passing `null`

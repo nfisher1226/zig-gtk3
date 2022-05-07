@@ -159,7 +159,7 @@ pub const FileChooser = struct {
         var kids = c.gtk_file_chooser_get_uris(self.ptr);
         defer c.g_list_free(kids);
         return if (com.gslistToArrayList(kids, allocator)) |list| list else null;
-}
+    }
 
     pub fn set_current_folder_uri(self: Self, uri: [:0]const u8) void {
         c.gtk_file_chooser_set_current_folder_uri(self.ptr, uri);

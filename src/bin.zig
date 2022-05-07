@@ -32,7 +32,7 @@ pub const Bin = struct {
 
     pub fn to_button(self: Self) ?Button {
         return if (self.isa(Button)) Button{
-                .ptr = @ptrCast(*c.GtkButton, self.ptr),
+            .ptr = @ptrCast(*c.GtkButton, self.ptr),
         } else null;
     }
 

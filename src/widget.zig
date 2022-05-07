@@ -215,25 +215,25 @@ pub const Widget = struct {
 
     pub fn to_bin(self: Self) ?Bin {
         return if (self.isa(Bin)) Bin{
-                .ptr = @ptrCast(*c.GtkBin, self.ptr),
+            .ptr = @ptrCast(*c.GtkBin, self.ptr),
         } else null;
     }
 
     pub fn to_box(self: Self) ?Box {
         return if (self.isa(Box)) Box{
-                .ptr = @ptrCast(*c.GtkBox, self.ptr),
+            .ptr = @ptrCast(*c.GtkBox, self.ptr),
         } else null;
     }
 
     pub fn to_button(self: Self) ?Button {
         return if (self.isa(Button)) Button{
-                .ptr = @ptrCast(*c.GtkButton, self.ptr),
+            .ptr = @ptrCast(*c.GtkButton, self.ptr),
         } else null;
     }
 
     pub fn to_check_button(self: Self) ?CheckButton {
         return if (self.isa(CheckButton)) CheckButton{
-                .ptr = @ptrCast(*c.GtkCheckButton, self.ptr),
+            .ptr = @ptrCast(*c.GtkCheckButton, self.ptr),
         } else null;
     }
 
@@ -370,9 +370,7 @@ pub const Widget = struct {
     }
 
     pub fn to_invisible(self: Self) ?Invisible {
-        return if (self.isa(Invisible)) Invisible{
-            .ptr = @ptrCast(*c.GtkInvisible, self.ptr)
-        };
+        return if (self.isa(Invisible)) Invisible{ .ptr = @ptrCast(*c.GtkInvisible, self.ptr) };
     }
 
     pub fn to_label(self: Self) ?Label {

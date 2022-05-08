@@ -2,7 +2,7 @@
 | ---------- | ----------- | ----- | -------- |
 | GtkApplication |   | x |   |
 | GtkApplicationWindow |   | x |   |
-| GtkActionable | x |   |   |
+| GtkActionable |   |   |x |
 | GtkBuilder |   | x |   |
 | GtkBuildable |   | x |   |
 | GtkWindow |   | x |   |

@@ -1,5 +1,6 @@
 const c = @import("cimport.zig");
 const enums = @import("enums.zig");
+const Actionable = @import("actionable.zig").Actionable;
 const Buildable = @import("buildable.zig").Buildable;
 const ColorButton = @import("colorchooser.zig").ColorButton;
 const IconSize = enums.IconSize;
@@ -126,6 +127,12 @@ pub const Button = struct {
         c.gtk_button_set_always_show_image(self.ptr, if (show) 1 else 0);
     }
 
+    pub fn as_actionable(self: Self) Actionable {
+        return Actionable{
+            .ptr = @ptrCast(*c.GtkActionable, self.ptr),
+        };
+    }
+
     pub fn as_buildable(self: Self) Buildable {
         return Buildable{
             .ptr = @ptrCast(*c.GtkBuildable, self.ptr),
@@ -210,6 +217,12 @@ pub const ToggleButton = struct {
         c.gtk_toggle_button_set_active(self.ptr, if (state) 1 else 0);
     }
 
+    pub fn as_actionable(self: Self) Actionable {
+        return Actionable{
+            .ptr = @ptrCast(*c.GtkActionable, self.ptr),
+        };
+    }
+
     pub fn as_buildable(self: Self) Buildable {
         return Buildable{
             .ptr = @ptrCast(*c.GtkBuildable, self.ptr),
@@ -279,9 +292,9 @@ pub const CheckButton = struct {
         };
     }
 
-    pub fn as_toggle_button(self: Self) ToggleButton {
-        return ToggleButton{
-            .ptr = @ptrCast(*c.GtkToggleButton, self.ptr),
+    pub fn as_actionable(self: Self) Actionable {
+        return Actionable{
+            .ptr = @ptrCast(*c.GtkActionable, self.ptr),
         };
     }
 
@@ -294,6 +307,12 @@ pub const CheckButton = struct {
     pub fn as_button(self: Self) Button {
         return Button{
             .ptr = @ptrCast(*c.GtkButton, self.ptr),
+        };
+    }
+
+    pub fn as_toggle_button(self: Self) ToggleButton {
+        return ToggleButton{
+            .ptr = @ptrCast(*c.GtkToggleButton, self.ptr),
         };
     }
 

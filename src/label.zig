@@ -428,6 +428,10 @@ pub const Label = struct {
         return (gtype == c.gtk_label_get_type() or gtype == c.gtk_accel_label_get_type());
     }
 
+    fn get_g_type(self: Self) u64 {
+        return self.ptr.*.parent_instance.g_type_instance.g_class.*.g_type;
+    }
+
     pub fn isa(self: Self, comptime T: type) bool {
         return T.is_instance(self.get_g_type());
     }

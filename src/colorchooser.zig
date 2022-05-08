@@ -1,7 +1,9 @@
 const c = @import("cimport.zig");
+const enums = @import("enums.zig");
+
+const Actionable = @import("actionable.zig").Actionable;
 const Button = @import("button.zig").Button;
 const Dialog = @import("dialog.zig").Dialog;
-const enums = @import("enums.zig");
 const Widget = @import("widget.zig").Widget;
 
 const std = @import("std");
@@ -89,15 +91,21 @@ pub const ColorButton = struct {
         self.as_widget().connect("color-set", callback, if (data) |d| d else null);
     }
 
-    pub fn as_color_chooser(self: Self) ColorChooser {
-        return ColorChooser{
-            .ptr = @ptrCast(*c.GtkColorChooser, self.ptr),
+    pub fn as_actionable(self: Self) Actionable {
+        return Actionable{
+            .ptr = @ptrCast(*c.GtkActionable, self.ptr),
         };
     }
 
     pub fn as_button(self: Self) Button {
         return Button{
             .ptr = @ptrCast(*c.GtkButton, self.ptr),
+        };
+    }
+
+    pub fn as_color_chooser(self: Self) ColorChooser {
+        return ColorChooser{
+            .ptr = @ptrCast(*c.GtkColorChooser, self.ptr),
         };
     }
 

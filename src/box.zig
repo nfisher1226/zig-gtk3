@@ -1,4 +1,5 @@
 const c = @import("cimport.zig");
+const Buildable = @import("buildable.zig").Buildable;
 const Container = @import("container.zig").Container;
 const enums = @import("enums.zig");
 const BaselinePosition = enums.BaselinePosition;
@@ -105,15 +106,21 @@ pub const Box = struct {
         c.gtk_box_set_center_widget(self.ptr, child.ptr);
     }
 
-    pub fn as_orientable(self: Self) Orientable {
-        return Orientable{
-            .ptr = @ptrCast(*c.GtkOrientable, self.ptr),
+    pub fn as_buildable(self: Self) Buildable {
+        return Buildable{
+            .ptr = @ptrCast(*c.GtkBuildable, self.ptr),
         };
     }
 
     pub fn as_container(self: Self) Container {
         return Container{
             .ptr = @ptrCast(*c.GtkContainer, self.ptr),
+        };
+    }
+
+    pub fn as_orientable(self: Self) Orientable {
+        return Orientable{
+            .ptr = @ptrCast(*c.GtkOrientable, self.ptr),
         };
     }
 
@@ -125,6 +132,10 @@ pub const Box = struct {
 
     pub fn is_instance(gtype: u64) bool {
         return (gtype == c.gtk_box_get_type());
+    }
+
+    fn get_g_type(self: Self) u64 {
+        return self.ptr.*.parent_instance.g_type_instance.g_class.*.g_type;
     }
 
     pub fn isa(self: Self, comptime T: type) bool {

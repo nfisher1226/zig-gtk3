@@ -1,6 +1,8 @@
 const c = @import("cimport.zig");
 const common = @import("common.zig");
 const enums = @import("enums.zig");
+
+const Actionable = @import("actionable.zig").Actionable;
 const Dialog = @import("dialog.zig").Dialog;
 const Widget = @import("widget.zig").Widget;
 
@@ -75,19 +77,19 @@ pub const FontChooser = struct {
     }
 
     pub fn to_font_button(self: Self) ?FontButton {
-        return if (FontButton.as_widget().isa(FontButton)) FontButton{
+        return if (self.as_widget().isa(FontButton)) FontButton{
             .ptr = @ptrCast(*c.GtkFontButton, self.ptr),
         } else null;
     }
 
     pub fn to_font_chooser_widget(self: Self) ?FontChooserWidget {
-        return if (FontButton.as_widget().isa(FontChooserWidget)) FontChooserWidget{
+        return if (self.as_widget().isa(FontChooserWidget)) FontChooserWidget{
             .ptr = @ptrCast(*c.GtkFontChooserWidget, self.ptr),
         } else null;
     }
 
     pub fn to_font_chooser_dialog(self: Self) ?FontChooserDialog {
-        return if (FontButton.as_widget().isa(FontChooserDialog)) FontChooserDialog{
+        return if (self.as_widget().isa(FontChooserDialog)) FontChooserDialog{
             .ptr = @ptrCast(*c.GtkFontChooserDialog, self.ptr),
         } else null;
     }
@@ -155,6 +157,12 @@ pub const FontButton = struct {
             const len = mem.len(val);
             return fmt.allocPrintZ(allocator, "{s}", .{val[0..len]}) catch return null;
         } else return null;
+    }
+
+    pub fn as_actionable(self: Self) Actionable {
+        return Actionable{
+            .ptr = @ptrCast(*c.GtkActionable, self.ptr),
+        };
     }
 
     pub fn as_font_chooser(self: Self) FontChooser {

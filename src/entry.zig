@@ -1,5 +1,7 @@
 const c = @import("cimport.zig");
 const common = @import("common.zig");
+
+const Button = @import("button.zig").Button;
 const Widget = @import("widget.zig").Widget;
 
 const std = @import("std");

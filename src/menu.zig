@@ -1,4 +1,6 @@
 const c = @import("cimport.zig");
+
+const Actionable = @import("actionable.zig").Actionable;
 const Container = @import("container.zig").Container;
 const Widget = @import("widget.zig").Widget;
 
@@ -103,6 +105,12 @@ pub const MenuItem = struct {
 
     pub fn connect_activate(self: Self, callback: c.GCallback, data: ?c.gpointer) void {
         self.as_widget().connect("activate", callback, if (data) |d| d else null);
+    }
+
+    pub fn as_actionable(self: Self) Actionable {
+        return Actionable{
+            .ptr = @ptrCast(*c.GtkActionable, self.ptr),
+        };
     }
 
     pub fn as_container(self: Self) Container {

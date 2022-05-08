@@ -109,7 +109,7 @@
 | GtkToggleToolButton | x |   |   |
 | GtkRadioToolButton | x |   |   |
 | GtkPopover |   |   | x |
-| GtkPopoverMenu |   | x |   |
+| GtkPopoverMenu |   |   | x |
 | GtkColorChooser |   | x |   |
 | GtkColorButton |   | x |   |
 | GtkColorChooserWidget |   | x |   |

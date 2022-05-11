@@ -216,6 +216,10 @@ pub const Notebook = struct {
         return if (c.gtk_notebook_get_action_widget(self.ptr, @enumToInt(packtype))) |v| Widget{ .ptr = v } else null;
     }
 
+    pub fn connect_change_current_page(self: Notebook, callback: c.GCallback, data: ?c.gpointer) void {
+        self.as_widget().connect("change-current-page", callback, if (data) |d| d else null);
+    }
+
     pub fn connect_page_added(self: Notebook, callback: c.GCallback, data: ?c.gpointer) void {
         self.as_widget().connect("page-added", callback, if (data) |d| d else null);
     }

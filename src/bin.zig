@@ -5,11 +5,17 @@ const Widget = @import("widget.zig").Widget;
 
 const std = @import("std");
 
+/// The GtkBin widget is a container with just one child. It is not very useful
+/// itself, but it is useful for deriving subclasses, since it provides common
+/// code needed for handling a single child widget.
 pub const Bin = struct {
     ptr: *c.GtkBin,
 
     const Self = @This();
 
+    /// Gets the child of the GtkBin, or `null` if the bin contains no child
+    /// widget. The returned widget does not have a reference added, so you do
+    /// not need to unref it.
     pub fn get_child(self: Self) ?Widget {
         return if (c.gtk_bin_get_child(self.ptr)) |ch| Widget{
             .ptr = ch,

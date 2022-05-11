@@ -58,6 +58,13 @@ pub const ColorChooser = struct {
             };
         } else return null;
     }
+
+    /// Emitted when a color is activated from the color chooser. This usually
+    /// happens when the user clicks a color swatch, or a color is selected and
+    /// the user presses one of the keys Space, Shift+Space, Return or Enter.
+    pub fn connect_color_activated(self: Button, callback: c.GCallback, data: ?c.gpointer) void {
+        self.as_widget().connect("color-activated", callback, if (data) |d| d else null);
+    }
 };
 
 pub const ColorButton = struct {
@@ -87,6 +94,13 @@ pub const ColorButton = struct {
         return fmt.allocPrintZ(allocator, "{s}", .{val[0..len]}) catch return null;
     }
 
+    /// The ::color-set signal is emitted when the user selects a color. When
+    /// handling this signal, use gtk_color_button_get_rgba() to find out which
+    /// color was just selected.
+    ///
+    /// Note that this signal is only emitted when the user changes the color.
+    /// If you need to react to programmatic color changes as well, use the
+    /// notify::color signal.
     pub fn connect_color_set(self: Self, callback: c.GCallback, data: ?c.gpointer) void {
         self.as_widget().connect("color-set", callback, if (data) |d| d else null);
     }

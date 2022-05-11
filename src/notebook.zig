@@ -232,6 +232,10 @@ pub const Notebook = struct {
         self.as_widget().connect("select-page", callback, if (data) |d| d else null);
     }
 
+    pub fn connect_switch_page(self: Notebook, callback: c.GCallback, data: ?c.gpointer) void {
+        self.as_widget().connect("switch-page", callback, if (data) |d| d else null);
+    }
+
     pub fn as_container(self: Notebook) Container {
         return Container{
             .ptr = @ptrCast(*c.GtkContainer, self.ptr),

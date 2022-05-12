@@ -18,6 +18,7 @@ pub usingnamespace @import("filechooser.zig");
 pub usingnamespace @import("filefilter.zig");
 pub usingnamespace @import("flowbox.zig");
 pub usingnamespace @import("fontchooser.zig");
+pub usingnamespace @import("frame.zig");
 pub usingnamespace @import("grid.zig");
 pub usingnamespace @import("headerbar.zig");
 pub usingnamespace @import("invisible.zig");

@@ -4,6 +4,7 @@ const Bin = @import("bin.zig").Bin;
 const Button = @import("button.zig").Button;
 const Expander = @import("expander.zig").Expander;
 const FlowBox = @import("flowbox.zig").FlowBox;
+const Frame = @import("frame.zig").Frame;
 const Grid = @import("grid.zig").Grid;
 const HeaderBar = @import("headerbar.zig").HeaderBar;
 const Notebook = @import("notebook.zig").Notebook;
@@ -130,6 +131,12 @@ pub const Container = struct {
     pub fn to_flow_box(self: Self) ?FlowBox {
         return if (self.isa(FlowBox)) FlowBox{
             .ptr = @ptrCast(*c.GtkFlowBox, self.ptr),
+        } else null;
+    }
+
+    pub fn to_frame(self: Self) ?Frame {
+        return if (self.isa(Frame)) Frame{
+            .ptr = @ptrCast(*c.GtkFrame, self.ptr),
         } else null;
     }
 

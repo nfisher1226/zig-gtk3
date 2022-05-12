@@ -53,6 +53,8 @@ const FontButton = fontchooser.FontButton;
 const FontChooserWidget = fontchooser.FontChooserWidget;
 const FontChooserDialog = fontchooser.FontChooserDialog;
 
+const Frame = @import("frame.zig").Frame;
+
 const grid = @import("grid.zig");
 const Grid = grid.Grid;
 
@@ -354,6 +356,12 @@ pub const Widget = struct {
     pub fn to_font_chooser_dialog(self: Self) ?FontChooserDialog {
         return if (self.isa(FontChooserDialog)) FontChooserDialog{
             .ptr = @ptrCast(*c.GtkFontChooserDialog, self.ptr),
+        } else null;
+    }
+
+    pub fn to_frame(self: Self) ?Frame {
+        return if (self.isa(Frame)) Frame{
+            .ptr = @ptrCast(*c.GtkFrame, self.ptr),
         } else null;
     }
 

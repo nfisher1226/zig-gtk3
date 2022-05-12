@@ -1,6 +1,7 @@
 const c = @import("cimport.zig");
 const Button = @import("button.zig").Button;
 const Expander = @import("expander.zig").Expander;
+const Frame = @import("frame.zig").Frame;
 const Widget = @import("widget.zig").Widget;
 
 const std = @import("std");
@@ -49,6 +50,12 @@ pub const Bin = struct {
     pub fn to_expander(self: Self) ?Expander {
         return if (self.isa(Expander)) Expander{
             .ptr = @ptrCast(*c.GtkExpander, self.ptr),
+        } else null;
+    }
+
+    pub fn to_frame(self: Self) ?Frame {
+        return if (self.isa(Frame)) Frame{
+            .ptr = @ptrCast(*c.GtkFrame, self.ptr),
         } else null;
     }
 };

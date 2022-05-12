@@ -131,6 +131,19 @@ pub const SensitivityType = enum(c_uint) {
     off = c.GTK_SENSITIVITY_OFF,
 };
 
+/// Used to change the appearance of an outline typically provided by a GtkFrame.
+///
+/// Note that many themes do not differentiate the appearance of the various
+/// shadow types: Either their is no visible shadow (GTK_SHADOW_NONE ), or there
+/// is (any other value).
+pub const ShadowType = enum(c_uint) {
+    none = c.GTK_SHADOW_NONE,
+    in = c.GTK_SHADOW_IN,
+    out = c.GTK_SHADOW_OUT,
+    etched_in = c.GTK_SHADOW_ETCHED_IN,
+    etched_out = c.GTK_SHADOW_ETCHED_OUT,
+};
+
 /// enum SpawnFlags
 pub const SpawnFlags = enum(c_uint) {
     default = c.G_SPAWN_DEFAULT,

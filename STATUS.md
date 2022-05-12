@@ -125,7 +125,7 @@
 | GtkFontChooserWidget |   |   | x |
 | GtkFontChooserDialog |   |   | x |
 | GtkPlacesSidebar |   |   | x |
-| GtkFrame | x |   |   |
+| GtkFrame |   |   | x |
 | GtkSeparator | x |   |   |
 | GtkScollbar | x |   |   |
 | GtkScrolledWindow | x |   |   |

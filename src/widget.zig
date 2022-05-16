@@ -9,6 +9,8 @@ const Button = button.Button;
 const ToggleButton = button.ToggleButton;
 const CheckButton = button.CheckButton;
 
+const ButtonBox = @import("button.zig").ButtonBox;
+
 const color = @import("colorchooser.zig");
 const ColorChooser = color.ColorChooser;
 const ColorButton = color.ColorButton;
@@ -43,6 +45,8 @@ const FileChooserButton = filechooser.FileChooserButton;
 const FileChooserDialog = filechooser.FileChooserDialog;
 const FileChooserWidget = filechooser.FileChooserWidget;
 
+const Fixed = @import("fixed.zig").Fixed;
+
 const flowbox = @import("flowbox.zig");
 const FlowBox = flowbox.FlowBox;
 const FlowBoxChild = flowbox.FlowBoxChild;
@@ -64,6 +68,8 @@ const Invisible = @import("invisible.zig").Invisible;
 
 const Label = @import("label.zig").Label;
 
+const Layout = @import("layout.zig").Layout;
+
 const menu = @import("menu.zig");
 const Menu = menu.Menu;
 const MenuItem = menu.MenuItem;
@@ -72,12 +78,16 @@ const Notebook = @import("notebook.zig").Notebook;
 
 const Paned = @import("paned.zig").Paned;
 
+const Popover = @import("popover.zig").Popover;
+
 const range = @import("range.zig");
 const Range = range.Range;
 const Scale = range.Scale;
 const SpinButton = range.SpinButton;
 
 const Revealer = @import("revealer.zig").Revealer;
+
+const Separator = @import("separator.zig").Separator;
 
 const stack = @import("stack.zig");
 const Stack = stack.Stack;
@@ -233,6 +243,12 @@ pub const Widget = struct {
         } else null;
     }
 
+    pub fn to_button_box(self: Self) ?ButtonBox {
+        return if (self.isa(ButtonBox)) ButtonBox{
+            .ptr = @ptrCast(*c.GtkButtonBox, self.ptr),
+        } else null;
+    }
+
     pub fn to_check_button(self: Self) ?CheckButton {
         return if (self.isa(CheckButton)) CheckButton{
             .ptr = @ptrCast(*c.GtkCheckButton, self.ptr),
@@ -323,6 +339,12 @@ pub const Widget = struct {
         } else null;
     }
 
+    pub fn to_fixed(self: Self) ?Fixed {
+        return if (self.isa(Fixed)) Fixed{
+            .ptr = @ptrCast(*c.GtkFixed, self.ptr),
+        } else null;
+    }
+
     pub fn to_flow_box(self: Self) ?FlowBox {
         return if (self.isa(FlowBox)) FlowBox{
             .ptr = @ptrCast(*c.GtkFlowBox, self.ptr),
@@ -387,6 +409,12 @@ pub const Widget = struct {
         } else null;
     }
 
+    pub fn to_layout(self: Self) ?Layout {
+        return if (self.isa(Layout)) Layout{
+            .ptr = @ptrCast(*c.GtkLayout, self.ptr),
+        } else null;
+    }
+
     pub fn to_menu(self: Self) ?Menu {
         return if (self.isa(Menu)) Menu{
             .ptr = @ptrCast(*c.GtkMenu, self.ptr),
@@ -417,6 +445,12 @@ pub const Widget = struct {
         } else null;
     }
 
+    pub fn to_popover(self: Self) ?Popover {
+        return if (self.isa(Popover)) Popover{
+            .ptr = @ptrCast(*c.GtkPopover, self.ptr),
+        } else null;
+    }
+
     pub fn to_range(self: Self) ?Range {
         return if (self.isa(Range)) Range{
             .ptr = @ptrCast(*c.GtkRange, self.ptr),
@@ -431,6 +465,12 @@ pub const Widget = struct {
 
     pub fn to_scale(self: Self) ?Scale {
         return if (self.isa(Scale)) Scale{ .ptr = @ptrCast(*c.GtkScale, self.ptr) } else null;
+    }
+
+    pub fn to_separator(self: Self) ?Separator {
+        return if (self.isa(Separator)) Separator{
+            .ptr = @ptrCast(*c.GtkSeparator, self.ptr),
+        } else null;
     }
 
     pub fn to_spin_button(self: Self) ?SpinButton {

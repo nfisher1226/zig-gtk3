@@ -24,14 +24,14 @@
 | GtkActionBar | x |   |   |
 | GtkHeaderBar |   |   | x |
 | GtkOverlay | x |   |   |
-| GtkButtonBox | x |   |   |
+| GtkButtonBox |   |   | x |
 | GtkPaned |   |   | x |
 | GtkLayout | x |   |   |
 | GtkNotebook |   |   | x |
 | GtkExpander |   | x |   |
 | GtkOrientable |   | x |   |
 | GtkAspectFrame | x |   |   |
-| GtkFixed | x |   |   |
+| GtkFixed |   |   | x |
 | GtkLabel |   |   | x |
 | GtkImage | x |   |   |
 | GtkSpinner |   |   | x |

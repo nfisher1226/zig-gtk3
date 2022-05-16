@@ -1,6 +1,7 @@
 /// The Gtk+ Adjustment class
-pub usingnamespace @import("adjustment.zig");
 pub usingnamespace @import("actionable.zig");
+pub usingnamespace @import("adjustment.zig");
+pub usingnamespace @import("appchooser.zig");
 pub usingnamespace @import("bin.zig");
 pub usingnamespace @import("box.zig");
 pub usingnamespace @import("buildable.zig");

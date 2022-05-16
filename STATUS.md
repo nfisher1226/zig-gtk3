@@ -74,7 +74,7 @@
 | GtkTreeSortable | x |   |   |
 | GtkTreeModelSort | x |   |   |
 | GtkTreeModelFilter | x |   |   |
-| GtkCellLayout | x |   |   |
+| GtkCellLayout |   |   | x |
 | GtkcellArea | x |   |   |
 | GtkCellAreaBox | x |   |   |
 | GtkcellAreaContext | x |   |   |
@@ -129,7 +129,7 @@
 | GtkSeparator | x |   |   |
 | GtkScollbar | x |   |   |
 | GtkScrolledWindow | x |   |   |
-| GtkScrollable | x |   |   |
+| GtkScrollable |   |   | x |
 | GtkPrintOperation | x |   |   |
 | GtkPrintContext | x |   |   |
 | GtkPrintSettings | x |   |   |

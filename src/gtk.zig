@@ -33,6 +33,7 @@ pub usingnamespace @import("paned.zig");
 pub usingnamespace @import("popover.zig");
 pub usingnamespace @import("range.zig");
 pub usingnamespace @import("revealer.zig");
+pub usingnamespace @import("scrollable.zig");
 pub usingnamespace @import("spinner.zig");
 pub usingnamespace @import("stack.zig");
 pub usingnamespace @import("switch.zig");

@@ -94,6 +94,6 @@ pub const Layout = struct {
     }
 
     pub fn is_instance(gtype: u64) bool {
-        return (gtype == c.gtk_fixed_get_type());
+        return (gtype == c.gtk_layout_get_type());
     }
 };

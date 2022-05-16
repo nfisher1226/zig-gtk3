@@ -14,10 +14,45 @@ const mem = std.mem;
 pub const Dialog = struct {
     ptr: *c.GtkDialog,
 
+    /// Flags used to influence dialog construction.
     pub const Flags = enum(c_uint) {
+        /// Make the constructed dialog modal, see gtk_window_set_modal()
         modal = c.GTK_DIALOG_FLAGS_MODAL,
+        /// Destroy the dialog when its parent is destroyed, see
+        /// gtk_window_set_destroy_with_parent()
         destroy_with_parent = c.GTK_DIALOG_FLAGS_DESTROY_WITH_PARENT,
+        /// Create dialog with actions in header bar instead of action area.
+        /// Since 3.12.
         use_header_bar = c.GTK_DIALOG_FLAGS_USE_HEADER_BAR,
+    };
+
+    /// Predefined values for use as response ids in gtk_dialog_add_button().
+    /// All predefined values are negative; GTK+ leaves values of 0 or greater
+    /// for application-defined response ids.
+    pub const ResponseType = enum(c_uint) {
+        /// Returned if an action widget has no response id, or if the dialog
+        /// gets programmatically hidden or destroyed
+        none = c.GTK_RESPONSE_NONE,
+        /// Generic response id, not used by GTK+ dialogs
+        reject = c.GTK_RESPONSE_REJECT,
+        /// Generic response id, not used by GTK+ dialogs
+        accept = c.GTK_RESPONSE_ACCEPT,
+        /// Returned if the dialog is deleted
+        delete_event = c.GTK_RESPONSE_DELETE_EVENT,
+        /// Returned by OK buttons in GTK+ dialogs
+        ok = c.GTK_RESPONSE_OK,
+        /// Returned by Cancel buttons in GTK+ dialogs
+        cancel = c.GTK_RESPONSE_CANCEL,
+        /// Returned by Close buttons in GTK+ dialogs
+        close = c.GTK_RESPONSE_CLOSE,
+        /// Returned by Yes buttons in GTK+ dialogs
+        yes = c.GTK_RESPONSE_YES,
+        /// Returned by No buttons in GTK+ dialogs
+        no = c.GTK_RESPONSE_NO,
+        /// Returned by Apply buttons in GTK+ dialogs
+        apply = c.GTK_RESPONSE_APPLY,
+        /// Returned by Help buttons in GTK+ dialogs
+        help = c.GTK_RESPONSE_HELP,
     };
 
     const Self = @This();

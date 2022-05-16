@@ -170,7 +170,7 @@
 | GtkRecentChooserMenu | x |   |   |
 | GtkRecentChooserWidget | x |   |   |
 | GtkRecentFilter | x |   |   |
-| GtkAppChooser | x |   |   |
-| GtkAppChooserButton | x |   |   |
-| GtkAppChooserDialog | x |   |   |
-| GtkAppChooserWidget | x |   |   |
+| GtkAppChooser |   |   |x |
+| GtkAppChooserButton |   |   | x |
+| GtkAppChooserDialog |   |   | x |
+| GtkAppChooserWidget |   |   | x |

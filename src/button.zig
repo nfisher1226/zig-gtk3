@@ -280,7 +280,7 @@ pub const CheckButton = struct {
     // Creates a new CheckButton with a GtkLabel to the right of it.
     pub fn new_with_label(text: [:0]const u8) Self {
         return Self{
-            .ptr = c.gtk_check_button_new_with_label(text),
+            .ptr = @ptrCast(*c.GtkCheckButton, c.gtk_check_button_new_with_label(text)),
         };
     }
 
@@ -288,7 +288,7 @@ pub const CheckButton = struct {
     // Underscores in label indicate the mnemonic for the check button.
     pub fn new_with_mnemonic(text: [:0]const u8) Self {
         return Self{
-            .ptr = c.gtk_check_button_new_with_mnemonic(text),
+            .ptr = @ptrCast(*c.GtkCheckButton, c.gtk_check_button_new_with_mnemonic(text)),
         };
     }
 

@@ -39,7 +39,7 @@ const mem = std.mem;
 /// themes to disable drawing of the border. To do this from code, call 
 /// Frame.set_shadow_type() with ShadowType.none to add the “.flat” class or any
 /// other shadow type to remove it.
-const Frame = struct {
+pub const Frame = struct {
     ptr: *c.GtkFrame,
 
     const Self = @This();
@@ -130,5 +130,9 @@ const Frame = struct {
 
     pub fn as_container(self: Self) Container {
         return Container{ .ptr = @ptrCast(*c.GtkContainer, self.ptr) };
+    }
+
+    pub fn as_widget(self: Self) Widget {
+        return Widget{ .ptr = @ptrCast(*c.GtkWidget, self.ptr) };
     }
 };

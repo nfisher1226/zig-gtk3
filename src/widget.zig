@@ -57,7 +57,9 @@ const FontButton = fontchooser.FontButton;
 const FontChooserWidget = fontchooser.FontChooserWidget;
 const FontChooserDialog = fontchooser.FontChooserDialog;
 
-const Frame = @import("frame.zig").Frame;
+const frame = @import("frame.zig");
+const AspectFrame = frame.AspectFrame;
+const Frame = frame.Frame;
 
 const grid = @import("grid.zig");
 const Grid = grid.Grid;
@@ -222,6 +224,12 @@ pub const Widget = struct {
     pub fn to_about_dialog(self: Self) ?AboutDialog {
         return if (self.isa(AboutDialog)) AboutDialog{
             .ptr = @ptrCast(*c.GtkAboutDialog, self.ptr),
+        } else null;
+    }
+
+    pub fn to_aspect_frame(self: Self) ?AspectFrame {
+        return if (self.isa(AspectFrame)) AspectFrame{
+            .ptr = @ptrCast(*c.GtkAspectFrame, self.ptr),
         } else null;
     }
 

@@ -26,11 +26,11 @@
 | GtkOverlay | x |   |   |
 | GtkButtonBox |   |   | x |
 | GtkPaned |   |   | x |
-| GtkLayout | x |   |   |
+| GtkLayout |   |   | x |
 | GtkNotebook |   |   | x |
 | GtkExpander |   | x |   |
 | GtkOrientable |   | x |   |
-| GtkAspectFrame | x |   |   |
+| GtkAspectFrame |   |   | x |
 | GtkFixed |   |   | x |
 | GtkLabel |   |   | x |
 | GtkImage | x |   |   |

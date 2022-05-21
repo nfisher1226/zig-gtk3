@@ -117,7 +117,7 @@ pub const Frame = struct {
     }
 
     pub fn is_instance(gtype: u64) bool {
-        return (gtype == c.gtk_bin_get_type());
+        return (gtype == c.gtk_frame_get_type());
     }
 
     pub fn as_bin(self: Self) Bin {
@@ -130,6 +130,83 @@ pub const Frame = struct {
 
     pub fn as_container(self: Self) Container {
         return Container{ .ptr = @ptrCast(*c.GtkContainer, self.ptr) };
+    }
+
+    pub fn as_widget(self: Self) Widget {
+        return Widget{ .ptr = @ptrCast(*c.GtkWidget, self.ptr) };
+    }
+};
+
+/// The AspectFrame is useful when you want pack a widget so that it can resize
+/// but always retains the same aspect ratio. For instance, one might be drawing
+/// a small preview of a larger image. AspectFrame derives from Frame, so it can
+/// draw a label and a frame around the child. The frame will be “shrink-wrapped”
+/// to the size of the child.
+/// ### CSS
+/// GtkAspectFrame uses a CSS node with name frame.
+pub const AspectFrame = struct {
+    ptr: *c.GtkAspectFrame,
+
+    const Self = @This();
+
+    /// Create a new GtkAspectFrame.
+    pub fn new(
+        /// Label text.
+        label: [:0]const u8,
+        /// Horizontal alignment of the child within the allocation of the
+        /// AspectFrame. This ranges from 0.0 (left aligned) to 1.0 (right aligned)
+        xalign: f32,
+        /// Vertical alignment of the child within the allocation of the
+        /// AspectFrame. This ranges from 0.0 (top aligned) to 1.0 (bottom aligned)
+        yalign: f32,
+        /// The desired aspect ratio.
+        ratio: f32,
+        /// If true, ratio is ignored, and the aspect ratio is taken from the
+        /// requistion of the child.
+        obey_child: bool,
+    ) Self {
+        return Self{ .ptr = @ptrCast(
+            *c.GtkAspectFrame,
+            c.gtk_aspect_frame_new(label, xalign, yalign, ratio, if (obey_child) 1 else 0),
+        ) };
+    }
+
+    /// Set parameters for an existing GtkAspectFrame.
+    pub fn set(
+        self: Self,
+        /// Horizontal alignment of the child within the allocation of the
+        /// AspectFrame. This ranges from 0.0 (left aligned) to 1.0 (right aligned)
+        xalign: f32,
+        /// Vertical alignment of the child within the allocation of the
+        /// AspectFrame. This ranges from 0.0 (top aligned) to 1.0 (bottom aligned)
+        yalign: f32,
+        /// The desired aspect ratio.
+        ratio: f32,
+        /// If true, ratio is ignored, and the aspect ratio is taken from the
+        /// requistion of the child.
+        obey_child: bool,
+    ) void {
+        c.gtk_aspect_frame_set(self.ptr, xalign, yalign, ratio, if (obey_child) 1 else 0);
+    }
+
+    pub fn is_instance(gtype: u64) bool {
+        return (gtype == c.gtk_aspect_frame_get_type());
+    }
+
+    pub fn as_bin(self: Self) Bin {
+        return Bin{ .ptr = @ptrCast(*c.GtkBin, self.ptr) };
+    }
+
+    pub fn as_buildable(self: Self) Buildable {
+        return Buildable{ .ptr = @ptrCast(*c.GtkBuildable, self.ptr) };
+    }
+
+    pub fn as_container(self: Self) Container {
+        return Container{ .ptr = @ptrCast(*c.GtkContainer, self.ptr) };
+    }
+
+    pub fn as_frame(self: Self) Frame {
+        return Frame{ .ptr = @ptrCast(*c.GtkFrame, self.ptr) };
     }
 
     pub fn as_widget(self: Self) Widget {

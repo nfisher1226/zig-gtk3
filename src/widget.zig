@@ -111,6 +111,14 @@ pub const Widget = struct {
 
     const Self = @This();
 
+    pub const Align = enum(c_uint) {
+        fill = c.GTK_ALIGN_FILL,
+        start = c.GTK_ALIGN_START,
+        end = c.GTK_ALIGN_END,
+        center = c.GTK_ALIGN_CENTER,
+        baseline = c.GTK_ALIGN_BASELINE,
+    };
+
     pub fn show(self: Self) void {
         c.gtk_widget_show(self.ptr);
     }
@@ -203,6 +211,38 @@ pub const Widget = struct {
 
     pub fn set_visible(self: Self, vis: bool) void {
         c.gtk_widget_set_visible(self.ptr, bool_to_c_int(vis));
+    }
+
+    pub fn get_halign(self: Self) Align {
+        return c.gtk_widget_get_halign(self.ptr);
+    }
+
+    pub fn set_halign(self: Self, halign: Align) void {
+        c.gtk_widget_set_halign(self.ptr, halign);
+    }
+
+    pub fn get_valign(self: Self) Align {
+        return c.gtk_widget_get_valign(self.ptr);
+    }
+
+    pub fn set_valign(self: Self, valign: Align) void {
+        c.gtk_widget_set_valign(self.ptr, valign);
+    }
+
+    pub fn get_hexpand(self: Self) bool {
+        return (c.gtk_widget_get_hexpand(self.ptr) == 1);
+    }
+
+    pub fn set_hexpand(self: Self, expand: bool) void {
+        c.gtk_widget_set_hexpand(self.ptr, if (expand) 1 else 0);
+    }
+
+    pub fn get_vexpand(self: Self) bool {
+        return (c.gtk_widget_get_vexpand(self.ptr) == 1);
+    }
+
+    pub fn set_vexpand(self: Self, expand: bool) void {
+        c.gtk_widget_set_vexpand(self.ptr, if (expand) 1 else 0);
     }
 
     pub fn destroy(self: Self) void {

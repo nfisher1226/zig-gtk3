@@ -218,7 +218,7 @@ pub const Widget = struct {
     }
 
     pub fn set_halign(self: Self, halign: Align) void {
-        c.gtk_widget_set_halign(self.ptr, halign);
+        c.gtk_widget_set_halign(self.ptr, @enumToInt(halign));
     }
 
     pub fn get_valign(self: Self) Align {
@@ -226,7 +226,7 @@ pub const Widget = struct {
     }
 
     pub fn set_valign(self: Self, valign: Align) void {
-        c.gtk_widget_set_valign(self.ptr, valign);
+        c.gtk_widget_set_valign(self.ptr, @enumToInt(valign));
     }
 
     pub fn get_hexpand(self: Self) bool {

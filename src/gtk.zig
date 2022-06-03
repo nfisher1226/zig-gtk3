@@ -24,6 +24,7 @@ pub usingnamespace @import("fontchooser.zig");
 pub usingnamespace @import("frame.zig");
 pub usingnamespace @import("grid.zig");
 pub usingnamespace @import("headerbar.zig");
+pub usingnamespace @import("image.zig");
 pub usingnamespace @import("invisible.zig");
 pub usingnamespace @import("label.zig");
 pub usingnamespace @import("menu.zig");

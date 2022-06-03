@@ -66,6 +66,8 @@ const Grid = grid.Grid;
 
 const HeaderBar = @import("headerbar.zig").HeaderBar;
 
+const Image = @import("image.zig").Image;
+
 const Invisible = @import("invisible.zig").Invisible;
 
 const Label = @import("label.zig").Label;
@@ -568,6 +570,12 @@ pub const Widget = struct {
     pub fn to_header_bar(self: Self) ?HeaderBar {
         return if (self.isa(HeaderBar)) HeaderBar{
             .ptr = @ptrCast(*c.GtkHeaderBar, self.ptr),
+        } else null;
+    }
+
+    pub fn to_image(self: Self) ?Image {
+        return if (self.isa(Image)) Image{
+            .ptr = @ptrCast(*c.GtkImage, self.ptr),
         } else null;
     }
 

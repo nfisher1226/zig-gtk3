@@ -33,7 +33,7 @@
 | GtkAspectFrame |   |   | x |
 | GtkFixed |   |   | x |
 | GtkLabel |   |   | x |
-| GtkImage | x |   |   |
+| GtkImage |   |   | x |
 | GtkSpinner |   |   | x |
 | GtkInfoBar | x |   |   |
 | GtkProgressBar | x |   |   |

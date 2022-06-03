@@ -313,13 +313,13 @@ pub const MessageDialog = struct {
 
     pub fn new(parent: Window, flags: Dialog.Flags, kind: Type, buttons: ButtonsType, msg: [:0]const u8) Self {
         return Self{
-            .ptr = c.gtk_message_dialog_new(parent.ptr, flags, kind, buttons, msg),
+            .ptr = c.gtk_message_dialog_new(parent.ptr, @enumToInt(flags), kind, buttons, msg),
         };
     }
 
     pub fn new_with_markup(parent: Window, flags: Dialog.Flags, kind: Type, buttons: ButtonsType, msg: [:0]const u8) Self {
         return Self{
-            .ptr = c.gtk_message_dialog_new_with_markup(parent.ptr, flags, kind, buttons, msg),
+            .ptr = c.gtk_message_dialog_new_with_markup(parent.ptr, @enumToInt(flags), kind, buttons, msg),
         };
     }
 

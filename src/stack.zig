@@ -96,7 +96,7 @@ pub const Stack = struct {
     }
 
     pub fn get_transition_type(self: Self) StackTransitionStyle {
-        return c.gtk_stack_get_transition_type(self.ptr);
+        return @intToEnum(StackTransitionStyle, c.gtk_stack_get_transition_type(self.ptr));
     }
 
     pub fn get_transition_running(self: Self) bool {

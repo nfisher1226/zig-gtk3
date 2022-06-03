@@ -1,6 +1,5 @@
 const c = @import("cimport.zig");
 const common = @import("common.zig");
-const enums = @import("enums.zig");
 const Widget = @import("widget.zig").Widget;
 
 const std = @import("std");

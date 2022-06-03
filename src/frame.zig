@@ -81,7 +81,7 @@ pub const Frame = struct {
     /// type is applied by removing or adding the .flat class to the CSS node
     /// named border.
     pub fn set_shadow_type(self: Self, shadow: ShadowType) void {
-        c.gtk_frame_set_shadow_type(self.ptr, shadow);
+        c.gtk_frame_set_shadow_type(self.ptr, @enumToInt(shadow));
     }
 
     /// If the frame’s label widget is a GtkLabel, returns the text in the label
@@ -113,7 +113,7 @@ pub const Frame = struct {
 
     /// Retrieves the shadow type of the frame. See Frame.set_shadow_type().
     pub fn get_shadow_type(self: Self) ShadowType {
-        return c.gtk_frame_get_shadow_type(self.ptr);
+        return @intToEnum(ShadowType, c.gtk_frame_get_shadow_type(self.ptr));
     }
 
     pub fn is_instance(gtype: u64) bool {

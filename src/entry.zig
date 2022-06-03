@@ -1,5 +1,4 @@
 const c = @import("cimport.zig");
-const common = @import("common.zig");
 
 const Button = @import("button.zig").Button;
 const Widget = @import("widget.zig").Widget;
@@ -50,7 +49,7 @@ pub const Entry = struct {
     // not implemented get_text_area()
 
     pub fn set_visibility(self: Entry, visible: bool) void {
-        c.gtk_entry_set_visibility(self.ptr, common.bool_to_c_int(visible));
+        c.gtk_entry_set_visibility(self.ptr, if (visible) 1 else 0);
     }
 
     // not implemented set_invisible_char()

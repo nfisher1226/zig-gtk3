@@ -174,13 +174,13 @@ pub const Notebook = struct {
     }
 
     pub fn get_tab_pos(self: Notebook) PositionType {
-        return switch (c.gtk_notebook_get_tab_pos(self.ptr)) {
+        return @intToEnum(PositionType, switch (c.gtk_notebook_get_tab_pos(self.ptr)) {
             c.GTK_POS_LEFT => .left,
             c.GTK_POS_RIGHT => .right,
             c.GTK_POS_TOP => .top,
             c.GTK_POS_BOTTOM => .bottom,
             else => unreachable,
-        };
+        });
     }
 
     pub fn get_tab_reorderable(self: Notebook, child: Widget) bool {

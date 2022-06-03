@@ -118,7 +118,7 @@ pub const Label = struct {
     /// If you instead want to set the alignment of the label as a whole, use Widget.set_halign()
     /// instead. Label.set_justify() has no effect on labels containing only a single line.
     pub fn set_justify(self: Self, justify: Justification) void {
-        c.gtk_label_set_justify(self.ptr, justify);
+        c.gtk_label_set_justify(self.ptr, @enumToInt(justify));
     }
 
     /// Sets the “xalign” property for label.
@@ -134,7 +134,7 @@ pub const Label = struct {
     /// Sets the mode used to ellipsize (add an ellipsis: "...") to the text
     /// if there is not enough space to render the entire string.
     pub fn set_ellipsize(self: Self, ellipsize: EllipsizeMode) void {
-        c.gtk_label_set_ellipsize(self.ptr, ellipsize);
+        c.gtk_label_set_ellipsize(self.ptr, @enumToInt(ellipsize));
     }
 
     /// Sets the desired width in characters of label to n_chars.
@@ -162,7 +162,7 @@ pub const Label = struct {
     /// If line wrapping is on (see Label.et_line_wrap()) this controls how the line
     /// wrapping is done. The default is `WrapMode.word` which means wrap on word boundaries.
     pub fn set_line_wrap_mode(self: Self, mode: WrapMode) void {
-        c.gtk_label_set_line_wrap_mode(self.ptr, mode);
+        c.gtk_label_set_line_wrap_mode(self.ptr, @enumToInt(mode));
     }
 
     /// Sets the number of lines to which an ellipsized, wrapping label should be
@@ -267,7 +267,7 @@ pub const Label = struct {
 
     /// Returns the justification of the label. See Lable.set_justify().
     pub fn get_justify(self: Self) Justification {
-        return c.gtk_label_get_justify(self.ptr);
+        return @intToEnum(Justification, c.gtk_label_get_justify(self.ptr));
     }
 
     /// Gets the “xalign” property for label.
@@ -282,7 +282,7 @@ pub const Label = struct {
 
     /// Returns the ellipsizing position of the label. See Label.set_ellipsize().
     pub fn get_ellipsize(self: Self) EllipsizeMode {
-        return c.gtk_label_get_ellipsize(self.ptr);
+        return @intToEnum(EllipsizeMode, c.gtk_label_get_ellipsize(self.ptr));
     }
 
     /// Retrieves the desired width of label, in characters. See Label.set_width_chars().
@@ -319,7 +319,7 @@ pub const Label = struct {
 
     /// Returns line wrap mode used by the label. See Label.set_line_wrap_mode().
     pub fn get_line_wrap_mode(self: Self) WrapMode {
-        return c.gtk_label_get_line_wrap_mode(self.ptr);
+        return @intToEnum(WrapMode, c.gtk_label_get_line_wrap_mode(self.ptr));
     }
 
     /// Gets the number of lines to which an ellipsized, wrapping label should be limited.

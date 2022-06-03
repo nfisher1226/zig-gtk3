@@ -1,5 +1,4 @@
 const c = @import("cimport.zig");
-const enums = @import("enums.zig");
 
 const Actionable = @import("actionable.zig").Actionable;
 const Button = @import("button.zig").Button;

@@ -19,7 +19,7 @@ pub const Separator = struct {
     /// Creates a new GtkSeparator with the given orientation.
     pub fn new(orientation: Orientation) Self {
         return Self{
-            .ptr = @ptrCast(*c.GtkSeparator, c.gtk_separator_new(orientation)),
+            .ptr = @ptrCast(*c.GtkSeparator, c.gtk_separator_new(@enumToInt(orientation))),
         };
     }
 

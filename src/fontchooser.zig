@@ -1,6 +1,5 @@
 const c = @import("cimport.zig");
 const common = @import("common.zig");
-const enums = @import("enums.zig");
 
 const Actionable = @import("actionable.zig").Actionable;
 const Dialog = @import("dialog.zig").Dialog;

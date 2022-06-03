@@ -157,7 +157,7 @@ pub const Box = struct {
 
     /// Gets the value set by gtk_box_set_baseline_position().
     pub fn get_baseline_position(self: Self) BaselinePosition {
-        return c.gtk_box_get_baseline_position(self.ptr);
+        return @intToEnum(BaselinePosition, c.gtk_box_get_baseline_position(self.ptr));
     }
 
     /// Sets the baseline position of a box. This affects only horizontal boxes

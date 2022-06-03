@@ -214,7 +214,7 @@ pub const Widget = struct {
     }
 
     pub fn get_halign(self: Self) Align {
-        return c.gtk_widget_get_halign(self.ptr);
+        return @intToEnum(Align, c.gtk_widget_get_halign(self.ptr));
     }
 
     pub fn set_halign(self: Self, halign: Align) void {
@@ -222,7 +222,7 @@ pub const Widget = struct {
     }
 
     pub fn get_valign(self: Self) Align {
-        return c.gtk_widget_get_valign(self.ptr);
+        return @intToEnum(Align, c.gtk_widget_get_valign(self.ptr));
     }
 
     pub fn set_valign(self: Self, valign: Align) void {

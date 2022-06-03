@@ -48,6 +48,6 @@ pub const FileFilter = struct {
     }
 
     pub fn get_needed(self: Self) Flags {
-        return c.gtk_file_filter_get_needed(self.ptr);
+        return @intToEnum(Flags, c.gtk_file_filter_get_needed(self.ptr));
     }
 };

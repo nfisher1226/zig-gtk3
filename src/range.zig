@@ -85,7 +85,7 @@ pub const Range = struct {
     }
 
     pub fn get_lower_stepper_sensitivity(self: Self) SensitivityType {
-        return c.gtk_range_get_lower_stepper_sensitivity(self.ptr);
+        return @intToEnum(SensitivityType, c.gtk_range_get_lower_stepper_sensitivity(self.ptr));
     }
 
     pub fn set_upper_stepper_sensitivity(self: Self, sensitivity: SensitivityType) void {
@@ -93,7 +93,7 @@ pub const Range = struct {
     }
 
     pub fn get_upper_stepper_sensitivity(self: Self) SensitivityType {
-        return c.gtk_range_get_upper_stepper_sensitivity(self.ptr);
+        return @intToEnum(SensitivityType, c.gtk_range_get_upper_stepper_sensitivity(self.ptr));
     }
 
     pub fn get_flippable(self: Self) bool {
@@ -159,7 +159,7 @@ pub const Scale = struct {
     }
 
     pub fn get_value_pos(self: Scale) PositionType {
-        return c.gtk_scale_get_value_pos(self.scale);
+        return @intToEnum(PositionType, c.gtk_scale_get_value_pos(self.scale));
     }
 
     pub fn set_value_pos(self: Scale, pos: PositionType) void {
@@ -309,7 +309,7 @@ pub const SpinButton = struct {
     }
 
     pub fn get_update_policy(self: Self) SpinButtonUpdatePolicy {
-        return c.gtk_spin_button_get_update_policy(self.ptr);
+        return @intToEnum(SpinButtonUpdatePolicy, c.gtk_spin_button_get_update_policy(self.ptr));
     }
 
     pub fn get_value(self: Self) f64 {

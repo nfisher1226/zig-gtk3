@@ -55,22 +55,22 @@ pub const Scrollable = struct {
 
     /// Gets the horizontal GtkScrollablePolicy.
     pub fn get_hscroll_policy(self: Self) Policy {
-        return c.gtk_scrollable_get_hscroll_policy(self.ptr);
+        return @intToEnum(Policy, c.gtk_scrollable_get_hscroll_policy(self.ptr));
     }
 
     /// Sets the horizontal GtkScrollablePolicy.
     pub fn set_hscroll_policy(self: Self) Policy {
-        return c.gtk_scrollable_set_hscroll_policy(self.ptr);
+        return @intToEnum(Policy, c.gtk_scrollable_set_hscroll_policy(self.ptr));
     }
 
     /// Gets the vertical GtkScrollablePolicy.
     pub fn get_vscroll_policy(self: Self) Policy {
-        return c.gtk_scrollable_get_vscroll_policy(self.ptr);
+        return @intToEnum(Policy, c.gtk_scrollable_get_vscroll_policy(self.ptr));
     }
 
     /// Sets the vertical GtkScrollablePolicy.
     pub fn set_vscroll_policy(self: Self) Policy {
-        return c.gtk_scrollable_set_vscroll_policy(self.ptr);
+        return @intToEnum(Policy, c.gtk_scrollable_set_vscroll_policy(self.ptr));
     }
 
     /// Returns the size of a non-scrolling border around the outside of the

@@ -98,7 +98,7 @@ pub const Grid = struct {
     }
 
     pub fn get_row_baseline_position(self: Self, row: c_int) BaselinePosition {
-        return c.gtk_grid_get_baseline_position(self.ptr, row);
+        return @intToEnum(BaselinePosition, c.gtk_grid_get_baseline_position(self.ptr, row));
     }
 
     pub fn set_row_baseline_position(self: Self, row: c_int, pos: BaselinePosition) void {

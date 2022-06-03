@@ -3,8 +3,7 @@ const mem = std.mem;
 const c = @import("cimport.zig");
 const Adjustment = @import("adjustment.zig");
 const Container = @import("container.zig").Container;
-const enums = @import("enums.zig");
-const SelectionMode = enums.SelectionMode;
+const SelectionMode = @import("enums.zig").SelectionMode;
 
 const Orientable = @import("orientable.zig").Orientable;
 const Widget = @import("widget.zig").Widget;
@@ -131,7 +130,7 @@ const FlowBox = struct {
     }
 
     pub fn get_selection_mode(self: Self) SelectionMode {
-        return c.gtk_flow_box_get_selection_mode(self.ptr);
+        return @intToEnum(SelectionMode, c.gtk_flow_box_get_selection_mode(self.ptr));
     }
 
     pub fn set_filter_func(

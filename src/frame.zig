@@ -32,11 +32,11 @@ const mem = std.mem;
 /// ```
 /// ### CSS
 /// GtkFrame has a main CSS node named “frame” and a subnode named “border”. The
-/// “border” node is used to draw the visible border. You can set the appearance 
+/// “border” node is used to draw the visible border. You can set the appearance
 /// of the border using CSS properties like “border-style” on the “border” node.
 ///
 /// The border node can be given the style class “.flat”, which is used by
-/// themes to disable drawing of the border. To do this from code, call 
+/// themes to disable drawing of the border. To do this from code, call
 /// Frame.set_shadow_type() with ShadowType.none to add the “.flat” class or any
 /// other shadow type to remove it.
 pub const Frame = struct {
@@ -97,7 +97,7 @@ pub const Frame = struct {
         } else return null;
     }
 
-    /// Retrieves the X and Y alignment of the frame’s label. See 
+    /// Retrieves the X and Y alignment of the frame’s label. See
     /// Frame.set_label_align().
     pub fn get_label_align(self: Self) Align {
         var x: f32 = undefined;

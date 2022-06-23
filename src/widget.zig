@@ -1,5 +1,7 @@
 const c = @import("cimport.zig");
 
+const ActionBar = @import("actionbar.zig").ActionBar;
+
 const Bin = @import("bin.zig").Bin;
 
 const Box = @import("box.zig").Box;
@@ -249,7 +251,7 @@ pub const Widget = struct {
     /// scheduling it to receive a draw on the next frame). gtk_widget_queue_draw()
     /// will also end up requesting a frame on the appropriate frame clock.
     ///
-    /// A widget’s frame clock will not change while the widget is mapped. 
+    /// A widget’s frame clock will not change while the widget is mapped.
     /// Reparenting a widget (which implies a temporary unmap) can change the
     /// widget’s frame clock.
     ///
@@ -390,6 +392,12 @@ pub const Widget = struct {
     pub fn to_about_dialog(self: Self) ?AboutDialog {
         return if (self.isa(AboutDialog)) AboutDialog{
             .ptr = @ptrCast(*c.GtkAboutDialog, self.ptr),
+        } else null;
+    }
+
+    pub fn to_action_bar(self: Self) ?ActionBar {
+        return if (self.isa(ActionBar)) ActionBar{
+            .ptr = @ptrCast(*c.GtkActionBar, self.ptr),
         } else null;
     }
 

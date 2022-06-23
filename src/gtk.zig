@@ -1,5 +1,6 @@
 /// The Gtk+ Adjustment class
 pub usingnamespace @import("actionable.zig");
+pub usingnamespace @import("actionbar.zig");
 pub usingnamespace @import("adjustment.zig");
 pub usingnamespace @import("appchooser.zig");
 pub usingnamespace @import("bin.zig");

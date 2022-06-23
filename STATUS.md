@@ -21,7 +21,7 @@
 | GtkStack |   |   | x |
 | GtkStackSwitcher |   |   | x |
 | GtkStackSidebar |   |   | x |
-| GtkActionBar | x |   |   |
+| GtkActionBar |   |   | x |
 | GtkHeaderBar |   |   | x |
 | GtkOverlay | x |   |   |
 | GtkButtonBox |   |   | x |

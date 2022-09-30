@@ -136,7 +136,7 @@ pub const AboutDialog = struct {
     }
 
     pub fn set_program_name(self: AboutDialog, name: [:0]const u8) void {
-        c.gtk_about_dialog_set_program_name(self.ptr, name);
+        c.gtk_about_dialog_set_program_name(self.ptr, name.ptr);
     }
 
     pub fn get_version(self: AboutDialog, allocator: mem.Allocator) ?[:0]const u8 {
@@ -146,7 +146,7 @@ pub const AboutDialog = struct {
     }
 
     pub fn set_version(self: AboutDialog, version: [:0]const u8) void {
-        c.gtk_about_dialog_set_version(self.ptr, version);
+        c.gtk_about_dialog_set_version(self.ptr, version.ptr);
     }
 
     pub fn get_copyright(self: AboutDialog, allocator: mem.Allocator) ?[:0]const u8 {
@@ -156,7 +156,7 @@ pub const AboutDialog = struct {
     }
 
     pub fn set_copyright(self: AboutDialog, copyright: [:0]const u8) void {
-        c.gtk_about_dialog_set_copyright(self.ptr, copyright);
+        c.gtk_about_dialog_set_copyright(self.ptr, copyright.ptr);
     }
 
     pub fn get_comments(self: AboutDialog, allocator: mem.Allocator) ?[:0]const u8 {
@@ -166,7 +166,7 @@ pub const AboutDialog = struct {
     }
 
     pub fn set_comments(self: AboutDialog, comments: [:0]const u8) void {
-        c.gtk_about_dialog_set_copyright(self.ptr, comments);
+        c.gtk_about_dialog_set_copyright(self.ptr, comments.ptr);
     }
 
     pub fn get_license(self: AboutDialog, allocator: mem.Allocator) ?[:0]const u8 {
@@ -176,7 +176,7 @@ pub const AboutDialog = struct {
     }
 
     pub fn set_license(self: AboutDialog, license: [:0]const u8) void {
-        c.gtk_about_dialog_set_license(self.ptr, license);
+        c.gtk_about_dialog_set_license(self.ptr, license.ptr);
     }
 
     pub fn get_wrap_license(self: Self) bool {
@@ -202,7 +202,7 @@ pub const AboutDialog = struct {
     }
 
     pub fn set_website(self: Self, site: [:0]const u8) void {
-        c.gtk_about_dialog_set_website(self.ptr, site);
+        c.gtk_about_dialog_set_website(self.ptr, site.ptr);
     }
 
     pub fn get_website_label(self: Self, allocator: mem.Allocator) ?[:0]const u8 {
@@ -212,7 +212,7 @@ pub const AboutDialog = struct {
     }
 
     pub fn set_website_label(self: Self, label: [:0]const u8) void {
-        c.gtk_about_dialog_set_website_label(self.ptr, label);
+        c.gtk_about_dialog_set_website_label(self.ptr, label.ptr);
     }
 
     pub fn get_authors(self: Self) [][:0]const u8 {
@@ -258,7 +258,7 @@ pub const AboutDialog = struct {
     }
 
     pub fn set_translator_credits(self: Self, site: [:0]const u8) void {
-        c.gtk_about_dialog_set_translator_credits(self.ptr, site);
+        c.gtk_about_dialog_set_translator_credits(self.ptr, site.ptr);
     }
 
     pub fn get_logo(self: Self) *c.GdkPixbuf {
@@ -276,7 +276,7 @@ pub const AboutDialog = struct {
     }
 
     pub fn set_logo_icon_name(self: Self, name: [:0]const u8) void {
-        c.gtk_about_dialog_set_logo_icon_name(self.ptr, name);
+        c.gtk_about_dialog_set_logo_icon_name(self.ptr, name.ptr);
     }
 
     /// Gtk+ expects a pointer to a null terminated array of pointers to null
@@ -284,7 +284,7 @@ pub const AboutDialog = struct {
     /// var documentorss = [_:0][*c]const u8{ "Some Person" };
     /// dlg.set_authors(&documentors);
     pub fn add_credit_section(self: Self, section_name: [:0]const u8, people: [*c][*c]const u8) void {
-        c.gtk_about_dialog_add_credit_section(self.ptr, section_name, people);
+        c.gtk_about_dialog_add_credit_section(self.ptr, section_name.ptr, people);
     }
 
     pub fn as_dialog(self: Self) Dialog {
@@ -313,26 +313,26 @@ pub const MessageDialog = struct {
 
     pub fn new(parent: Window, flags: Dialog.Flags, kind: Type, buttons: ButtonsType, msg: [:0]const u8) Self {
         return Self{
-            .ptr = c.gtk_message_dialog_new(parent.ptr, @enumToInt(flags), kind, buttons, msg),
+            .ptr = c.gtk_message_dialog_new(parent.ptr, @enumToInt(flags), kind, buttons, msg.ptr),
         };
     }
 
     pub fn new_with_markup(parent: Window, flags: Dialog.Flags, kind: Type, buttons: ButtonsType, msg: [:0]const u8) Self {
         return Self{
-            .ptr = c.gtk_message_dialog_new_with_markup(parent.ptr, @enumToInt(flags), kind, buttons, msg),
+            .ptr = c.gtk_message_dialog_new_with_markup(parent.ptr, @enumToInt(flags), kind, buttons, msg.ptr),
         };
     }
 
     pub fn set_markup(self: Self, markup: [:0]const u8) void {
-        c.gtk_message_dialog_set_markup(self.ptr, markup);
+        c.gtk_message_dialog_set_markup(self.ptr, markup.ptr);
     }
 
     pub fn format_secondary_text(self: Self, text: [:0]const u8) void {
-        c.gtk_message_dialog_format_secondary_text(self.ptr, text);
+        c.gtk_message_dialog_format_secondary_text(self.ptr, text.ptr);
     }
 
     pub fn format_secondary_markup(self: Self, text: [:0]const u8) void {
-        c.gtk_message_dialog_format_secondary_markup(self.ptr, text);
+        c.gtk_message_dialog_format_secondary_markup(self.ptr, text.ptr);
     }
 
     pub fn get_message_area(self: Self) Widget {

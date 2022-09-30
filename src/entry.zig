@@ -33,7 +33,7 @@ pub const Entry = struct {
     }
 
     pub fn set_text(self: Entry, text: [:0]const u8) void {
-        c.gtk_entry_set_text(self.ptr, text);
+        c.gtk_entry_set_text(self.ptr, text.ptr);
     }
 
     pub fn get_text(self: Entry, allocator: mem.Allocator) ?[:0]const u8 {
@@ -74,7 +74,7 @@ pub const EntryBuffer = struct {
     ptr: *c.GtkEntryBuffer,
 
     pub fn set_text(self: EntryBuffer, text: [:0]const u8, len: c_int) void {
-        c.gtk_entry_buffer_set_text(self.ptr, text, len);
+        c.gtk_entry_buffer_set_text(self.ptr, text.ptr, len);
     }
 };
 

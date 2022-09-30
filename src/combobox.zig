@@ -43,7 +43,7 @@ pub const ComboBox = struct {
     }
 
     pub fn set_active_id(self: Self, id: ?[:0]const u8) void {
-        _ = c.gtk_combo_box_set_active_id(self.ptr, if (id) |i| i else null);
+        _ = c.gtk_combo_box_set_active_id(self.ptr, if (id) |i| i.ptr else null);
     }
 
     pub fn connect_changed(self: Self, callback: c.GCallback, data: ?c.gpointer) void {
@@ -95,27 +95,27 @@ pub const ComboBoxText = struct {
     }
 
     pub fn append(self: Self, id: ?[:0]const u8, text: [:0]const u8) void {
-        c.gtk_combo_box_text_append(self.ptr, if (id) |i| i else null, text);
+        c.gtk_combo_box_text_append(self.ptr, if (id) |i| i.ptr else null, text);
     }
 
     pub fn prepend(self: Self, id: ?[:0]const u8, text: [:0]const u8) void {
-        c.gtk_combo_box_text_prepend(self.ptr, if (id) |i| i else null, text);
+        c.gtk_combo_box_text_prepend(self.ptr, if (id) |i| i.ptr else null, text);
     }
 
     pub fn insert(self: Self, position: c_int, id: ?[:0]const u8, text: [:0]const u8) void {
-        c.gtk_combo_box_text_append(self.ptr, position, if (id) |i| i else null, text);
+        c.gtk_combo_box_text_append(self.ptr, position, if (id) |i| i.ptr else null, text);
     }
 
     pub fn append_text(self: Self, text: [:0]const u8) void {
-        c.gtk_combo_box_append_text(self.ptr, text);
+        c.gtk_combo_box_append_text(self.ptr, text.ptr);
     }
 
     pub fn prepend_text(self: Self, text: [:0]const u8) void {
-        c.gtk_combo_box_prepend_text(self.ptr, text);
+        c.gtk_combo_box_prepend_text(self.ptr, text.ptr);
     }
 
     pub fn insert_text(self: Self, position: c_int, text: [:0]const u8) void {
-        c.gtk_combo_box_prepend_text(self.ptr, position, text);
+        c.gtk_combo_box_prepend_text(self.ptr, position, text.ptr);
     }
 
     pub fn remove(self: Self, position: c_int) void {

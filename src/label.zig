@@ -46,7 +46,7 @@ pub const Label = struct {
     /// an empty label widget.
     pub fn new(text: ?[:0]const u8) Self {
         return Self{
-            .ptr = @ptrCast(*c.GtkLabel, c.gtk_label_new(if (text) |t| t else null)),
+            .ptr = @ptrCast(*c.GtkLabel, c.gtk_label_new(if (text) |t| t.ptr else null)),
         };
     }
 
@@ -58,7 +58,7 @@ pub const Label = struct {
     ///
     /// This function will set the “use-markup” property to `false` as a side effect.
     pub fn set_text(self: Self, text: [:0]const u8) void {
-        c.gtk_label_set_text(self.ptr, text);
+        c.gtk_label_set_text(self.ptr, text.ptr);
     }
 
     /// Sets a PangoAttrList; the attributes in the list are applied to the label text.
@@ -92,7 +92,7 @@ pub const Label = struct {
     /// If you set the label contents using the “label” property you should also ensure
     /// that you set the “use-markup” property accordingly.
     pub fn set_markup(self: Self, text: [:0]const u8) void {
-        c.gtk_label_set_markup(self.ptr, text);
+        c.gtk_label_set_markup(self.ptr, text.ptr);
     }
 
     /// Parses str which is marked up with the Pango text markup language, setting the
@@ -103,14 +103,14 @@ pub const Label = struct {
     /// The mnemonic key can be used to activate another widget, chosen automatically,
     /// or explicitly using set_mnemonic_widget().
     pub fn set_markup_with_mnemonic(self: Self, markup: [:0]const u8) void {
-        c.gtk_label_set_markup_with_mnemonic(self.ptr, markup);
+        c.gtk_label_set_markup_with_mnemonic(self.ptr, markup.ptr);
     }
 
     /// The pattern of underlines you want under the existing text within the GtkLabel
     /// widget. For example if the current text of the label says “FooBarBaz” passing a
     /// pattern of “___ ___” will underline “Foo” and “Baz” but not “Bar”.
     pub fn set_pattern(self: Self, pattern: [:0]const u8) void {
-        c.gtk_label_set_pattern(self.ptr, pattern);
+        c.gtk_label_set_pattern(self.ptr, pattern.ptr);
     }
 
     /// Sets the alignment of the lines in the text of the label relative to each other.

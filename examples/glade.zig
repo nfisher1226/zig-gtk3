@@ -10,7 +10,7 @@ pub fn main() !void {
     _ = c.g_signal_connect_data(
         app,
         "activate",
-        @ptrCast(c.GCallback, activate),
+        @ptrCast(c.GCallback, &activate),
         null,
         null,
         c.G_CONNECT_AFTER,
@@ -21,14 +21,14 @@ pub fn main() !void {
 fn activate(app: *c.GtkApplication) void {
     const builder = gtk.Builder.new();
     builder.add_from_string(@embedFile("example.glade")) catch |e| {
-        std.debug.print("{s}\n", .{e});
+        std.debug.print("{}\n", .{e});
         return;
     };
     builder.set_application(app);
     // Builder.get_widget() returns an optional, so unwrap if there is a value
     if (builder.get_widget("window")) |w| {
         w.show_all();
-        w.connect("delete-event", @ptrCast(c.GCallback, c.gtk_main_quit), null);
+        w.connect("delete-event", @ptrCast(c.GCallback, &c.gtk_main_quit), null);
         // Widget.to_[otherwidget]() functions return an optional, as we're going to check
         // whether it's a valid instance before returning
         if (w.to_window()) |window| {
@@ -37,12 +37,12 @@ fn activate(app: *c.GtkApplication) void {
     }
     if (builder.get_widget("ok_button")) |w| {
         if (w.to_button()) |b| {
-            b.connect_clicked(@ptrCast(c.GCallback, c.gtk_main_quit), null);
+            b.connect_clicked(@ptrCast(c.GCallback, &c.gtk_main_quit), null);
         }
     }
     if (builder.get_widget("cancel_button")) |w| {
         if (w.to_button()) |b| {
-            b.connect_clicked(@ptrCast(c.GCallback, c.gtk_main_quit), null);
+            b.connect_clicked(@ptrCast(c.GCallback, &c.gtk_main_quit), null);
         }
     }
 

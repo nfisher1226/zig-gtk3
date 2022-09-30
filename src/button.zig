@@ -27,7 +27,7 @@ pub const Button = struct {
     /// Creates a Button with a GtkLabel containing the given text
     pub fn new_with_label(text: [:0]const u8) Self {
         return Self{
-            .ptr = @ptrCast(*c.GtkButton, c.gtk_button_new_with_label(text)),
+            .ptr = @ptrCast(*c.GtkButton, c.gtk_button_new_with_label(text.ptr)),
         };
     }
 
@@ -35,14 +35,14 @@ pub const Button = struct {
     /// mnemonic for the button.
     pub fn new_with_mnemonic(text: [:0]const u8) Self {
         return Self{
-            .ptr = @ptrCast(*c.GtkButton, c.gtk_button_new_with_mnemonic(text)),
+            .ptr = @ptrCast(*c.GtkButton, c.gtk_button_new_with_mnemonic(text.ptr)),
         };
     }
 
     /// Creates a new Button containing an icon from the current icon theme.
     pub fn new_from_icon_name(icon_name: [:0]const u8, size: IconSize) Self {
         return Self{
-            .ptr = @ptrCast(*c.GtkButton, c.gtk_button_new_from_icon_name(icon_name, @enumToInt(size))),
+            .ptr = @ptrCast(*c.GtkButton, c.gtk_button_new_from_icon_name(icon_name.ptr, @enumToInt(size))),
         };
     }
 

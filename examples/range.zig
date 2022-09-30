@@ -16,7 +16,7 @@ pub fn main() !void {
     _ = c.g_signal_connect_data(
         app,
         "activate",
-        @ptrCast(c.GCallback, activate),
+        @ptrCast(c.GCallback, &activate),
         null,
         null,
         c.G_CONNECT_AFTER,
@@ -69,15 +69,15 @@ fn activate(app: *c.GtkApplication) void {
 
     const or_button = gtk.Button.new_with_label("Change orientation");
     or_button.set_focus_on_click(false);
-    or_button.connect_clicked(@ptrCast(c.GCallback, change_orientation), null);
+    or_button.connect_clicked(@ptrCast(c.GCallback, &change_orientation), null);
 
     const mark_button = gtk.Button.new_with_label("Set Mark");
     mark_button.set_focus_on_click(false);
-    mark_button.connect_clicked(@ptrCast(c.GCallback, add_mark), null);
+    mark_button.connect_clicked(@ptrCast(c.GCallback, &add_mark), null);
 
     const clr_button = gtk.Button.new_with_label("Clear Marks");
     clr_button.set_focus_on_click(false);
-    clr_button.connect_clicked(@ptrCast(c.GCallback, clear_marks), null);
+    clr_button.connect_clicked(@ptrCast(c.GCallback, &clear_marks), null);
 
     const hbox1 = gtk.Box.new(.horizontal, 2);
     hbox1.pack_end(clr_button.as_widget(), false, true, 1);

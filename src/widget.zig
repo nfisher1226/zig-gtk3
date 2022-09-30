@@ -378,7 +378,7 @@ pub const Widget = struct {
     }
 
     pub fn connect(self: Self, sig: [:0]const u8, callback: c.GCallback, data: ?c.gpointer) void {
-        _ = signal_connect(self.ptr, sig, callback, if (data) |d| d else null);
+        _ = signal_connect(self.ptr, sig.ptr, callback, if (data) |d| d else null);
     }
 
     fn get_g_type(self: Self) u64 {

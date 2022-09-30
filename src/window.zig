@@ -50,7 +50,7 @@ pub const Window = struct {
     }
 
     pub fn set_title(self: Self, title: [:0]const u8) void {
-        c.gtk_window_set_title(self.ptr, title);
+        c.gtk_window_set_title(self.ptr, title.ptr);
     }
 
     pub fn set_default_size(self: Self, hsize: c_int, vsize: c_int) void {

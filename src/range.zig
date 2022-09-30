@@ -167,7 +167,7 @@ pub const Scale = struct {
     }
 
     pub fn add_mark(self: Scale, value: f64, pos: PositionType, markup: ?[:0]const u8) void {
-        c.gtk_scale_add_mark(self.ptr, value, @enumToInt(pos), if (markup) |t| t else null);
+        c.gtk_scale_add_mark(self.ptr, value, @enumToInt(pos), if (markup) |t| t.ptr else null);
     }
 
     pub fn clear_marks(self: Scale) void {

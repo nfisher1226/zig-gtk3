@@ -220,7 +220,7 @@ pub const Label = struct {
     /// or menu item, the button or menu item will automatically become the mnemonic widget and be
     /// activated by the mnemonic.
     pub fn new_with_mnemonic(str: [:0]const u8) Self {
-        return Self{ .ptr = @ptrCast(*c.GtkLabel, c.gtk_label_new_with_mnemonic(str)) };
+        return Self{ .ptr = @ptrCast(*c.GtkLabel, c.gtk_label_new_with_mnemonic(str.ptr)) };
     }
 
     /// Selects a range of characters in the label, if the label is selectable. See
@@ -254,7 +254,7 @@ pub const Label = struct {
     /// The mnemonic key can be used to activate another widget, chosen automatically, or explicitly
     /// using Label.set_mnemonic_widget().
     pub fn set_text_with_mnemonic(self: Self, str: [:0]const u8) void {
-        c.gtk_label_set_text_with_mnemonic(self.ptr, str);
+        c.gtk_label_set_text_with_mnemonic(self.ptr, str.ptr);
     }
 
     /// Gets the attribute list that was set on the label using Label.set_attributes(), if any. This
@@ -370,7 +370,7 @@ pub const Label = struct {
     /// Sets the text of the label. The label is interpreted as including embedded underlines
     /// and/or Pango markup depending on the values of the “use-underline” and “use-markup” properties.
     pub fn set_label(self: Self, label: [:0]const u8) void {
-        c.gtk_label_set_label(self.ptr, label);
+        c.gtk_label_set_label(self.ptr, label.ptr);
     }
 
     /// Sets whether the text of the label contains markup in Pango’s text markup language.
@@ -505,7 +505,7 @@ pub const AccelLabel = struct {
 
     /// Creates a new GtkAccelLabel.
     pub fn new(label: [:0]const u8) Self {
-        return Self{ .ptr = @ptrCast(*c.GtkAccelLabel, c.gtk_accel_label_new(label)) };
+        return Self{ .ptr = @ptrCast(*c.GtkAccelLabel, c.gtk_accel_label_new(label.ptr)) };
     }
 
     /// Sets the closure to be monitored by this accelerator label. The closure must be

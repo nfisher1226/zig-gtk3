@@ -125,7 +125,7 @@ pub const Image = struct {
     pub fn get_icon_name(self: Self) IconDesc {
         var name: [:0]const u8 = undefined;
         var size: c_uint = undefined;
-        c.gtk_image_get_icon_name(self.ptr & name, &size);
+        c.gtk_image_get_icon_name(self.ptr & name.ptr, &size);
         return IconDesc{
             .name = name,
             .size = size,
@@ -169,7 +169,7 @@ pub const Image = struct {
     /// not defined, it will be whatever is appropriate for displaying the file.
     pub fn new_from_file(file: [:0]const u8) Self {
         return Self{
-            .ptr = @ptrCast(*c.GtkImage, c.gtk_image_new_from_file(file)),
+            .ptr = @ptrCast(*c.GtkImage, c.gtk_image_new_from_file(file.ptr)),
         };
     }
 

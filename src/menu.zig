@@ -47,13 +47,13 @@ pub const MenuItem = struct {
 
     pub fn new_with_label(text: [:0]const u8) Self {
         return Self{
-            .ptr = @ptrCast(*c.GtkMenuItem, c.gtk_menu_item_new_with_label(text)),
+            .ptr = @ptrCast(*c.GtkMenuItem, c.gtk_menu_item_new_with_label(text.ptr)),
         };
     }
 
     pub fn new_with_mnemonic(text: [:0]const u8) Self {
         return Self{
-            .ptr = @ptrCast(*c.GtkMenuItem, c.gtk_menu_item_new_with_mnemonic(text)),
+            .ptr = @ptrCast(*c.GtkMenuItem, c.gtk_menu_item_new_with_mnemonic(text.ptr)),
         };
     }
 
@@ -67,7 +67,7 @@ pub const MenuItem = struct {
     }
 
     pub fn set_label(self: Self, text: [:0]const u8) void {
-        c.gtk_menu_item_set_label(self.ptr, text);
+        c.gtk_menu_item_set_label(self.ptr, text.ptr);
     }
 
     pub fn get_use_underline(self: Self) bool {
@@ -87,7 +87,7 @@ pub const MenuItem = struct {
     }
 
     pub fn set_accel_path(self: Self, path: ?[:0]const u8) void {
-        c.gtk_menu_item_set_accel_path(self.ptr, if (path) |p| p else null);
+        c.gtk_menu_item_set_accel_path(self.ptr, if (path) |p| p.ptr else null);
     }
 
     pub fn get_accel_path(self: Self, allocator: mem.Allocator) ?[:0]const u8 {

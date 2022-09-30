@@ -44,7 +44,7 @@ pub const Actionable = struct {
     /// ApplicationWindow or its associated Application, respectively. This is the
     /// same form used for actions in the GMenu associated with the window.
     pub fn set_action_name(self: Self, name: ?[:0]const u8) void {
-        c.gtk_actionable_get_action_name(self.ptr, if (name) |n| n else null);
+        c.gtk_actionable_get_action_name(self.ptr, if (name) |n| n.ptr else null);
     }
 
     /// Gets the current target value of actionable .
@@ -83,7 +83,7 @@ pub const Actionable = struct {
     /// If you are setting a string-valued target and want to set the action name at the
     /// same time, you can use set_detailed_action_name().
     pub fn set_action_target(self: Self, format: [:0]const u8, args: anytype) void {
-        c.gtk_actionable_set_action_target(self.ptr, format, args);
+        c.gtk_actionable_set_action_target(self.ptr, format.ptr, args);
     }
 
     /// Sets the action-name and associated string target value of an actionable widget.
@@ -95,7 +95,7 @@ pub const Actionable = struct {
     /// > "action::target" where action is the action name and target is the string to
     /// use as the target.)
     pub fn set_detailed_action_name(self: Self, name: [:0]const u8) void {
-        c.gtk_actionable_set_detailed_action_name(self.ptr, name);
+        c.gtk_actionable_set_detailed_action_name(self.ptr, name.ptr);
     }
 
     pub fn is_instance(gtype: u64) bool {

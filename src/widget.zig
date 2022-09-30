@@ -284,7 +284,7 @@ pub const Widget = struct {
     }
 
     pub fn set_name(self: Self, name: [:0]const u8) void {
-        c.gtk_widget_set_name(self.ptr, name);
+        c.gtk_widget_set_name(self.ptr, name.ptr);
     }
 
     pub fn get_name(self: Self, allocator: mem.Allocator) ?[:0]const u8 {
@@ -326,7 +326,7 @@ pub const Widget = struct {
     }
 
     pub fn set_tooltip_text(self: Self, text: [:0]const u8) void {
-        c.gtk_widget_set_tooltip_text(self.ptr, text);
+        c.gtk_widget_set_tooltip_text(self.ptr, text.ptr);
     }
 
     pub fn get_screen(self: Self) ?*c.GdkScreen {

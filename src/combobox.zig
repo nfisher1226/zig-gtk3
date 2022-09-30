@@ -95,15 +95,15 @@ pub const ComboBoxText = struct {
     }
 
     pub fn append(self: Self, id: ?[:0]const u8, text: [:0]const u8) void {
-        c.gtk_combo_box_text_append(self.ptr, if (id) |i| i.ptr else null, text);
+        c.gtk_combo_box_text_append(self.ptr, if (id) |i| i.ptr else null, text.ptr);
     }
 
     pub fn prepend(self: Self, id: ?[:0]const u8, text: [:0]const u8) void {
-        c.gtk_combo_box_text_prepend(self.ptr, if (id) |i| i.ptr else null, text);
+        c.gtk_combo_box_text_prepend(self.ptr, if (id) |i| i.ptr else null, text.ptr);
     }
 
     pub fn insert(self: Self, position: c_int, id: ?[:0]const u8, text: [:0]const u8) void {
-        c.gtk_combo_box_text_append(self.ptr, position, if (id) |i| i.ptr else null, text);
+        c.gtk_combo_box_text_append(self.ptr, position, if (id) |i| i.ptr else null, text.ptr);
     }
 
     pub fn append_text(self: Self, text: [:0]const u8) void {

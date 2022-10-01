@@ -122,7 +122,7 @@ pub const Notebook = struct {
     }
 
     pub fn set_menu_label_text(self: Notebook, child: Widget, text: [:0]const u8) void {
-        c.gtk_notebook_set_menu_label_text(self.ptr, child.ptr, text);
+        c.gtk_notebook_set_menu_label_text(self.ptr, child.ptr, text.ptr);
     }
 
     pub fn set_tab_label(self: Notebook, child: Widget, label: ?Widget) void {
@@ -130,7 +130,7 @@ pub const Notebook = struct {
     }
 
     pub fn set_tab_label_text(self: Notebook, child: Widget, text: [:0]const u8) void {
-        c.gtk_notebook_set_tab_label_text(self.ptr, child.ptr, text);
+        c.gtk_notebook_set_tab_label_text(self.ptr, child.ptr, text.ptr);
     }
 
     pub fn set_tab_reorderable(self: Notebook, child: Widget, reorderable: bool) void {
@@ -196,7 +196,7 @@ pub const Notebook = struct {
     }
 
     pub fn set_group_name(self: Notebook, name: [:0]const u8) void {
-        c.gtk_notebook_set_group_name(self.ptr, name);
+        c.gtk_notebook_set_group_name(self.ptr, name.ptr);
     }
 
     pub fn get_group_name(self: Notebook, allocator: mem.Allocator) ?[:0]const u8 {

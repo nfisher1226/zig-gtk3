@@ -93,7 +93,7 @@ pub const AppChooserButton = struct {
     /// content of the given type.
     pub fn new(content_type: [:0]const u8) Self {
         return Self{
-            .ptr = @ptrCast(*c.GtkAppChooserButton, c.gtk_app_chooser_button_new(content_type)),
+            .ptr = @ptrCast(*c.GtkAppChooserButton, c.gtk_app_chooser_button_new(content_type.ptr)),
         };
     }
 
@@ -111,7 +111,7 @@ pub const AppChooserButton = struct {
         /// the icon for the custom item
         icon: c.GIcon,
     ) void {
-        c.gtk_app_chooser_button_append_custom_item(self.ptr, name, label, icon);
+        c.gtk_app_chooser_button_append_custom_item(self.ptr, name.ptr, label.ptr, icon);
     }
 
     /// Appends a separator to the list of applications that is shown in the popup.
@@ -121,7 +121,7 @@ pub const AppChooserButton = struct {
 
     /// Selects a custom item previously added with append_custom_item().
     pub fn set_active_custom_item(self: Self, name: [:0]const u8) void {
-        c.gtk_app_chooser_button_set_active_custom_item(self.ptr, name);
+        c.gtk_app_chooser_button_set_active_custom_item(self.ptr, name.ptr);
     }
 
     /// Returns the current value of the “show-default-item” property.
@@ -157,7 +157,7 @@ pub const AppChooserButton = struct {
     /// Sets the text to display at the top of the dialog. If the heading is not
     /// set, the dialog displays a default text.
     pub fn set_heading(self: Self, text: [:0]const u8) void {
-        c.gtk_app_chooser_button_set_heading(self.ptr, text);
+        c.gtk_app_chooser_button_set_heading(self.ptr, text.ptr);
     }
 
     pub fn as_bin(self: Self) Bin {
@@ -218,7 +218,7 @@ pub const AppChooserWidget = struct {
     /// content of the given type.
     pub fn new(content_type: [:0]const u8) Self {
         return Self{
-            .ptr = @ptrCast(*c.GtkAppChooserWidget, c.gtk_app_chooser_widget_new(content_type)),
+            .ptr = @ptrCast(*c.GtkAppChooserWidget, c.gtk_app_chooser_widget_new(content_type.ptr)),
         };
     }
 
@@ -279,7 +279,7 @@ pub const AppChooserWidget = struct {
     /// Sets the text that is shown if there are not applications that can
     /// handle the content type.
     pub fn set_default_text(self: Self, text: [:0]const u8) void {
-        c.gtk_app_chooser_widget_set_default_text(self.ptr, text);
+        c.gtk_app_chooser_widget_set_default_text(self.ptr, text.ptr);
     }
 
     /// Returns the text that is shown if there are not applications that can
@@ -345,7 +345,7 @@ pub const AppChooserDialog = struct {
     /// allow the user to select an application for it.
     pub fn new_for_content_type(parent: ?Window, flags: Dialog.Flags, content: [:0]const u8) Self {
         return Self{
-            .ptr = @ptrCast(*c.GtkFileChooserDialog, c.gtk_file_chooser_dialog_new_for_content_type(if (parent) |p| p else null, flags, content)),
+            .ptr = @ptrCast(*c.GtkFileChooserDialog, c.gtk_file_chooser_dialog_new_for_content_type(if (parent) |p| p else null, flags, content.ptr)),
         };
     }
 
@@ -359,7 +359,7 @@ pub const AppChooserDialog = struct {
     /// Sets the text to display at the top of the dialog. If the heading is not
     /// set, the dialog displays a default text.
     pub fn set_heading(self: Self, text: [:0]const u8) void {
-        c.gtk_app_chooser_dialog_set_heading(self.ptr, text);
+        c.gtk_app_chooser_dialog_set_heading(self.ptr, text.ptr);
     }
 
     /// Returns the text to display at the top of the dialog.

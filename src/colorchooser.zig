@@ -84,7 +84,7 @@ pub const ColorButton = struct {
     }
 
     pub fn set_title(self: Self, title: [:0]const u8) void {
-        c.gtk_color_button_set_title(self.ptr, title);
+        c.gtk_color_button_set_title(self.ptr, title.ptr);
     }
 
     pub fn get_title(self: Self, allocator: mem.Allocator) ?[:0]const u8 {

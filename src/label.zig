@@ -83,7 +83,7 @@ pub const Label = struct {
     /// const format: [:0]const u8 = "<span style=\"italic\">\%s</span>";
     /// var markup: [:0]const u8 = undefined;
     ///
-    /// markup = c.g_markup_printf_escaped(format, str);
+    /// markup = c.g_markup_printf_escaped(format.ptr, str.ptr);
     /// label.set_markup(label, markup);
     /// c.g_free(markup);
     /// ```

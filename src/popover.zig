@@ -119,7 +119,7 @@ pub const Popover = struct {
     /// with the name “mygroup” then you would use the action name
     /// “mygroup.quit” in your GMenuModel.
     pub fn bind_model(self: Self, model: ?*c.GMenuModel, action_namespace: ?[:0]const u8) void {
-        c.gtk_popover_bind_model(self.ptr, if (model) |m| m else null, if (action_namespace) |a| a else null);
+        c.gtk_popover_bind_model(self.ptr, if (model) |m| m else null, if (action_namespace) |a| a.ptr else null);
     }
 
     /// Pops popover up. This is different than a gtk_widget_show() call in that
@@ -342,7 +342,7 @@ pub const PopoverMenu = struct {
     /// property is set, so this function is only needed when you are using
     /// other kinds of widgets to initiate menu changes.
     pub fn open_submenu(self: Self, name: [:0]const u8) void {
-        c.gtk_popover_menu_open_submenu(self.ptr, name);
+        c.gtk_popover_menu_open_submenu(self.ptr, name.ptr);
     }
 
     pub fn as_buildable(self: Self) Buildable {

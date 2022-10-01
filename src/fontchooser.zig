@@ -35,7 +35,7 @@ pub const FontChooser = struct {
     }
 
     pub fn set_font(self: Self, font: [:0]const u8) void {
-        c.gtk_font_chooser_set_font(self.ptr, font);
+        c.gtk_font_chooser_set_font(self.ptr, font.ptr);
     }
 
     pub fn get_font_desc(self: Self) ?*c.PangoFontDescription {
@@ -54,7 +54,7 @@ pub const FontChooser = struct {
     }
 
     pub fn set_preview_text(self: Self, text: [:0]const u8) void {
-        c.gtk_font_chooser_set_preview_text(self.ptr, text);
+        c.gtk_font_chooser_set_preview_text(self.ptr, text.ptr);
     }
 
     pub fn get_show_preview_entry(self: Self) bool {
@@ -111,7 +111,7 @@ pub const FontButton = struct {
 
     pub fn new_with_font(name: [:0]const u8) Self {
         return Self{
-            .ptr = @ptrCast(*c.GtkGontButton, c.gtk_font_button_new_with_font(name)),
+            .ptr = @ptrCast(*c.GtkGontButton, c.gtk_font_button_new_with_font(name.ptr)),
         };
     }
 
@@ -148,7 +148,7 @@ pub const FontButton = struct {
     }
 
     pub fn set_title(self: Self, title: [:0]const u8) void {
-        c.gtk_font_button_set_title(self.ptr, title);
+        c.gtk_font_button_set_title(self.ptr, title.ptr);
     }
 
     pub fn get_title(self: Self, allocator: mem.Allocator) ?[:0]const u8 {

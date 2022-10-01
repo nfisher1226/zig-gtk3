@@ -22,15 +22,15 @@ pub const Stack = struct {
     }
 
     pub fn add_named(self: Self, child: Widget, name: [:0]const u8) void {
-        c.gtk_stack_add_named(self.ptr, child.ptr, name);
+        c.gtk_stack_add_named(self.ptr, child.ptr, name.ptr);
     }
 
     pub fn add_titled(self: Self, child: Widget, name: [:0]const u8, title: [:0]const u8) void {
-        c.gtk_stack_add_titled(self.ptr, child.ptr, name, title);
+        c.gtk_stack_add_titled(self.ptr, child.ptr, name, title.ptr);
     }
 
     pub fn get_child_by_name(self: Self, name: [:0]const u8) ?Widget {
-        return if (c.gtk_stack_get_child_by_name(self.ptr, name)) |w| Widget{
+        return if (c.gtk_stack_get_child_by_name(self.ptr, name.ptr)) |w| Widget{
             .ptr = w,
         } else null;
     }
@@ -46,7 +46,7 @@ pub const Stack = struct {
     }
 
     pub fn set_visible_child_name(self: Self, child: [:0]const u8) void {
-        c.gtk_stack_set_visible_child_name(self.ptr, child);
+        c.gtk_stack_set_visible_child_name(self.ptr, child.ptr);
     }
 
     pub fn get_visible_child_name(self: Self) ?[:0]const u8 {
@@ -56,7 +56,7 @@ pub const Stack = struct {
     }
 
     pub fn set_visible_child_full(self: Self, name: [:0]const u8, transition: StackTransitionStyle) void {
-        c.gtk_stack_set_visible_child_full(self.ptr, name, @enumToInt(transition));
+        c.gtk_stack_set_visible_child_full(self.ptr, name.ptr, @enumToInt(transition));
     }
 
     pub fn set_homogeneous(self: Self, hom: bool) void {

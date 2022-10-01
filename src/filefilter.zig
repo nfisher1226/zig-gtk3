@@ -22,7 +22,7 @@ pub const FileFilter = struct {
     }
 
     pub fn set_name(self: Self, name: [:0]const u8) void {
-        c.gtk_file_filter_set_name(self.ptr, name);
+        c.gtk_file_filter_set_name(self.ptr, name.ptr);
     }
 
     pub fn get_name(self: Self, allocator: mem.Allocator) ?[:0]const u8 {
@@ -32,11 +32,11 @@ pub const FileFilter = struct {
     }
 
     pub fn add_mime_type(self: Self, mime: [:0]const u8) void {
-        c.gtk_file_filter_add_mime_type(self.ptr, mime);
+        c.gtk_file_filter_add_mime_type(self.ptr, mime.ptr);
     }
 
     pub fn add_pattern(self: Self, pattern: [:0]const u8) void {
-        c.gtk_file_filter_add_pattern(self.ptr, pattern);
+        c.gtk_file_filter_add_pattern(self.ptr, pattern.ptr);
     }
 
     pub fn add_pixbuf_formats(self: Self) void {

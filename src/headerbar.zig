@@ -19,7 +19,7 @@ pub const HeaderBar = struct {
     }
 
     pub fn set_title(self: Self, title: [:0]const u8) void {
-        c.gtk_header_bar_set_title(self.ptr, title);
+        c.gtk_header_bar_set_title(self.ptr, title.ptr);
     }
 
     pub fn get_title(self: Self, allocator: mem.Allocator) ?[:0]const u8 {
@@ -29,7 +29,7 @@ pub const HeaderBar = struct {
     }
 
     pub fn set_subtitle(self: Self, sub: [:0]const u8) void {
-        c.gtk_header_bar_set_subtitle(self.ptr, sub);
+        c.gtk_header_bar_set_subtitle(self.ptr, sub.ptr);
     }
 
     pub fn get_subtitle(self: Self, allocator: mem.Allocator) ?[:0]const u8 {
@@ -74,7 +74,7 @@ pub const HeaderBar = struct {
     }
 
     pub fn set_decoration_layout(self: Self, layout: [:0]const u8) void {
-        c.gtk_header_bar_set_decoration_layout(self.ptr, layout);
+        c.gtk_header_bar_set_decoration_layout(self.ptr, layout.ptr);
     }
 
     pub fn get_decoration_layout(self: Self, allocator: mem.Allocator) ?[:0]const u8 {

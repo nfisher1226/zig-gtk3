@@ -53,14 +53,14 @@ pub const Frame = struct {
     /// the label is omitted.
     pub fn new(label: ?[:0]const u8) Self {
         return Self{
-            .ptr = @ptrCast(*c.GtkFrame, c.gtk_frame_new(if (label) |l| l else null)),
+            .ptr = @ptrCast(*c.GtkFrame, c.gtk_frame_new(if (label) |l| l.ptr else null)),
         };
     }
 
     /// Removes the current “label-widget”. If label is not `null`, creates a
     /// new GtkLabel with that text and adds it as the “label-widget”.
     pub fn set_label(self: Self, label: ?[:0]const u8) void {
-        c.gtk_frame_set_label(self.ptr, if (label) |l| l else null);
+        c.gtk_frame_set_label(self.ptr, if (label) |l| l.ptr else null);
     }
 
     /// Sets the “label-widget” for the frame. This is the widget that will
@@ -167,7 +167,7 @@ pub const AspectFrame = struct {
     ) Self {
         return Self{ .ptr = @ptrCast(
             *c.GtkAspectFrame,
-            c.gtk_aspect_frame_new(label, xalign, yalign, ratio, if (obey_child) 1 else 0),
+            c.gtk_aspect_frame_new(label.ptr, xalign, yalign, ratio, if (obey_child) 1 else 0),
         ) };
     }
 

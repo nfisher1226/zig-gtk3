@@ -11,7 +11,7 @@ pub const Buildable = struct {
     const Self = @This();
 
     pub fn set_name(self: Self, name: [:0]const u8) void {
-        c.gtk_buildable_set_name(self.ptr, name);
+        c.gtk_buildable_set_name(self.ptr, name.ptr);
     }
 
     pub fn get_name(self: Self, allocator: mem.Allocator) ?[:0]const u8 {
@@ -25,7 +25,7 @@ pub const Buildable = struct {
             self.ptr,
             builder.ptr,
             child,
-            if (kind) |k| k else null,
+            if (kind) |k| k.ptr else null,
         );
     }
 
@@ -33,17 +33,17 @@ pub const Buildable = struct {
         c.gtk_buildable_set_buildable_property(
             self.ptr,
             builder.ptr,
-            name,
+            name.ptr,
             value,
         );
     }
 
     pub fn construct_child(self: Self, builder: Builder, name: [:0]const u8) *c.GObject {
-        return c.gtk_buildable_construct_child(self.ptr, builder.ptr, name);
+        return c.gtk_buildable_construct_child(self.ptr, builder.ptr, name.ptr);
     }
 
     pub fn get_internal_child(self: Self, builder: Builder, name: [:0]const u8) *c.GObject {
-        return c.gtk_buildable_get_internal_child(self.ptr, builder.ptr, name);
+        return c.gtk_buildable_get_internal_child(self.ptr, builder.ptr, name.ptr);
     }
 
     pub fn as_widget(self: Self) Widget {

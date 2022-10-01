@@ -86,7 +86,7 @@ pub const FileChooser = struct {
     }
 
     pub fn set_current_name(self: Self, name: [:0]const u8) void {
-        c.gtk_file_chooser_set_current_name(self.ptr, name);
+        c.gtk_file_chooser_set_current_name(self.ptr, name.ptr);
     }
 
     pub fn get_current_name(self: Self, allocator: mem.Allocator) ?[:0]const u8 {
@@ -102,15 +102,15 @@ pub const FileChooser = struct {
     }
 
     pub fn set_filename(self: Self, name: [:0]const u8) void {
-        c.gtk_file_chooser_set_filename(self.ptr, name);
+        c.gtk_file_chooser_set_filename(self.ptr, name.ptr);
     }
 
     pub fn select_filename(self: Self, filename: [:0]const u8) void {
-        c.gtk_file_chooser_select_filename(self.ptr, filename);
+        c.gtk_file_chooser_select_filename(self.ptr, filename.ptr);
     }
 
     pub fn unselect_filename(self: Self, filename: [:0]const u8) void {
-        c.gtk_file_chooser_unselect_filename(self.ptr, filename);
+        c.gtk_file_chooser_unselect_filename(self.ptr, filename.ptr);
     }
 
     pub fn select_all(self: Self) void {
@@ -128,7 +128,7 @@ pub const FileChooser = struct {
     }
 
     pub fn set_current_folder(self: Self, folder: [:0]const u8) void {
-        c.gtk_file_chooser_set_current_folder(self.ptr, folder);
+        c.gtk_file_chooser_set_current_folder(self.ptr, folder.ptr);
     }
 
     pub fn get_current_folder(self: Self, allocator: mem.Allocator) ?[:0]const u8 {
@@ -144,15 +144,15 @@ pub const FileChooser = struct {
     }
 
     pub fn set_uri(self: Self, uri: [:0]const u8) void {
-        c.gtk_file_chooser_set_uri(self.ptr, uri);
+        c.gtk_file_chooser_set_uri(self.ptr, uri.ptr);
     }
 
     pub fn select_uri(self: Self, uri: [:0]const u8) void {
-        c.gtk_file_chooser_select_uri(self.ptr, uri);
+        c.gtk_file_chooser_select_uri(self.ptr, uri.ptr);
     }
 
     pub fn unselect_uri(self: Self, uri: [:0]const u8) void {
-        c.gtk_file_chooser_unselect_uri(self.ptr, uri);
+        c.gtk_file_chooser_unselect_uri(self.ptr, uri.ptr);
     }
 
     pub fn get_uris(self: Self, allocator: mem.Allocator) ?std.ArrayList(Widget) {
@@ -162,7 +162,7 @@ pub const FileChooser = struct {
     }
 
     pub fn set_current_folder_uri(self: Self, uri: [:0]const u8) void {
-        c.gtk_file_chooser_set_current_folder_uri(self.ptr, uri);
+        c.gtk_file_chooser_set_current_folder_uri(self.ptr, uri.ptr);
     }
 
     pub fn get_current_folder_uri(self: Self, allocator: mem.Allocator) ?[:0]const u8 {
@@ -219,20 +219,20 @@ pub const FileChooser = struct {
         } else return null;
     }
 
-    pub fn add_choice(self: Self, id: [:0]const u8, label: [:0]const u8, options: [:0][*c]const u8, option_labels: [:0][*c]const u8) void {
-        c.gtk_file_chooser_add_choice(self.ptr, id, label, options, option_labels);
+    pub fn add_choice(self: Self, id: [:0]const u8, label: [:0]const u8, options: [*c][*c]const u8, option_labels: [*c][*c]const u8) void {
+        c.gtk_file_chooser_add_choice(self.ptr, id.ptr, label.ptr, options, option_labels);
     }
 
     pub fn remove_choice(self: Self, id: [:0]const u8) void {
-        c.gtk_file_chooser_remove_choice(self.ptr, id);
+        c.gtk_file_chooser_remove_choice(self.ptr, id.ptr);
     }
 
     pub fn set_choice(self: Self, id: [:0]const u8, option: [:0]const u8) void {
-        c.gtk_file_chooser_set_choice(self.ptr, id, option);
+        c.gtk_file_chooser_set_choice(self.ptr, id.ptr, option.ptr);
     }
 
     pub fn get_choice(self: Self, id: [:0]const u8, allocator: mem.Allocator) ?[:0]const u8 {
-        const val = c.gtk_file_chooser_get_choice(self.ptr, id);
+        const val = c.gtk_file_chooser_get_choice(self.ptr, id.ptr);
         const len = mem.len(val);
         return fmt.allocPrintZ(allocator, "{s}", .{val[0..len]}) catch return null;
     }
@@ -262,13 +262,13 @@ pub const FileChooser = struct {
     }
 
     pub fn add_shortcut_folder(self: Self, folder: [:0]const u8) Error!void {
-        if (c.gtk_file_chooser_add_shortcut_folder(self.ptr, folder, null) == 0) {
+        if (c.gtk_file_chooser_add_shortcut_folder(self.ptr, folder.ptr, null) == 0) {
             return Error.nonexistent;
         }
     }
 
     pub fn remove_shortcut_folder(self: Self, folder: [:0]const u8) Error!void {
-        if (c.gtk_file_chooser_remove_shortcut_folder(self.ptr, folder, null) == 0) {
+        if (c.gtk_file_chooser_remove_shortcut_folder(self.ptr, folder.ptr, null) == 0) {
             return Error.nonexistent;
         }
     }
@@ -278,13 +278,13 @@ pub const FileChooser = struct {
     }
 
     pub fn add_shortcut_folder_uri(self: Self, uri: [:0]const u8) Error!void {
-        if (c.gtk_file_chooser_add_shortcut_folder_uri(self.ptr, uri, null) == 0) {
+        if (c.gtk_file_chooser_add_shortcut_folder_uri(self.ptr, uri.ptr, null) == 0) {
             return Error.nonexistent;
         }
     }
 
     pub fn remove_shorcut_holder_uri(self: Self, uri: [:0]const u8) Error!void {
-        if (c.gtk_file_chooser_remove_shortcut_folder_uri(self.ptr, uri, null) == 0) {
+        if (c.gtk_file_chooser_remove_shortcut_folder_uri(self.ptr, uri.ptr, null) == 0) {
             return Error.nonexistent;
         }
     }
@@ -336,7 +336,7 @@ pub const FileChooserButton = struct {
     pub fn new(title: [:0]const u8, action: FileChooser.Action) Self {
         return Self{ .ptr = @ptrCast(
             *c.GtkFileChooserButton,
-            c.gtk_file_chooser_button_new(title, @enumToInt(action)),
+            c.gtk_file_chooser_button_new(title.ptr, @enumToInt(action)),
         ) };
     }
 
@@ -351,7 +351,7 @@ pub const FileChooserButton = struct {
     }
 
     pub fn set_title(self: Self, title: [:0]const u8) void {
-        c.gtk_file_chooser_button_set_title(self.ptr, title);
+        c.gtk_file_chooser_button_set_title(self.ptr, title.ptr);
     }
 
     pub fn get_width_chars(self: Self) c_int {
@@ -420,7 +420,7 @@ pub const FileChooserDialog = struct {
         action: FileChooser.Action,
         first_button_text: [:0]const u8,
     ) Self {
-        return c.gtk_file_chooser_dialog_new(title, parent.ptr, @enumToInt(action), first_button_text);
+        return c.gtk_file_chooser_dialog_new(title.ptr, parent.ptr, @enumToInt(action), first_button_text.ptr);
     }
 
     pub fn as_buildable(self: Self) Buildable {
